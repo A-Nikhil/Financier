@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Financier</string>
+    <string name="app_icon_desc">app_icon</string>
+    <string name="login_signup">Login / Signup</string>
+    <string name="app_heading">Financier helps you to manage your money\n like never before</string>
+    <string name="app_heading2">by Google</string>
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>
