@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "783130042374",
+    "firebase_url": "https://financier-808e5.firebaseio.com",
+    "project_id": "financier-808e5",
+    "storage_bucket": "financier-808e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783130042374:android:3c752ba51c2d39c5c2a387",
+        "android_client_info": {
+          "package_name": "com.a_nikhil.financier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783130042374-admb1jadbu00ljpv1cqr8npol48r04ba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a_nikhil.financier",
+            "certificate_hash": "a1f8463f77584ac4220b448a014a773f668aee7b"
+          }
+        },
+        {
+          "client_id": "783130042374-m7gcocbpc4mrsj38m71uq895k8qmr3fr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBauNdfrZ8qqMaCkYfR0BryQBCT5QGZ9GQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783130042374-m7gcocbpc4mrsj38m71uq895k8qmr3fr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

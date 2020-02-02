@@ -4,13 +4,13 @@
     <string name="login_signup">Login / Signup</string>
     <string name="app_heading">Financier helps you to manage your money\n like never before</string>
     <string name="app_heading2">by Google</string>
-    <string name="title_activity_login">Login</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="register_here">Registration</string>
+    <string name="hint_signup_name">Enter your name here</string>
+    <string name="hint_signup_email">Enter your email address here</string>
+    <string name="hint_signup_pno">Type in your phone number</string>
+    <string name="hint_signup_pass">Type in your password</string>
+    <string name="password_directions">Password must contain 1 uppercase, 1 lowercase and 1 digit</string>
+    <string name="hint_signup_confirm_pass">Retype your password</string>
+    <string name="t_and_c">I agree to Financier\'s Terms and Conditions</string>
+    <string name="register_button_text">Register</string>
 </resources>
