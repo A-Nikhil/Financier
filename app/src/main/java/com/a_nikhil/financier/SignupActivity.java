@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.a_nikhil.financier.commons.FirestoreUtils;
+import com.a_nikhil.financier.commons.User;
 
 public class SignupActivity extends AppCompatActivity {
+
+    private final FirestoreUtils firestoreUtils = new FirestoreUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,27 +49,19 @@ public class SignupActivity extends AppCompatActivity {
                 throw new Exception("Invalid phone number");
             } else if (password.length() == 0) {
                 throw new Exception("Password cannot be empty");
+            } else if (password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
+                throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
+            } else if (password.equals(confirmPassword)) {
+                throw new Exception("Passwords don't match");
             }
-            // FIXME: 02-02-2020 FIX password issues
-//            } else if (!(password.matches("[A-Z]+") && password.matches("[a-z]+") && password.matches("[0-9]+"))) {
-//                throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
-//            } else if (confirmPassword.length() == 0) {
-//                throw new Exception("Confirm Password cannot be empty");
-//            } else if (!confirmPassword.equals(password)) {
-//                throw new Exception("Password and confirm password must be equal");
-//            }
-            registerToFirebase(name, email, phone, password);
+            String[] isRegister = firestoreUtils.registerNewUser(new User(name, email, phone, password));
+            if (isRegister[0].equals("1")) {
+                Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), isRegister[1], Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void registerToFirebase(String name, String email, String phone, String password) {
-        // FIXME: 02-02-2020 Configure firebase and cloud storage
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference();
-        User user = new User(name, email, phone, password);
-        reference.child("users").child(name).setValue(user);
-        Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
     }
 }
