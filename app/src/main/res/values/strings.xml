@@ -4,6 +4,8 @@
     <string name="login_signup">Login / Signup</string>
     <string name="app_heading">Financier helps you to manage your money\n like never before</string>
     <string name="app_heading2">by Google</string>
+
+    <!-- Registration Screen -->
     <string name="register_here">Registration</string>
     <string name="hint_signup_name">Enter your name here</string>
     <string name="hint_signup_email">Enter your email address here</string>
@@ -13,4 +15,10 @@
     <string name="hint_signup_confirm_pass">Retype your password</string>
     <string name="t_and_c">I agree to Financier\'s Terms and Conditions</string>
     <string name="register_button_text">Register</string>
+
+    <!-- Login Screen -->
+    <string name="login_here">Login</string>
+    <string name="login_email">Registered Email</string>
+    <string name="login_button">Login</string>
+    <string name="login_password">Enter your password here</string>
 </resources>
