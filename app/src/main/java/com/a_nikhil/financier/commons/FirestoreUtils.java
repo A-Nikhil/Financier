@@ -1,5 +1,7 @@
 package com.a_nikhil.financier.commons;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,8 +48,19 @@ public class FirestoreUtils {
     }
 
     private HashMap<String, Map<String, Object>> dbUsers = new HashMap<>();
-    public HashMap<String, Map<String, Object>> findUsers() {
+
+    public void findUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        getUserData(db, new LoginCallback() {
+            @Override
+            public void onCallback(HashMap<String, Map<String, Object>> userList) {
+                dbUsers = userList;
+                Log.d("LoginWindow", "Size = " + dbUsers.size());
+            }
+        });
+    }
+
+    private void getUserData(FirebaseFirestore db, final LoginCallback loginCallback) {
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -55,15 +68,18 @@ public class FirestoreUtils {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("LoginWindow", document.getId() + " => " + document.getData());
                                 dbUsers.put(document.getId(), document.getData());
                             }
+                            loginCallback.onCallback(dbUsers);
+                        } else {
+                            Log.d("LoginWindow", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-        if (dbUsers.size() > 0) {
-            return dbUsers;
-        } else {
-            return null;
-        }
+    }
+
+    private interface LoginCallback {
+        void onCallback(HashMap<String, Map<String, Object>> userList);
     }
 }

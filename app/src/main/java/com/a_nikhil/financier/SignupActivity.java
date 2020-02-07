@@ -8,14 +8,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.a_nikhil.financier.commons.FirestoreUtils;
 import com.a_nikhil.financier.commons.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
-
-    private final FirestoreUtils firestoreUtils = new FirestoreUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class SignupActivity extends AppCompatActivity {
             } else if (password.equals(confirmPassword)) {
                 throw new Exception("Passwords don't match");
             }
-            String[] isRegister = firestoreUtils.registerNewUser(new User(name, email, phone, password));
+            String[] isRegister = registerNewUser(new User(name, email, phone, password));
             if (isRegister[0].equals("1")) {
                 Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
             } else {
@@ -64,4 +66,33 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private boolean registrationSuccess = false;
+    private String failMessage = "";
+
+    public String[] registerNewUser(User user) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String collection = "users";
+        db.collection(collection)
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        registrationSuccess = true;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        registrationSuccess = false;
+                        failMessage = e.getMessage();
+                    }
+                });
+        if (registrationSuccess) {
+            return new String[]{"1", "Successfully Registered"};
+        } else {
+            return new String[]{"0", failMessage};
+        }
+    }
+
 }
