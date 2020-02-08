@@ -1,5 +1,7 @@
 package com.a_nikhil.financier.commons;
 
+import androidx.annotation.NonNull;
+
 public class User {
     private String name;
     private String email;
@@ -50,5 +52,16 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

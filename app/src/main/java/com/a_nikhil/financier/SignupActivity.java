@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,13 +35,14 @@ public class SignupActivity extends AppCompatActivity {
         String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         String confirmPassword = ((EditText) findViewById(R.id.confirmPassword)).getText().toString();
+        boolean termsAreChecked = ((CheckBox) findViewById(R.id.TermsAndConditions)).isChecked();
 
         // Validation
         try {
             if (name.length() == 0) {
-                throw new Exception("Username cannot be empty");
-            } else if (!name.matches("[A-Za-z]*")) {
-                throw new Exception("Username can only contain Alphabets");
+                throw new Exception("Name cannot be empty");
+            } else if (!name.matches("^[A-Za-z ]*$")) {
+                throw new Exception("Name can only contain Alphabets and Spaces");
             } else if (email.length() == 0) {
                 throw new Exception("Email cannot be empty");
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -51,26 +53,20 @@ public class SignupActivity extends AppCompatActivity {
                 throw new Exception("Invalid phone number");
             } else if (password.length() == 0) {
                 throw new Exception("Password cannot be empty");
-            } else if (password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
+            } else if (!password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
                 throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
-            } else if (password.equals(confirmPassword)) {
+            } else if (!password.equals(confirmPassword)) {
                 throw new Exception("Passwords don't match");
+            } else if (!termsAreChecked) {
+                throw new Exception("Please agree to terms and conditions");
             }
-            String[] isRegister = registerNewUser(new User(name, email, phone, password));
-            if (isRegister[0].equals("1")) {
-                Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), isRegister[1], Toast.LENGTH_SHORT).show();
-            }
+            registerNewUser(new User(name, email, phone, password));
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean registrationSuccess = false;
-    private String failMessage = "";
-
-    public String[] registerNewUser(User user) {
+    public void registerNewUser(User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String collection = "users";
         db.collection(collection)
@@ -78,21 +74,16 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        registrationSuccess = true;
+                        Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
+                        // FIXME: 08-02-2020 Add Intent to Dashboard
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        registrationSuccess = false;
-                        failMessage = e.getMessage();
+                        Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
                     }
                 });
-        if (registrationSuccess) {
-            return new String[]{"1", "Successfully Registered"};
-        } else {
-            return new String[]{"0", failMessage};
-        }
     }
 
 }
