@@ -10,7 +10,7 @@
     <string name="app_heading2">by Google</string>
 
     <!-- Registration Screen -->
-    <string name="register_here">Registration</string>
+    <string name="register_here">Knock knock.. who is it?</string>
     <string name="hint_signup_name">Enter your name here</string>
     <string name="hint_signup_email">Enter your email address here</string>
     <string name="hint_signup_pno">Type in your phone number</string>
@@ -21,7 +21,7 @@
     <string name="register_button_text">Register</string>
 
     <!-- Login Screen -->
-    <string name="login_here">Login</string>
+    <string name="login_here">Welcome back..</string>
     <string name="login_email">Registered Email</string>
     <string name="login_button">Login</string>
     <string name="login_password">Enter your password here</string>

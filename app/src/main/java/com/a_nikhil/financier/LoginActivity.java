@@ -1,8 +1,11 @@
 package com.a_nikhil.financier;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,9 +30,28 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("Login");
+        ActionBar bar = getActionBar();
+        assert bar != null;
+        bar.setDisplayHomeAsUpEnabled(true);
+
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+
     public void clickLogin(View v) {
+
+        // LOGIC HINT: Checking Internet Connection
+        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
         final String password = ((EditText) findViewById(R.id.login_password)).getText().toString();
         // LOGIC HINT: Validate Inputs
@@ -46,11 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // LOGIC HINT: Checking Internet Connection
-        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         final LoginActivity activityObject = new LoginActivity();
         FirebaseFirestore db = FirebaseFirestore.getInstance();

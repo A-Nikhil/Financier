@@ -10,17 +10,17 @@
         android:id="@+id/loginHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="84dp"
         android:text="@string/login_here"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:importantForAutofill="no"
         android:id="@+id/login_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,21 +29,22 @@
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="@string/login_email"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:importantForAutofill="no"
         android:id="@+id/login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="26dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="@string/login_password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +55,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:onClick="clickLogin"
         android:text="@string/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password"
-        android:onClick="clickLogin"/>
+        app:layout_constraintTop_toBottomOf="@+id/login_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

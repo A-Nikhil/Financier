@@ -1,17 +1,19 @@
 package com.a_nikhil.financier;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,12 +26,27 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        TextView txt = findViewById(R.id.registerHeading);
-        txt.setText(Html.fromHtml("<u>Registration</u>"));
+        setTitle("Registration");
+        ActionBar bar = getActionBar();
+        assert bar != null;
+        bar.setDisplayHomeAsUpEnabled(true);
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+
     public void clickRegistration(View v) {
+
+        // LOGIC HINT: Checking Internet Connection
+        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String name = ((EditText) findViewById(R.id.username)).getText().toString();
         String email = ((EditText) findViewById(R.id.email)).getText().toString();
         String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
