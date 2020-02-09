@@ -1,4 +1,4 @@
-package com.a_nikhil.financier;
+package com.a_nikhil.financier.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class NewExpenditureFragment extends Fragment {
+import com.a_nikhil.financier.R;
+
+public class VisualizeFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_new_expenditure, container, false);
+        return inflater.inflate(R.layout.fragment_visualize, container, false);
     }
 }

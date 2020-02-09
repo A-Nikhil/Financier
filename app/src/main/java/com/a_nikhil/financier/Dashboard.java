@@ -1,6 +1,9 @@
 package com.a_nikhil.financier;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -11,6 +14,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.a_nikhil.financier.Fragments.DashboardFragment;
+import com.a_nikhil.financier.Fragments.NewExpenditureFragment;
+import com.a_nikhil.financier.Fragments.PredictFragment;
+import com.a_nikhil.financier.Fragments.VisualizeFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,5 +86,33 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dot_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about_dot_menu:
+                startActivity(new Intent(Dashboard.this, About.class));
+                // FIXME: 09-02-2020 add About
+                return true;
+            case R.id.logout_dot_menu:
+                openDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    public void openDialog() {
+        LogoutDialog logoutDialog = new LogoutDialog();
+        logoutDialog.show(getSupportFragmentManager(), "logout alert");
     }
 }
