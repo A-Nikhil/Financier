@@ -36,4 +36,6 @@
     <string name="communicate">Communicate</string>
     <string name="dashboard_nav_drawer_open">Open Navigation Drawer</string>
     <string name="dashboard_nav_drawer_close">Close Navigation Drawer</string>
+    <string name="dot_menu_settings">Settings</string>
+    <string name="logout_dot_menu">Logout</string>
 </resources>

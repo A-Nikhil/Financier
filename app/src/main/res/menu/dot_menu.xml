@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Dashboard">
+
+    <item
+        android:id="@+id/major_menu"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:title=""
+        app:showAsAction="ifRoom" >
+        <menu>
+            <item
+                android:id="@+id/settings_dot_menu"
+                android:icon="@drawable/ic_settings_dot_menu"
+                android:title="@string/dot_menu_settings"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/logout_dot_menu"
+                android:icon="@drawable/ic_exit_to_app"
+                android:title="@string/logout_dot_menu"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+</menu>
