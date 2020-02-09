@@ -11,9 +11,9 @@
         app:showAsAction="ifRoom" >
         <menu>
             <item
-                android:id="@+id/settings_dot_menu"
-                android:icon="@drawable/ic_settings_dot_menu"
-                android:title="@string/dot_menu_settings"
+                android:id="@+id/about_dot_menu"
+                android:icon="@drawable/ic_info"
+                android:title="@string/dot_menu_about"
                 app:showAsAction="never" />
 
             <item

@@ -1,5 +1,6 @@
 package com.a_nikhil.financier;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,17 +98,21 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.settings_dot_menu:
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
-                // FIXME: 09-02-2020 add about
+            case R.id.about_dot_menu:
+                startActivity(new Intent(Dashboard.this, About.class));
+                // FIXME: 09-02-2020 add About
                 return true;
             case R.id.logout_dot_menu:
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-                // FIXME: 09-02-2020 Add logout splash screen9
+                openDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void openDialog() {
+        LogoutDialog logoutDialog = new LogoutDialog();
+        logoutDialog.show(getSupportFragmentManager(), "logout alert");
     }
 }
