@@ -1,4 +1,4 @@
-package com.a_nikhil.financier;
+package com.a_nikhil.financier.DialogActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +10,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import com.a_nikhil.financier.MainActivity;
+import com.a_nikhil.financier.R;
 
 public class LogoutDialog extends AppCompatDialogFragment {
     @NonNull

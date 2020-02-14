@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     public void clickLogin(View v) {
 
         // LOGIC HINT: Checking Internet Connection
-        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+        if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -83,9 +84,11 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Invalid username/password", Toast.LENGTH_SHORT).show();
                 }
 
-                // logic hint: Adding to local DB
-                // activityObject.addToCache(returnedUser);
-                // FIXME: 06-02-2020 Send intent to dashboard
+                // LOGIC HINT: Adding to local DB
+                activityObject.addToCache(returnedUser);
+
+                // LOGIC HINT: Send intent to dashboard
+                startActivity(new Intent(LoginActivity.this, Dashboard.class));
             }
         });
     }
@@ -154,7 +157,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // LOGIC HINT: Adding the current logged in user to local db
-//    private void addToCache(User user) {
-//
-//    }
+    private void addToCache(User user) {
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        if (db.insertUser(user)) {
+            Log.d("Login Activity", "Added to cache");
+        }
+    }
 }

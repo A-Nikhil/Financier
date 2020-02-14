@@ -8,6 +8,6 @@ public class ConnectionStatus {
     public boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        return networkInfo == null || !networkInfo.isConnectedOrConnecting();
     }
 }

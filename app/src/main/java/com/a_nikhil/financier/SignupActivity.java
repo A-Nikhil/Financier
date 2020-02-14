@@ -3,6 +3,7 @@ package com.a_nikhil.financier;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
     public void clickRegistration(View v) {
 
         // LOGIC HINT: Checking Internet Connection
-        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+        if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -83,7 +85,7 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    public void registerNewUser(User user) {
+    public void registerNewUser(final User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String collection = "users";
         db.collection(collection)
@@ -92,7 +94,12 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-                        // FIXME: 08-02-2020 Add Intent to Dashboard
+
+                        // LOGIC HINT: Send to cache (local db)
+                        addToCache(user);
+
+                        // LOGIC HINT: Send intent to dashboard
+                        startActivity(new Intent(SignupActivity.this, Dashboard.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -101,6 +108,14 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // LOGIC HINT: Adding the current signed in user to local db
+    private void addToCache(User user) {
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        if (db.insertUser(user)) {
+            Log.d("Signup Activity", "Added to cache");
+        }
     }
 
 }
