@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     public void clickLogin(View v) {
 
         // LOGIC HINT: Checking Internet Connection
-        if (!new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+        if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final LoginActivity activityObject = new LoginActivity();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         getUserData(db, new LoginCallback() {
             @Override
             public void onCallback(HashMap<String, Map<String, Object>> userList) {
@@ -79,13 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                 User returnedUser = activityObject.performLogin(email, password, userList);
                 if (returnedUser != null) {
                     Toast.makeText(getApplicationContext(), "Hello " + returnedUser.getName(), Toast.LENGTH_SHORT).show();
+
+                    // LOGIC HINT: Adding to local DB
+                    activityObject.addToCache(returnedUser, localDB);
+
+                    // LOGIC HINT: Send intent to dashboard
+                    startActivity(new Intent(LoginActivity.this, Dashboard.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid username/password", Toast.LENGTH_SHORT).show();
                 }
-
-                // logic hint: Adding to local DB
-                // activityObject.addToCache(returnedUser);
-                // FIXME: 06-02-2020 Send intent to dashboard
             }
         });
     }
@@ -103,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d("LoginWindow", document.getId() + " => " + document.getData());
                                     userList.put(document.getId(), document.getData());
+                                    Log.d("LoginWindow", document.getData().toString());
                                 }
                                 loginCallback.onCallback(userList);
                             } else {
@@ -122,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
     private User performLogin(String email, String password, HashMap<String, Map<String, Object>> userList) {
         User finalUser = new User(), tempUser;
         boolean userFound = false;
-        Log.d("performLogin", "Sie = " + userList.size());
+        Log.d("performLogin", "Size = " + userList.size());
         for (Map.Entry<String, Map<String, Object>> entry1 : userList.entrySet()) {
             tempUser = new User();
             for (Map.Entry<String, Object> entry2 : entry1.getValue().entrySet()) {
@@ -154,7 +158,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // LOGIC HINT: Adding the current logged in user to local db
-//    private void addToCache(User user) {
-//
-//    }
+    private void addToCache(User user, DatabaseHelper db) {
+        if (db.insertUser(user)) {
+            Log.d("Login Activity", "Added to cache");
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.a_nikhil.financier.commons;
 
+
 import androidx.annotation.NonNull;
 
 public class User {
@@ -63,5 +64,41 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    private String tableName = "user";
+    private String nameColumn = "name";
+    private String emailColumn = "email";
+    private String phoneColumn = "phone";
+    private String passwordColumn = "password";
+    private String createUserTableSQL = "create table " + tableName + "(" +
+            nameColumn + " varchar(30)," +
+            emailColumn + " varchar(30)," +
+            phoneColumn + " varchar(10)," +
+            passwordColumn + " varchar(30)" +
+            ")";
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getNameColumn() {
+        return nameColumn;
+    }
+
+    public String getEmailColumn() {
+        return emailColumn;
+    }
+
+    public String getPhoneColumn() {
+        return phoneColumn;
+    }
+
+    public String getPasswordColumn() {
+        return passwordColumn;
+    }
+
+    public String getCreateUserTableSQL() {
+        return createUserTableSQL;
     }
 }

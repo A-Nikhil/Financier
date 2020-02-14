@@ -1,4 +1,4 @@
-package com.a_nikhil.financier;
+package com.a_nikhil.financier.DialogActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,7 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.a_nikhil.financier.MainActivity;
+import com.a_nikhil.financier.R;
+import com.a_nikhil.financier.caching.DatabaseHelper;
+
 public class LogoutDialog extends AppCompatDialogFragment {
+
+    private DatabaseHelper db;
+    public LogoutDialog(DatabaseHelper db) {
+        this.db = db;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -23,6 +33,7 @@ public class LogoutDialog extends AppCompatDialogFragment {
         logoutView.findViewById(R.id.positiveLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                db.wipeClean();
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });

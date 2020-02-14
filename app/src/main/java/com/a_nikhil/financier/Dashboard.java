@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,10 +16,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
 import com.a_nikhil.financier.Fragments.NewExpenditureFragment;
 import com.a_nikhil.financier.Fragments.PredictFragment;
 import com.a_nikhil.financier.Fragments.VisualizeFragment;
+import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +39,14 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         drawer = findViewById(R.id.dashboard_drawer_layout);
         NavigationView navigationView = findViewById(R.id.dash_nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        // Set Name and Email
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        User user = db.getUserData();
+        TextView navName = (headerView.findViewById(R.id.nav_header_name));
+        navName.setText(user.getName());
+        TextView navEmail = (headerView.findViewById(R.id.nav_header_email));
+        navEmail.setText(user.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -98,9 +111,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.settings_dot_menu:
+//                startActivity(new Intent(Dashboard.this, Settings.class));
+                return true;
             case R.id.about_dot_menu:
                 startActivity(new Intent(Dashboard.this, About.class));
-                // FIXME: 09-02-2020 add About
                 return true;
             case R.id.logout_dot_menu:
                 openDialog();
@@ -112,7 +127,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void openDialog() {
-        LogoutDialog logoutDialog = new LogoutDialog();
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        LogoutDialog logoutDialog = new LogoutDialog(db);
         logoutDialog.show(getSupportFragmentManager(), "logout alert");
     }
 }

@@ -1,5 +1,9 @@
 <resources>
 
+    <!-- Extras -->
+    <string name="loremIpsumDolores">Lorem Ipsum Dolores</string>
+    <string name="exampleEmail">me@example.com</string>
+
     <!-- Main Activity -->
     <string name="app_name">Financier</string>
     <string name="app_icon_desc">app_icon</string>
