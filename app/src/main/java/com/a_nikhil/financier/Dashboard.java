@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,14 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         drawer = findViewById(R.id.dashboard_drawer_layout);
         NavigationView navigationView = findViewById(R.id.dash_nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        // Set Name and Email
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        User user = db.getUserData();
+        TextView navName = (headerView.findViewById(R.id.nav_header_name));
+        navName.setText(user.getName());
+        TextView navEmail = (headerView.findViewById(R.id.nav_header_email));
+        navEmail.setText(user.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -45,14 +54,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 R.string.dashboard_nav_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        // Set Name and Email
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        User user = db.getUserData();
-        TextView navName = (findViewById(R.id.nav_header_name));
-        navName.setText(user.getName());
-        TextView navEmail = (findViewById(R.id.nav_header_email));
-        navEmail.setText(user.getEmail());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -126,7 +127,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void openDialog() {
-        LogoutDialog logoutDialog = new LogoutDialog();
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        LogoutDialog logoutDialog = new LogoutDialog(db);
         logoutDialog.show(getSupportFragmentManager(), "logout alert");
     }
 }

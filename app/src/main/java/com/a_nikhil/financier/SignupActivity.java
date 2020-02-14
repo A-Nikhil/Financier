@@ -88,6 +88,7 @@ public class SignupActivity extends AppCompatActivity {
     public void registerNewUser(final User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String collection = "users";
+        final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -96,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
 
                         // LOGIC HINT: Send to cache (local db)
-                        addToCache(user);
+                        addToCache(user, localDB);
 
                         // LOGIC HINT: Send intent to dashboard
                         startActivity(new Intent(SignupActivity.this, Dashboard.class));
@@ -111,8 +112,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     // LOGIC HINT: Adding the current signed in user to local db
-    private void addToCache(User user) {
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+    private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Signup Activity", "Added to cache");
         }

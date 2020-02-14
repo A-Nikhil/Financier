@@ -109,4 +109,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public void wipeClean() {
+        SQLiteDatabase database = getWritableDatabase();
+        try {
+            String sqlQuery = "delete from user";
+            database.execSQL(sqlQuery, new String[]{user.getEmail()});
+            database.close();
+        } catch (Exception e) {
+            database.close();
+            Log.d("DatabaseInteraction", e.getMessage());
+        }
+    }
 }
