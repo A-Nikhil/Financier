@@ -56,4 +56,10 @@
     <string name="aboutCreator">\u00a9Nikhil Anand, 2020</string>
     <string name="license">Open Source under MIT Licence</string>
     <string name="seeProjectSource">Open Github Repo</string>
+
+    <!-- Expenditure View -->
+    <string name="expenditureTitle">Expenditure Title</string>
+    <string name="expenditureCategory">Expenditure Category</string>
+    <string name="expenditureDate">Expenditure Date</string>
+    <string name="expenditureAmount">Amount</string>
 </resources>
