@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/expenditureItemView"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="141dp"
     android:orientation="vertical">
 
     <TextView
@@ -13,12 +13,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="21dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/expenditureTitle"
         android:textColor="@color/black"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/expenditureAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,9 +30,10 @@
         android:id="@+id/expenditureDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="10dp"
         android:text="@string/expenditureDate"
-        android:textSize="26sp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/expenditureTitle"
         app:layout_constraintTop_toBottomOf="@+id/expenditureTitle" />
 
@@ -39,24 +42,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/expenditureCategory"
         android:textColor="@color/gray"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expenditureDate" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/expenditureAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="39dp"
         android:text="@string/expenditureAmount"
-        android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textColor="@color/accentDark"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/accentDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_editor_absoluteX="0dp"
+        app:layout_editor_absoluteY="139dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

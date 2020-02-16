@@ -114,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         try {
             String sqlQuery = "delete from user";
-            database.execSQL(sqlQuery, new String[]{user.getEmail()});
+            database.execSQL(sqlQuery);
             database.close();
         } catch (Exception e) {
             database.close();

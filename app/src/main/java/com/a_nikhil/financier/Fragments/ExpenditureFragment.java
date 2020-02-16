@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a_nikhil.financier.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ExpenditureFragment extends Fragment {
 
@@ -28,12 +27,13 @@ public class ExpenditureFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View myView = inflater.inflate(R.layout.fragment_new_expenditure, container, false);
         Log.d(TAG, "onCreateView: called");
-        addDataToList();
-        return inflater.inflate(R.layout.fragment_new_expenditure, container, false);
+        addDataToList(myView);
+        return myView;
     }
 
-    private void addDataToList() {
+    private void addDataToList(View rootView) {
         mExpenditureTitles.add("Est raptus urbs, cesaris.");
         mExpenditureCategories.add("food");
         mExpenditureDates.add("12th September 2019");
@@ -84,16 +84,16 @@ public class ExpenditureFragment extends Fragment {
         mExpenditureDates.add("12th September 2019");
         mExpenditureAmounts.add("12000");
 
-        initRecyclerView();
+        initRecyclerView(rootView);
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(View rootView) {
         Log.d(TAG, "initRecyclerView: initiator called");
-        RecyclerView view = Objects.requireNonNull(getView()).findViewById(R.id.recyclerViewExpenditure);
+        RecyclerView view = rootView.findViewById(R.id.recyclerViewExpenditure);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(),
                 mExpenditureTitles, mExpenditureCategories,
                 mExpenditureDates, mExpenditureAmounts);
         view.setAdapter(adapter);
-        view.setLayoutManager(new LinearLayoutManager(getView().getContext()));
+        view.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
     }
 }
