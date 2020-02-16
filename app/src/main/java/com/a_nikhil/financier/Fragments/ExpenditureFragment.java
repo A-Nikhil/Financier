@@ -18,7 +18,13 @@ import com.a_nikhil.financier.commons.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-public class ExpenditureFragment extends Fragment {
+public class ExpenditureFragment extends Fragment implements NewExpenditureDialog.OnItemInsert {
+
+    @Override
+    public void sendInput(String name, String amount, String date, String category) {
+        // You got your input
+        // FIXME: 17-02-2020 Add input to database
+    }
 
     private static final String TAG = "DashboardFragment";
     private ArrayList<String> mExpenditureTitles = new ArrayList<>(),

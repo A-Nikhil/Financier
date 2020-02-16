@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +27,22 @@ import java.util.Calendar;
 
 public class NewExpenditureDialog extends AppCompatDialogFragment implements AdapterView.OnItemSelectedListener {
 
+    // LOGIC HINT: Interface to pass data back
+    public interface OnItemInsert {
+        void sendInput(String name, String amount, String date, String category);
+    }
+
+    private OnItemInsert mOnItemInsert;
+
     private Context context;
 
     public NewExpenditureDialog(Context context) {
         this.context = context;
     }
+
+    // widgets
+    private EditText name, date, amount;
+    private Spinner categories;
 
     @NonNull
     @Override
@@ -40,23 +53,27 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View expenditureView = layoutInflater.inflate(R.layout.new_expenditure_layout, null);
 
+        // linking widgets to IDs
+        name = expenditureView.findViewById(R.id.NewExpenditureDialogName);
+        date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
+        amount = expenditureView.findViewById(R.id.NewExpenditureDialogAmount);
+
         // LOGIC HINT: Add Spinner
-        Spinner spinner = expenditureView.findViewById(R.id.categories);
+        categories = expenditureView.findViewById(R.id.categories);
         ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(context,
                 R.array.categories, android.R.layout.simple_spinner_item);
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(categoriesAdapter);
-        spinner.setOnItemSelectedListener(this);
+        categories.setAdapter(categoriesAdapter);
+        categories.setOnItemSelectedListener(this);
 
-        // LOGIC HINT: Adding a DatePicker to EditText
+        // LOGIC HINT: Adding a DatePicker to NewExpenditureDialogDate
+        final Calendar c = Calendar.getInstance();
         final TextView date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
         date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 int mYear, mMonth, mDay;
                 if (hasFocus) {
-                    // Get Current Date
-                    final Calendar c = Calendar.getInstance();
                     mYear = c.get(Calendar.YEAR);
                     mMonth = c.get(Calendar.MONTH);
                     mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -73,13 +90,21 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
                 }
             }
         });
-        
+
         addNewDialog.setView(expenditureView);
         final AlertDialog addNewAlertDialog = addNewDialog.create();
         expenditureView.findViewById(R.id.addNewExpenditure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                // FIXME: 17-02-2020 Transfer data back to Fragment
+
+                Toast.makeText(context, date.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                // FIXME: 17-02-2020 Get Category from Spinner
+//                String dater = "", categorizer = "";
+//                mOnItemInsert.sendInput(
+//                        name.getText().toString(), amount.getText().toString(),
+//                        date.getText().toString(), categorizer);
             }
         });
         expenditureView.findViewById(R.id.cancelAddNewExpenditure).setOnClickListener(new View.OnClickListener() {
@@ -94,11 +119,20 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         String text = adapterView.getItemAtPosition(position).toString();
-        Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         // do nothing
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            mOnItemInsert = (OnItemInsert) getTargetFragment();
+        } catch (ClassCastException e) {
+            Log.d("NewExpenditureDialog", "onAttach: " + e.getMessage());
+        }
     }
 }

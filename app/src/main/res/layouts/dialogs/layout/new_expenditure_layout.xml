@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -74,21 +75,6 @@
         app:layout_constraintTop_toBottomOf="@+id/categories" />
 
     <EditText
-        android:id="@+id/NewExpenditureDialogTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="@string/ExpenditureDialogTime"
-        android:importantForAutofill="no"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureDialogDate" />
-
-    <EditText
         android:id="@+id/NewExpenditureDialogAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -107,19 +93,19 @@
         android:id="@+id/addNewExpenditure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="17dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="18dp"
         android:backgroundTint="@color/accent"
         android:text="@string/addNewExpenditure"
         android:textColor="@color/primaryDark"
         app:layout_constraintEnd_toStartOf="@+id/cancelAddNewExpenditure"
-        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureDialogTime" />
+        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureDialogDate" />
 
     <Button
         android:id="@+id/cancelAddNewExpenditure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="14dp"
         android:text="@string/cancelAddNewExpenditure"
         app:layout_constraintBaseline_toBaselineOf="@+id/addNewExpenditure"
         app:layout_constraintEnd_toEndOf="parent" />
