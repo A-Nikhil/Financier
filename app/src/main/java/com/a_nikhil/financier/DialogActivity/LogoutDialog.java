@@ -27,7 +27,7 @@ public class LogoutDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View logoutView = layoutInflater.inflate(R.layout.layout_logout, null);
+        View logoutView = layoutInflater.inflate(R.layout.logout_layout, null);
         dialog.setView(logoutView);
         final AlertDialog alertDialog = dialog.create();
         logoutView.findViewById(R.id.positiveLogout).setOnClickListener(new View.OnClickListener() {

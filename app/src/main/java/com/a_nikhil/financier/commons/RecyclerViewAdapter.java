@@ -1,4 +1,4 @@
-package com.a_nikhil.financier.Fragments;
+package com.a_nikhil.financier.commons;
 
 import android.content.Context;
 import android.util.Log;
@@ -35,29 +35,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.expenditure_item, parent, false);
-        return new ViewHolder(view);
+        return new RecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called");
         holder.expenditureTitle.setText(mExpenditureTitles.get(position));
         holder.expenditureAmount.setText(mExpenditureAmounts.get(position));
         holder.expenditureCategory.setText(mExpenditureCategories.get(position));
         holder.expenditureDate.setText(mExpenditureDates.get(position));
 
-        /*
-        // LOGIC HINT: Put Actions here, if any
-        holder.expenditureItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Clicked an item");
-            }
-        });
-        */
+            /*
+            // LOGIC HINT: Put Actions here, if any
+            holder.expenditureItemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "onClick: Clicked an item");
+                }
+            });
+            */
     }
 
     @Override
@@ -67,12 +67,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView expenditureTitle, expenditureCategory, expenditureDate, expenditureAmount;
         ConstraintLayout expenditureItemLayout;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             expenditureItemLayout = itemView.findViewById(R.id.expenditureItemView);
             expenditureTitle = itemView.findViewById(R.id.expenditureTitle);

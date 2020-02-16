@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
@@ -56,8 +57,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
 
         if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                    new DashboardFragment()).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new DashboardFragment()).commit();
+                    new ExpenditureFragment()).commit();
         }
         navigationView.setCheckedItem(R.id.menu_dashboard);
     }

@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.a_nikhil.financier.DialogActivity.NewExpenditureDialog;
 import com.a_nikhil.financier.R;
+import com.a_nikhil.financier.commons.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -27,13 +29,23 @@ public class ExpenditureFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.fragment_new_expenditure, container, false);
+        View myView = inflater.inflate(R.layout.fragment_expenditure, container, false);
         Log.d(TAG, "onCreateView: called");
         addDataToList(myView);
+
+        (myView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewExpenditure();
+            }
+        });
         return myView;
     }
 
     private void addDataToList(View rootView) {
+
+        // FIXME: 16-02-2020 ADD Data from firebase
+
         mExpenditureTitles.add("Est raptus urbs, cesaris.");
         mExpenditureCategories.add("food");
         mExpenditureDates.add("12th September 2019");
@@ -96,4 +108,10 @@ public class ExpenditureFragment extends Fragment {
         view.setAdapter(adapter);
         view.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
     }
+
+    private void addNewExpenditure() {
+        NewExpenditureDialog expenditureDialog = new NewExpenditureDialog(getContext());
+        expenditureDialog.show(getActivity().getSupportFragmentManager(), "add new expenditure");
+    }
 }
+
