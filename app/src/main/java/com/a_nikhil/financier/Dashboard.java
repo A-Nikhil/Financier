@@ -18,7 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
-import com.a_nikhil.financier.Fragments.NewExpenditureFragment;
+import com.a_nikhil.financier.Fragments.ExpenditureFragment;
 import com.a_nikhil.financier.Fragments.PredictFragment;
 import com.a_nikhil.financier.Fragments.VisualizeFragment;
 import com.a_nikhil.financier.caching.DatabaseHelper;
@@ -71,7 +71,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 break;
             case R.id.menu_add_new:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NewExpenditureFragment()).commit();
+                        new ExpenditureFragment()).commit();
                 break;
             case R.id.menu_visualize:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
