@@ -56,4 +56,34 @@
     <string name="aboutCreator">\u00a9Nikhil Anand, 2020</string>
     <string name="license">Open Source under MIT Licence</string>
     <string name="seeProjectSource">Open Github Repo</string>
+
+    <!-- Expenditure View -->
+    <string name="expenditureTitle">Expenditure Title</string>
+    <string name="expenditureCategory">Expenditure Category</string>
+    <string name="expenditureDate">Expenditure Date</string>
+    <string name="expenditureAmount">Amount</string>
+
+    <!-- New Expenditure Layout -->
+    <string name="ExpenditureDialogTitle">Add New Expenditure</string>
+    <string name="ExpenditureDialogMessage">Tell us what you spent on</string>
+    <string name="ExpenditureDialogName">What did you spend on?</string>
+    <string name="ExpenditureDialogAmount">Enter the amount</string>
+    <string name="ExpenditureDialogDate">Enter the date *</string>
+    <string name="ExpenditureDialogTime">Enter the time (optional)</string>
+    <string name="cancelAddNewExpenditure">Cancel</string>
+    <string name="addNewExpenditure">Add</string>
+    <string-array name="categories">
+        <item>Select a category..</item>
+        <item>Food</item>
+        <item>Rent</item>
+        <item>Mortgage</item>
+        <item>Household</item>
+        <item>Casual</item>
+        <item>Work</item>
+        <item>Outdoors</item>
+        <item>Recreation</item>
+        <item>Travel</item>
+        <item>Stationary</item>
+        <item>Education</item>
+    </string-array>
 </resources>
