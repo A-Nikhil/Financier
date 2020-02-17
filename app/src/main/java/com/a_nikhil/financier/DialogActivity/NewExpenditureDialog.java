@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +25,8 @@ import com.a_nikhil.financier.R;
 import java.util.Calendar;
 
 public class NewExpenditureDialog extends AppCompatDialogFragment implements AdapterView.OnItemSelectedListener {
+
+    private static final String TAG = "NewExpenditureDialog";
 
     // LOGIC HINT: Interface to pass data back
     public interface OnItemInsert {
@@ -68,7 +69,7 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
 
         // LOGIC HINT: Adding a DatePicker to NewExpenditureDialogDate
         final Calendar c = Calendar.getInstance();
-        final TextView date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
+        date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
         date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -96,15 +97,12 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         expenditureView.findViewById(R.id.addNewExpenditure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // FIXME: 17-02-2020 Transfer data back to Fragment
-
-                Toast.makeText(context, date.getText().toString(), Toast.LENGTH_SHORT).show();
-
-                // FIXME: 17-02-2020 Get Category from Spinner
-//                String dater = "", categorizer = "";
-//                mOnItemInsert.sendInput(
-//                        name.getText().toString(), amount.getText().toString(),
-//                        date.getText().toString(), categorizer);
+                String category = categories.getSelectedItem().toString();
+                if (performValidation(name.getText().toString(), amount.getText().toString(),
+                        date.getText().toString(), category)) {
+                    mOnItemInsert.sendInput(name.getText().toString(), amount.getText().toString(),
+                            date.getText().toString(), category);
+                }
             }
         });
         expenditureView.findViewById(R.id.cancelAddNewExpenditure).setOnClickListener(new View.OnClickListener() {
@@ -116,15 +114,6 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         return addNewAlertDialog;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        String text = adapterView.getItemAtPosition(position).toString();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        // do nothing
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -134,5 +123,34 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         } catch (ClassCastException e) {
             Log.d("NewExpenditureDialog", "onAttach: " + e.getMessage());
         }
+    }
+
+    private boolean performValidation(String name, String amount, String date, String category) {
+        try {
+            if (name == null || name.length() == 0) {
+                throw new Exception("Please enter a valid title");
+            } else if (Double.parseDouble(amount) <= 0.0) {
+                throw new Exception("Please enter a valid amount");
+            } else if (category.equals("Select a category..")) {
+                throw new Exception("Select a Category");
+            } else if (date == null) {
+                throw new Exception("Enter a valid date");
+            }
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG, "performValidation: " + e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        // do nothing
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        // do nothing
     }
 }

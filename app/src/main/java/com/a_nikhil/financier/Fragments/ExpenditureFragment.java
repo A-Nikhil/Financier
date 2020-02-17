@@ -22,7 +22,11 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
 
     @Override
     public void sendInput(String name, String amount, String date, String category) {
-        // You got your input
+        String TAG = "ReceivedInput";
+        Log.d(TAG, "Name = " + name);
+        Log.d(TAG, "Amount = " + amount);
+        Log.d(TAG, "Date = " + date);
+        Log.d(TAG, "Category = " + category);
         // FIXME: 17-02-2020 Add input to database
     }
 
@@ -117,6 +121,7 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
 
     private void addNewExpenditure() {
         NewExpenditureDialog expenditureDialog = new NewExpenditureDialog(getContext());
+        expenditureDialog.setTargetFragment(ExpenditureFragment.this, 1);
         expenditureDialog.show(getActivity().getSupportFragmentManager(), "add new expenditure");
     }
 }

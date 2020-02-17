@@ -73,6 +73,7 @@
     <string name="cancelAddNewExpenditure">Cancel</string>
     <string name="addNewExpenditure">Add</string>
     <string-array name="categories">
+        <item>Select a category..</item>
         <item>Food</item>
         <item>Rent</item>
         <item>Mortgage</item>
