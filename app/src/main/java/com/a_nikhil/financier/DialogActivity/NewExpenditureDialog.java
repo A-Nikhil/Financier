@@ -52,7 +52,7 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         setStyle(DialogFragment.STYLE_NO_TITLE,
                 android.R.style.Theme_Material_Dialog_NoActionBar_MinWidth);
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View expenditureView = layoutInflater.inflate(R.layout.new_expenditure_layout, null);
+        View expenditureView = layoutInflater.inflate(R.layout.add_new_expenditure_layout, null);
 
         // linking widgets to IDs
         name = expenditureView.findViewById(R.id.NewExpenditureDialogName);

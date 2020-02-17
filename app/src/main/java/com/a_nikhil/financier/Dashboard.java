@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
@@ -115,7 +114,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings_dot_menu:
-//                startActivity(new Intent(Dashboard.this, Settings.class));
+                startActivity(new Intent(Dashboard.this, SettingsActivity.class));
                 return true;
             case R.id.about_dot_menu:
                 startActivity(new Intent(Dashboard.this, About.class));

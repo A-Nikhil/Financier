@@ -43,6 +43,7 @@
 
     <!-- Overlay Menu -->
     <string name="dot_menu_about">About</string>
+    <string name="dot_menu_settings">Settings</string>
     <string name="logout_dot_menu">Logout</string>
 
     <!-- AlertDialog -->
@@ -52,8 +53,8 @@
     <string name="negativeLogout">No</string>
     <string name="hello_world">Hello World!</string>
 
-    <!-- About -->
-    <string name="aboutCreator">\u00a9Nikhil Anand, 2020</string>
+    <!-- About Activity -->
+    <string name="aboutCreator">\u00a9  Nikhil Anand, 2020</string>
     <string name="license">Open Source under MIT Licence</string>
     <string name="seeProjectSource">Open Github Repo</string>
 
@@ -72,6 +73,14 @@
     <string name="ExpenditureDialogTime">Enter the time (optional)</string>
     <string name="cancelAddNewExpenditure">Cancel</string>
     <string name="addNewExpenditure">Add</string>
+    <string name="updateIncomeTitle">Update your monthly income</string>
+    <string name="updateIncomeAmount">Your new income here</string>
+    <string name="updateIncomeButton">Update</string>
+    <string name="wipeDataCleanTitle">Wipe Data Clean</string>
+    <string name="wipeDataCleanText"><![CDATA[This would clear your data from the local database. You will be <b>logged out</b> of the app. Sure to Proceed?]]></string>
+    <string name="wipeDataCleanButton">Wipe Data</string>
+    <string name="switchToDarkYes">Switch to Dark Mode</string>
+    <string name="switchToDarkButton">Go Dark</string>
     <string-array name="categories">
         <item>Select a category..</item>
         <item>Food</item>
