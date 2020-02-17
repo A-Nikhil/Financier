@@ -23,6 +23,7 @@
     <string name="hint_signup_confirm_pass">Retype your password</string>
     <string name="t_and_c">I agree to Financier\'s Terms and Conditions</string>
     <string name="register_button_text">Register</string>
+    <string name="signupMonthlyIncome">Enter your monthly income</string>
 
     <!-- Login Screen -->
     <string name="login_here">Welcome back..</string>

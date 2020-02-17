@@ -54,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
         String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         String confirmPassword = ((EditText) findViewById(R.id.confirmPassword)).getText().toString();
+        String maxIncome = ((EditText) findViewById(R.id.signupMonthlyIncome)).getText().toString();
         boolean termsAreChecked = ((CheckBox) findViewById(R.id.TermsAndConditions)).isChecked();
 
         // Validation
@@ -76,10 +77,13 @@ public class SignupActivity extends AppCompatActivity {
                 throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
             } else if (!password.equals(confirmPassword)) {
                 throw new Exception("Passwords don't match");
+            } else if (maxIncome.length() == 0) {
+                throw new Exception("Income cannot be zero");
             } else if (!termsAreChecked) {
                 throw new Exception("Please agree to terms and conditions");
             }
-            registerNewUser(new User(name, email, phone, password));
+            registerNewUser(new User(name, email, phone, password,
+                    Double.parseDouble(maxIncome)));
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -95,10 +99,10 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-
+                        // Add ID to user object
+                        user.setFirestoreID(documentReference.getId());
                         // LOGIC HINT: Send to cache (local db)
                         addToCache(user, localDB);
-
                         // LOGIC HINT: Send intent to dashboard
                         startActivity(new Intent(SignupActivity.this, Dashboard.class));
                     }

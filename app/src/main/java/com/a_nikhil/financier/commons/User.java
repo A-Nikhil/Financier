@@ -19,22 +19,16 @@ public class User {
         maxIncome = 0.0;
     }
 
-    public User(String name, String email, String phone, String password) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-    }
-
-    public User(String firestoreID, String name, String email, String phone, String password) {
-        this.firestoreID = firestoreID;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-    }
-
     public User(String name, String email, String phone, String password, Double maxIncome) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.maxIncome = maxIncome;
+    }
+
+    public User(String name, String email, String phone, String password, Double maxIncome, String firestoreID) {
+        this.firestoreID = firestoreID;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -94,52 +88,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "firestoreID='" + firestoreID + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", maxIncome=" + maxIncome +
                 '}';
-    }
-
-    private String tableName = "user";
-    private String nameColumn = "name";
-    private String emailColumn = "email";
-    private String phoneColumn = "phone";
-    private String passwordColumn = "password";
-    private String fireStoreIDColumn = "id";
-    private String createUserTableSQL = "create table " + tableName + "(" +
-            nameColumn + " varchar(30)," +
-            emailColumn + " varchar(30)," +
-            phoneColumn + " varchar(10)," +
-            passwordColumn + " varchar(30)," +
-            fireStoreIDColumn + " text" +
-            ")";
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public String getNameColumn() {
-        return nameColumn;
-    }
-
-    public String getEmailColumn() {
-        return emailColumn;
-    }
-
-    public String getPhoneColumn() {
-        return phoneColumn;
-    }
-
-    public String getPasswordColumn() {
-        return passwordColumn;
-    }
-
-    public String getCreateUserTableSQL() {
-        return createUserTableSQL;
-    }
-
-    public String getFireStoreIDColumn() {
-        return fireStoreIDColumn;
     }
 }

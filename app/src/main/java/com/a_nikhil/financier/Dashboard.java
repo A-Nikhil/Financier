@@ -40,6 +40,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         drawer = findViewById(R.id.dashboard_drawer_layout);
         NavigationView navigationView = findViewById(R.id.dash_nav_view);
         View headerView = navigationView.getHeaderView(0);
+
         // Set Name and Email
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         User user = db.getUserData();

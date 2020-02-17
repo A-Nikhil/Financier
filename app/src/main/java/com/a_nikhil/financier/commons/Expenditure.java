@@ -6,6 +6,9 @@ public class Expenditure {
     private String date;
     private Category category;
 
+    public Expenditure() {
+    }
+
     public Expenditure(String title, Double amount, String date, Category category) {
         this.title = title;
         this.amount = amount;
