@@ -110,15 +110,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void wipeClean() {
+    public boolean wipeClean() {
         SQLiteDatabase database = getWritableDatabase();
         try {
             String sqlQuery = "delete from user";
             database.execSQL(sqlQuery);
             database.close();
+            return true;
         } catch (Exception e) {
             database.close();
             Log.d("DatabaseInteraction", e.getMessage());
+            return false;
         }
     }
 }

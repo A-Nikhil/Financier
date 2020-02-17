@@ -1,19 +1,22 @@
 package com.a_nikhil.financier.commons;
 
-
 import androidx.annotation.NonNull;
 
 public class User {
+    private String firestoreID;
     private String name;
     private String email;
     private String phone;
     private String password;
+    private Double maxIncome;
 
     public User() {
         name = "";
         email = "";
         phone = "";
         password = "";
+        firestoreID = "";
+        maxIncome = 0.0;
     }
 
     public User(String name, String email, String phone, String password) {
@@ -21,6 +24,22 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.password = password;
+    }
+
+    public User(String firestoreID, String name, String email, String phone, String password) {
+        this.firestoreID = firestoreID;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    public User(String name, String email, String phone, String password, Double maxIncome) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.maxIncome = maxIncome;
     }
 
     public String getName() {
@@ -55,11 +74,27 @@ public class User {
         this.password = password;
     }
 
+    public String getFirestoreID() {
+        return firestoreID;
+    }
+
+    public void setFirestoreID(String firestoreID) {
+        this.firestoreID = firestoreID;
+    }
+
+    public Double getMaxIncome() {
+        return maxIncome;
+    }
+
+    public void setMaxIncome(Double maxIncome) {
+        this.maxIncome = maxIncome;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
@@ -71,11 +106,13 @@ public class User {
     private String emailColumn = "email";
     private String phoneColumn = "phone";
     private String passwordColumn = "password";
+    private String fireStoreIDColumn = "id";
     private String createUserTableSQL = "create table " + tableName + "(" +
             nameColumn + " varchar(30)," +
             emailColumn + " varchar(30)," +
             phoneColumn + " varchar(10)," +
-            passwordColumn + " varchar(30)" +
+            passwordColumn + " varchar(30)," +
+            fireStoreIDColumn + " text" +
             ")";
 
     public String getTableName() {
@@ -100,5 +137,9 @@ public class User {
 
     public String getCreateUserTableSQL() {
         return createUserTableSQL;
+    }
+
+    public String getFireStoreIDColumn() {
+        return fireStoreIDColumn;
     }
 }

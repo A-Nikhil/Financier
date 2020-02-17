@@ -77,7 +77,7 @@
     <string name="updateIncomeAmount">Your new income here</string>
     <string name="updateIncomeButton">Update</string>
     <string name="wipeDataCleanTitle">Wipe Data Clean</string>
-    <string name="wipeDataCleanText"><![CDATA[This would clear your data from the local database. You will be <b>logged out</b> of the app. Sure to Proceed?]]></string>
+    <string name="wipeDataCleanText">This would clear your data from the local database.\nYou will be <b><u><i>logged out</i></u></b> of the app.\nSure to Proceed?</string>
     <string name="wipeDataCleanButton">Wipe Data</string>
     <string name="switchToDarkYes">Switch to Dark Mode</string>
     <string name="switchToDarkButton">Go Dark</string>
