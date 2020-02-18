@@ -12,5 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
-*.db
-*.sql
+financier.db
