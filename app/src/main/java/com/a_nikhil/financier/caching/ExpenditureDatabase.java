@@ -10,7 +10,7 @@ class ExpenditureDatabase {
             titleColumn + " text," +
             categoryColumn + " varchar(10)," +
             dateColumn + " date," +
-            amountColumn + " double," +
+            amountColumn + " double" +
             ")";
 
 

@@ -46,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
         values.put(userDatabase.getFirestoreIDColumn(), user.getFirestoreID());
         values.put(userDatabase.getMaxIncomeColumn(), user.getMaxIncome());
+
+        // FIXME: 18-02-2020 Update to add expenditures
         try {
             database.insert(userDatabase.getTableName(), null, values);
             database.close();

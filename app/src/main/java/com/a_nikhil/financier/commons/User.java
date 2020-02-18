@@ -2,6 +2,8 @@ package com.a_nikhil.financier.commons;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+
 public class User {
     private String firestoreID;
     private String name;
@@ -9,6 +11,7 @@ public class User {
     private String phone;
     private String password;
     private Double maxIncome;
+    private HashMap<String, Expenditure> expenditures;
 
     public User() {
         name = "";
@@ -17,6 +20,7 @@ public class User {
         password = "";
         firestoreID = "";
         maxIncome = 0.0;
+        expenditures = new HashMap<>();
     }
 
     public User(String name, String email, String phone, String password, Double maxIncome) {
@@ -82,6 +86,14 @@ public class User {
 
     public void setMaxIncome(Double maxIncome) {
         this.maxIncome = maxIncome;
+    }
+
+    public HashMap<String, Expenditure> getExpenditures() {
+        return expenditures;
+    }
+
+    public void setExpenditures(HashMap<String, Expenditure> expenditures) {
+        this.expenditures = expenditures;
     }
 
     @NonNull
