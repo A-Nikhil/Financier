@@ -14,5 +14,4 @@
 .cxx
 *.db
 app/src/TestingModules.java
-app/src/main/java/com/a_nikhil/financier/TestingModules.java
 app/build
