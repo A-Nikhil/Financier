@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/hello_nikhil"
+        android:id="@+id/helloUser"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
@@ -37,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/topStats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hello_nikhil"
+        app:layout_constraintTop_toBottomOf="@+id/helloUser"
         app:layout_editor_absoluteX="25dp"
         app:layout_editor_absoluteY="74dp" />
 
@@ -64,7 +65,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="29dp"
         android:text="@string/numberExpenditures"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -99,7 +100,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="34dp"
         android:text="@string/monthlyPercentage"
         android:textColor="@color/black"
         android:textSize="16sp"

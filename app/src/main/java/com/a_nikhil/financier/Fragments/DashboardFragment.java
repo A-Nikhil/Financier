@@ -1,10 +1,12 @@
 package com.a_nikhil.financier.Fragments;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +22,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 
 public class DashboardFragment extends Fragment {
@@ -117,13 +124,167 @@ public class DashboardFragment extends Fragment {
                 Log.i(TAG, "onCallback: Number of expenditures added : " + count + " out of " + total);
                 db.insertUser(user);
 
-//                TestingModules testingModules = new TestingModules();
-//                testingModules.checkUser(db);
-//                testingModules.checkExpenditure(db);
+                addStatsToDatabase(user, expendituresList, rootView);
+
+                /* Uncomment this for testing only => Add import com.a_nikhil.financier.TestingModules; at the top
+                // Testing modules
+                TestingModules testingModules = new TestingModules();
+                testingModules.checkUser(db);
+                testingModules.checkExpenditure(db);
+                */
             }
         });
     }
 
+    // CHECKPOINT: Calculating stats and adding to Database
+    private void addStatsToDatabase(User user, ArrayList<Expenditure> expenditureList, View rootView) {
+
+        int flag = Html.FROM_HTML_MODE_COMPACT;
+
+        // Setting Name
+        ((TextView) rootView.findViewById(R.id.helloUser)).setText(Html.fromHtml(
+                "Hello, <b>" + user.getName() + "</b>",
+                flag));
+
+        TextView numberExpenditures = rootView.findViewById(R.id.numberExpenditures);
+        TextView totalMonthly = rootView.findViewById(R.id.totalMonthly);
+        TextView monthlyPercentage = rootView.findViewById(R.id.monthlyPercentage);
+        TextView topCategory = rootView.findViewById(R.id.topCategory);
+        TextView secondCategory = rootView.findViewById(R.id.secondCategory);
+        TextView statsTotal = rootView.findViewById(R.id.statsTotal);
+        TextView remark = rootView.findViewById(R.id.remark);
+
+        if (expenditureList.size() == 0) {
+            numberExpenditures.setText(Html.fromHtml("You have <b>not added</b> any expenditures yet", flag));
+            totalMonthly.setText(Html.fromHtml("", flag));
+            monthlyPercentage.setText(Html.fromHtml("", flag));
+            topCategory.setText(Html.fromHtml("", flag));
+            secondCategory.setText(Html.fromHtml("", flag));
+            statsTotal.setText(Html.fromHtml("", flag));
+            remark.setText(Html.fromHtml("", flag));
+        } else {
+            numberExpenditures.setText(Html.fromHtml("You have added <b>" + expenditureList.size() + "</b> expenditures", flag));
+
+            // getting complete data
+            DataHandler myHandler = new DataHandler(expenditureList, user.getMaxIncome());
+            myHandler.getData();
+            Log.d("pussybitch", "onCallback: Database Add complete");
+            totalMonthly.setText(Html.fromHtml(
+                    "You have spent <b>\u20B9 " + myHandler.monthlySum + "</b><br/>" +
+                            "from your total income of <b>\u20B9 " + user.getMaxIncome() + "</b>", flag));
+            monthlyPercentage.setText(Html.fromHtml(
+                    "These expenditures account for <b>" + myHandler.monthlyPercentage + " % </b><br/>" +
+                            "of your monthly income", flag));
+            topCategory.setText(Html.fromHtml(
+                    "You have spent most of your money on<br/>" +
+                            "<b>\u20B9 " + myHandler.topCategory.getDescription() + "</b>, a total of <b>\u20B9 " + myHandler.topCategorySum + "</b>", flag));
+            secondCategory.setText(Html.fromHtml(
+                    "Next being <b>" + myHandler.secondCategory.getDescription() + "</b> with a total expenditure of<br/>" +
+                            "<b>\u20B9 " + myHandler.secondCategorySum + "</b>", flag));
+            statsTotal.setText(Html.fromHtml(
+                    "Till date, you have spent a total of<br/>" +
+                            "<b>\u20B9 " + myHandler.totalStatsNumber + "</b> i.e <b>" + myHandler.totalStatsPercentage + " %</b> of your total earnings", flag));
+            String remarks;
+            if (myHandler.totalStatsPercentage < 60 && myHandler.monthlyPercentage < 60) {
+                remarks = "Going good on overall";
+            } else if (myHandler.monthlyPercentage < 60) {
+                remarks = "Monthly looking strong";
+            } else if (myHandler.totalStatsPercentage < 60) {
+                remarks = "Overall looking strong";
+            } else {
+                remarks = "Going bad";
+            }
+            remark.setText(remarks);
+        }
+    }
+
+    private class DataHandler {
+        private ArrayList<Expenditure> expenditureList;
+        private double maxIncome;
+        Category topCategory;
+        double topCategorySum;
+        Category secondCategory;
+        double secondCategorySum;
+        int monthlyPercentage;
+        double monthlySum;
+        double totalStatsNumber;
+        int totalStatsPercentage;
+
+        DataHandler(ArrayList<Expenditure> expenditureList, double maxIncome) {
+            this.expenditureList = expenditureList;
+            this.maxIncome = maxIncome;
+        }
+
+        void getData() {
+            // Category Array
+            String[] myCategories = new String[]{"FOOD", "RENT", "MORTGAGE", "HOUSEHOLD", "CASUAL", "WORK", "OUTDOORS",
+                    "RECREATION", "TRAVEL", "STATIONARY", "EDUCATION"};
+
+            // expense array
+            double[] expenses = new double[11];
+
+            // getting monthly percentage
+            Date date = new Date();
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            int month = Integer.parseInt(formatter.format(date).split("/")[1]);
+            double totalMonthlyExpense = 0.0;
+
+            // getting number of months active
+            HashSet<Integer> monthsActive = new HashSet<>();
+            double totalSum = 0.0;
+
+            for (Expenditure expenditure : this.expenditureList) {
+                expenses[expenditure.getCategory().getIndex() - 1] += expenditure.getAmount();
+
+                // getting monthly expense
+                if (Integer.parseInt(expenditure.getDate().split("/")[1]) == month) {
+                    totalMonthlyExpense += expenditure.getAmount();
+                }
+
+                // getting active months
+                monthsActive.add(Integer.parseInt(expenditure.getDate().split("/")[1]));
+                totalSum += expenditure.getAmount();
+            }
+
+            // getting top category
+            /* How to do this ?
+             * Add total expenses of each category
+             * Copy that array into temp
+             * sort temp
+             * find occurrence of temp[last] in expenses
+             * get category from myCategories
+             */
+            double first = 0.0;
+            double second = 0.0;
+            int firstPos = 0, secondPos = 0;
+            for (int i = 0; i < 11; i++) {
+                if (expenses[i] > first) {
+                    second = first;
+                    first = expenses[i];
+                    firstPos = i;
+                } else if (expenses[i] > second && expenses[i] != first) {
+                    second = expenses[i];
+                    secondPos = i;
+                }
+            }
+
+
+            this.topCategory = Category.valueOf(myCategories[firstPos]);
+            this.secondCategory = Category.valueOf(myCategories[secondPos]);
+            this.topCategorySum = first;
+            this.secondCategorySum = second;
+
+            // getting monthly percentage
+            this.monthlySum = totalMonthlyExpense;
+            this.monthlyPercentage = (int) Math.round(totalMonthlyExpense * 100.0d / maxIncome);
+
+            // getting mega total
+            this.totalStatsNumber = totalSum;
+            this.totalStatsPercentage = (int) Math.round(totalSum * 100.0d / (maxIncome * monthsActive.size()));
+        }
+    }
+
+    // CHECKPOINT: Getting Data from FirebaseFirestore
     private void getUserDetails(FirebaseFirestore db, String userFirestoreId, final DashboardCallback callback) {
         db.collection("users").document(userFirestoreId)
                 .get()
