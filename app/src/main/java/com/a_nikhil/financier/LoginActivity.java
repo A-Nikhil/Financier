@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void clickLogin(View v) {
 
-        // LOGIC HINT: Checking Internet Connection
+        // CHECKPOINT: Checking Internet Connection
         if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
         final String password = ((EditText) findViewById(R.id.login_password)).getText().toString();
-        // LOGIC HINT: Validate Inputs
+        // CHECKPOINT: Validate Inputs
         try {
             if (email.length() == 0) {
                 throw new Exception("Email cannot be empty");
@@ -75,16 +75,16 @@ public class LoginActivity extends AppCompatActivity {
         getUserData(db, new LoginCallback() {
             @Override
             public void onCallback(HashMap<String, Map<String, Object>> userList) {
-                // LOGIC HINT: Performing validation
+                // CHECKPOINT: Performing validation
                 Log.d("clickLogin", "onCallback: Going to performLogin()");
                 User returnedUser = activityObject.performLogin(email, password, userList);
                 if (returnedUser != null) {
                     Toast.makeText(getApplicationContext(), "Hello " + returnedUser.getName(), Toast.LENGTH_SHORT).show();
 
-                    // LOGIC HINT: Adding to local DB
+                    // CHECKPOINT: Adding to local DB
                     activityObject.addToCache(returnedUser, localDB);
 
-                    // LOGIC HINT: Send intent to dashboard
+                    // CHECKPOINT: Send intent to dashboard
                     startActivity(new Intent(LoginActivity.this, Dashboard.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid username/password", Toast.LENGTH_SHORT).show();
@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // LOGIC HINT: Adding the current logged in user to local db
+    // CHECKPOINT: Adding the current logged in user to local db
     private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Login Activity", "Added to cache");

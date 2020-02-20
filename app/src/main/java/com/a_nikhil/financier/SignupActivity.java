@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Collections;
+
 public class SignupActivity extends AppCompatActivity {
 
     @Override
@@ -43,7 +45,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void clickRegistration(View v) {
 
-        // LOGIC HINT: Checking Internet Connection
+        // CHECKPOINT: Checking Internet Connection
         if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
@@ -90,8 +92,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void registerNewUser(final User user) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String collection = "users";
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final String collection = "users";
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
                 .add(user)
@@ -99,11 +101,19 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-                        // Add ID to user object
+
+                        // CHECKPOINT: Add ID to user object
                         user.setFirestoreID(documentReference.getId());
-                        // LOGIC HINT: Send to cache (local db)
+
+                        // CHECKPOINT: Add Firestore ID to user
+                        db.collection("users").document(documentReference.getId())
+                                .update("firestoreID", documentReference.getId(),
+                                        "expenditures", Collections.emptyList());
+
+                        // CHECKPOINT: Send to cache (local db)
                         addToCache(user, localDB);
-                        // LOGIC HINT: Send intent to dashboard
+
+                        // CHECKPOINT: Send intent to dashboard
                         startActivity(new Intent(SignupActivity.this, Dashboard.class));
                     }
                 })
@@ -115,7 +125,7 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
-    // LOGIC HINT: Adding the current signed in user to local db
+    // CHECKPOINT: Adding the current signed in user to local db
     private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Signup Activity", "Added to cache");

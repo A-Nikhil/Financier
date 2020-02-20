@@ -1,5 +1,7 @@
 package com.a_nikhil.financier.commons;
 
+import androidx.annotation.NonNull;
+
 public class Expenditure {
     private String title;
     private Double amount;
@@ -30,5 +32,32 @@ public class Expenditure {
 
     public Category getCategory() {
         return category;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Expenditure{" +
+                "title='" + title + '\'' +
+                ", amount=" + amount +
+                ", date='" + date + '\'' +
+                ", category=" + category +
+                '}';
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

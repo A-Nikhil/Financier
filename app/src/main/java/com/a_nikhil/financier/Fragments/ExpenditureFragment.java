@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a_nikhil.financier.DialogActivity.NewExpenditureDialog;
 import com.a_nikhil.financier.R;
-import com.a_nikhil.financier.commons.Expenditure;
 import com.a_nikhil.financier.commons.RecyclerViewAdapter;
-import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,7 +62,6 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
     private void addDataToList(final View rootView) {
 
         // FIXME: 16-02-2020 ADD Data from firebase
-        final HashMap<String, Expenditure> expenditures = new HashMap<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         getUserExpenditure(db, "alanT@enigma.com", new ExpenditureCallback() {
             @Override
@@ -91,56 +88,6 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
                 initRecyclerView(rootView);
             }
         });
-
-//        mExpenditureTitles.add("Est raptus urbs, cesaris.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Secundus fluctuss ducunt ad calcaria.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Emeritis fortis virtualiter captiss secula est.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Stella de dexter bubo, transferre vita!");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Barcas cadunts, tanquam audax xiphias.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Accola clemens mensa est.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Nunquam examinare equiso.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Heu.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Musa, calcaria, et fortis.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
-//
-//        mExpenditureTitles.add("Mens cresceres, tanquam fortis solem.");
-//        mExpenditureCategories.add("food");
-//        mExpenditureDates.add("12th September 2019");
-//        mExpenditureAmounts.add("12000");
     }
 
     private void getUserExpenditure(FirebaseFirestore db, String email, final ExpenditureCallback callback) {
@@ -152,7 +99,7 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         HashMap<String, HashMap<String, String>> expenditures = new HashMap<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            expenditures = (HashMap) document.get("expenditures");
+                            Log.d(TAG, document.get("expenditures").getClass().toString());
                         }
                         callback.onCallback(expenditures);
                     }
