@@ -65,13 +65,13 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         rootView = inflater.inflate(R.layout.fragment_expenditure, container, false);
         Log.d(TAG, "onCreateView: called");
         db = new DatabaseHelper(getActivity());
-//        assert this.getArguments() != null;
-//        userFirestoreId = this.getArguments().getString("userFirestoreId");
-//        String username = getArguments().getString("username");
-//        String maxIncome = getArguments().getString("maxIncome");
-        userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
-        username = "Alan Turing";
-        maxIncome = "100000";
+        assert this.getArguments() != null;
+        userFirestoreId = this.getArguments().getString("firestoreId");
+//        userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        username = db.getUserData().getName();
+        maxIncome = db.getUserData().getMaxIncome().toString();
+
         Toast.makeText(getActivity(), userFirestoreId, Toast.LENGTH_SHORT).show();
 
         addDataToList(false);

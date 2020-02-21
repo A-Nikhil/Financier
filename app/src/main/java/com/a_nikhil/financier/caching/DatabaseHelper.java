@@ -192,6 +192,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return Category.valueOf(categoryText.toUpperCase());
     }
 
+    public void updateMaxIncome(double income, String firestoreId) {
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("update user set income = ? where id = ?",
+                new Object[]{income, firestoreId});
+    }
+
     public boolean updateUser(Expenditure expenditure, String date, String title) {
         SQLiteDatabase database = getWritableDatabase();
         try {

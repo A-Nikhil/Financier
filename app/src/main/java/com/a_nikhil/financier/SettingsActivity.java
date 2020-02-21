@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.User;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -23,8 +26,18 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText txt = findViewById(R.id.updateIncomeAmount);
-                String amount = txt.getText().toString();
-                // FIXME: 17-02-2020 Update Firebase
+                double amount = Double.parseDouble(txt.getText().toString());
+
+                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                User user = db.getUserData();
+                user.setMaxIncome(amount);
+                db.updateMaxIncome(amount, user.getFirestoreID());
+
+                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                firestore.collection("users").document(user.getFirestoreID())
+                        .update("maxIncome", amount);
+
+                Toast.makeText(SettingsActivity.this, "Updated", Toast.LENGTH_SHORT).show();
             }
         });
 

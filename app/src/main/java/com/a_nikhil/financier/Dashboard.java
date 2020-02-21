@@ -2,6 +2,7 @@ package com.a_nikhil.financier;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,8 @@ import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Objects;
+
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
@@ -34,12 +37,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-//        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
-//        String username = Objects.requireNonNull(getIntent().getExtras()).getString("username");
-//        String maxIncome = Objects.requireNonNull(getIntent().getExtras()).getString("maxIncome");
-        String firestoreId = "zi16pAymAnxAF8u5C2Bu";
-        String username = "Alan Turing";
-        String maxIncome = "100000";
+        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
+        Log.d("posty", "Dash : " + firestoreId);
+//        String firestoreId = "zi16pAymAnxAF8u5C2Bu";
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,9 +62,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        myBundle.putString("firebaseId", firestoreId);
-        myBundle.putString("username", username);
-        myBundle.putString("maxIncome", maxIncome);
+        myBundle.putString("firestoreId", firestoreId);
 
         if (savedInstanceState == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();

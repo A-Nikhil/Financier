@@ -116,9 +116,7 @@ public class SignupActivity extends AppCompatActivity {
                         // CHECKPOINT: Send intent to dashboard
                         Intent intent = new Intent(SignupActivity.this, Dashboard.class);
                         Bundle myBundle = new Bundle();
-                        myBundle.putString("firebaseId", documentReference.getId());
-                        myBundle.putString("username", user.getName());
-                        myBundle.putString("maxIncome", user.getMaxIncome().toString());
+                        myBundle.putString("firestoreId", documentReference.getId());
                         intent.putExtras(myBundle);
                         startActivity(intent);
                     }

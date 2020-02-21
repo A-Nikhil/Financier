@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 User returnedUser = activityObject.performLogin(email, password, userList);
                 if (returnedUser != null) {
                     Toast.makeText(getApplicationContext(), "Hello " + returnedUser.getName(), Toast.LENGTH_SHORT).show();
+                    Log.d("posty", "onCallback: " + returnedUser.getName());
 
                     // CHECKPOINT: Adding to local DB
                     activityObject.addToCache(returnedUser, localDB);
@@ -87,9 +88,9 @@ public class LoginActivity extends AppCompatActivity {
                     // CHECKPOINT: Send intent to dashboard
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     Bundle myBundle = new Bundle();
-                    myBundle.putString("firebaseId", returnedUser.getFirestoreID());
-                    myBundle.putString("username", returnedUser.getName());
-                    myBundle.putString("maxIncome", returnedUser.getMaxIncome().toString());
+                    Log.d("posty", returnedUser.getFirestoreID());
+                    myBundle.putString("firestoreId", returnedUser.getFirestoreID());
+                    Toast.makeText(getApplicationContext(), returnedUser.getFirestoreID(), Toast.LENGTH_SHORT).show();
                     intent.putExtras(myBundle);
                     startActivity(intent);
                 } else {
@@ -147,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (entry2.getKey().equals("phone")) {
                     tempUser.setPhone(entry2.getValue().toString());
+                }
+                if (entry2.getKey().equalsIgnoreCase("firestoreID")) {
+                    tempUser.setFirestoreID(entry2.getValue().toString());
                 }
             }
             Log.d("performLogin", "performLogin: " + tempUser.toString());
