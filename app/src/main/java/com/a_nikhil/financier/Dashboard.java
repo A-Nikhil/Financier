@@ -35,7 +35,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 //        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
+//        String username = Objects.requireNonNull(getIntent().getExtras()).getString("username");
+//        String maxIncome = Objects.requireNonNull(getIntent().getExtras()).getString("maxIncome");
         String firestoreId = "zi16pAymAnxAF8u5C2Bu";
+        String username = "Alan Turing";
+        String maxIncome = "100000";
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,6 +63,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
 
         myBundle.putString("firebaseId", firestoreId);
+        myBundle.putString("username", username);
+        myBundle.putString("maxIncome", maxIncome);
 
         if (savedInstanceState == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();

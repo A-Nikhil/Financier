@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     Bundle myBundle = new Bundle();
                     myBundle.putString("firebaseId", returnedUser.getFirestoreID());
+                    myBundle.putString("username", returnedUser.getName());
+                    myBundle.putString("maxIncome", returnedUser.getMaxIncome().toString());
                     intent.putExtras(myBundle);
                     startActivity(intent);
                 } else {

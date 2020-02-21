@@ -117,6 +117,8 @@ public class SignupActivity extends AppCompatActivity {
                         Intent intent = new Intent(SignupActivity.this, Dashboard.class);
                         Bundle myBundle = new Bundle();
                         myBundle.putString("firebaseId", documentReference.getId());
+                        myBundle.putString("username", user.getName());
+                        myBundle.putString("maxIncome", user.getMaxIncome().toString());
                         intent.putExtras(myBundle);
                         startActivity(intent);
                     }

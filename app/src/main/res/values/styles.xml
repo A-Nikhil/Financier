@@ -18,7 +18,7 @@
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen.Partial" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowActionBar">true</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="colorPrimary">@color/primary1</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>

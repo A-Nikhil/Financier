@@ -18,7 +18,7 @@ import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.Expenditure;
-import com.a_nikhil.financier.commons.RecyclerViewAdapter;
+import com.a_nikhil.financier.commons.RecyclerViewAdapterExpenditures;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -56,6 +56,8 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
             mExpenditureDates = new ArrayList<>(),
             mExpenditureAmounts = new ArrayList<>();
     private View rootView;
+    private String username;
+    private String maxIncome;
 
     @Nullable
     @Override
@@ -65,7 +67,11 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         db = new DatabaseHelper(getActivity());
 //        assert this.getArguments() != null;
 //        userFirestoreId = this.getArguments().getString("userFirestoreId");
+//        String username = getArguments().getString("username");
+//        String maxIncome = getArguments().getString("maxIncome");
         userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
+        username = "Alan Turing";
+        maxIncome = "100000";
         Toast.makeText(getActivity(), userFirestoreId, Toast.LENGTH_SHORT).show();
 
         addDataToList(false);
@@ -101,10 +107,13 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: initiator called");
         RecyclerView view = rootView.findViewById(R.id.recyclerViewExpenditure);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mExpenditureTitles,
+        RecyclerViewAdapterExpenditures adapter = new RecyclerViewAdapterExpenditures(
+                getActivity(),
+                mExpenditureTitles,
                 mExpenditureCategories,
                 mExpenditureDates,
-                mExpenditureAmounts);
+                mExpenditureAmounts,
+                username, maxIncome);
         view.setAdapter(adapter);
         view.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
     }

@@ -1,12 +1,13 @@
 package com.a_nikhil.financier;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class About extends AppCompatActivity {
 
@@ -18,6 +19,13 @@ public class About extends AppCompatActivity {
         ActionBar bar = getActionBar();
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        startActivity(new Intent(About.this, Dashboard.class));
+        return super.onOptionsItemSelected(item);
     }
 
     public void clickToSeeRepo(View v) {
