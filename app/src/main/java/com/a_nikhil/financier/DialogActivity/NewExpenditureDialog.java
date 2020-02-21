@@ -98,10 +98,12 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
             @Override
             public void onClick(View view) {
                 String category = categories.getSelectedItem().toString();
+                String dateValue = date.getText().toString().replace("-", "/");
                 if (performValidation(name.getText().toString(), amount.getText().toString(),
-                        date.getText().toString(), category)) {
+                        dateValue, category)) {
                     mOnItemInsert.sendInput(name.getText().toString(), amount.getText().toString(),
-                            date.getText().toString(), category);
+                            dateValue, category);
+                    addNewAlertDialog.dismiss();
                 }
             }
         });

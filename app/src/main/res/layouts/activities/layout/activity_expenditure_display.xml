@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExpenditureDisplay">
+
+    <TextView
+        android:id="@+id/singleExpenditureName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="58dp"
+        android:text="@string/singleExpenditureName"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/singleExpenditureTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/singleExpenditureTitle"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureName" />
+
+    <TextView
+        android:id="@+id/singleExpenditureCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="24dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/singleExpenditureCategory"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureTitle" />
+
+    <TextView
+        android:id="@+id/singleExpenditurePercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginBottom="9dp"
+        android:text="@string/singleExpenditurePercentage"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureBar"
+        app:layout_constraintEnd_toEndOf="@+id/singleExpenditureDate"
+        app:layout_constraintStart_toStartOf="@+id/singleExpenditureBar" />
+
+    <TextView
+        android:id="@+id/singleExpenditureDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="87dp"
+        android:text="@string/singleExpenditureDate"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureCategory" />
+
+    <ProgressBar
+        android:id="@+id/singleExpenditureBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="12dp"
+        android:progress="25"
+        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureTotalIncome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureDate" />
+
+    <TextView
+        android:id="@+id/singleExpenditureTotalIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginBottom="328dp"
+        android:gravity="center_horizontal"
+        android:text="@string/singleExpenditureTotalIncome"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/singleExpenditureBar"
+        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureBar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -100,6 +100,14 @@
     <!-- Progress Bar -->
     <string name="progressDialogLoading">Please wait while we load your profile</string>
 
+    <!-- Single Expenditure View -->
+    <string name="singleExpenditureName">Hey User,</string>
+    <string name="singleExpenditureTitle">You spent this much on\nthis item</string>
+    <string name="singleExpenditureCategory">This comes under the category of Category</string>
+    <string name="singleExpenditureTotalIncome">of your total monthly income of this muchhhh</string>
+    <string name="singleExpenditurePercentage">99 %</string>
+    <string name="singleExpenditureDate">This Date</string>
+
 
     <!-- Arrays -->
     <string-array name="categories">

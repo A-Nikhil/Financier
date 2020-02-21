@@ -45,9 +45,10 @@ public class DashboardFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         Objects.requireNonNull(getActivity()).setTitle("Your Dashboard");
         Log.d(TAG, "onCreateView: Dashboard Fragment Called");
-//        assert this.getArguments() != null;
-//        String userFirestoreId = this.getArguments().getString("userFirestoreId");
-        String userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
+        assert this.getArguments() != null;
+        String userFirestoreId = this.getArguments().getString("firestoreId");
+        Log.d("posty", "DashFrag : " + userFirestoreId);
+//        String userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
 
         // Progress Bar
         setDashboard(myView, userFirestoreId, getActivity());

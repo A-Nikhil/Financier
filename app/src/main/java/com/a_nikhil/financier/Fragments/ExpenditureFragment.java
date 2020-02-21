@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a_nikhil.financier.DialogActivity.NewExpenditureDialog;
 import com.a_nikhil.financier.R;
-import com.a_nikhil.financier.commons.RecyclerViewAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.Category;
+import com.a_nikhil.financier.commons.Expenditure;
+import com.a_nikhil.financier.commons.RecyclerViewAdapterExpenditures;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ExpenditureFragment extends Fragment implements NewExpenditureDialog.OnItemInsert {
 
@@ -34,88 +33,87 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         Log.d(TAG, "Amount = " + amount);
         Log.d(TAG, "Date = " + date);
         Log.d(TAG, "Category = " + category);
+        Expenditure expenditure = new Expenditure(name, Double.parseDouble(amount),
+                date, Category.valueOf(category.toUpperCase()));
+
         // FIXME: 17-02-2020 Add input to database
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        db.insertExpenditure(expenditure);
+
+        // FIXME: 22-02-2020 Add to firebase
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(userFirestoreId)
+                .update("expenditures", FieldValue.arrayUnion(expenditure));
+
+        addDataToList(true);
     }
 
+    private String userFirestoreId;
+    private DatabaseHelper db;
     private static final String TAG = "DashboardFragment";
     private ArrayList<String> mExpenditureTitles = new ArrayList<>(),
             mExpenditureCategories = new ArrayList<>(),
             mExpenditureDates = new ArrayList<>(),
             mExpenditureAmounts = new ArrayList<>();
+    private View rootView;
+    private String username;
+    private String maxIncome;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.fragment_expenditure, container, false);
+        rootView = inflater.inflate(R.layout.fragment_expenditure, container, false);
         Log.d(TAG, "onCreateView: called");
-        addDataToList(myView);
+        db = new DatabaseHelper(getActivity());
+        assert this.getArguments() != null;
+        userFirestoreId = this.getArguments().getString("firestoreId");
+//        userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        username = db.getUserData().getName();
+        maxIncome = db.getUserData().getMaxIncome().toString();
 
-        (myView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {
+        Toast.makeText(getActivity(), userFirestoreId, Toast.LENGTH_SHORT).show();
+
+        addDataToList(false);
+
+        (rootView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // CHECKPOINT: Opens up a dialog to add new Expenditure
                 addNewExpenditure();
             }
         });
-        return myView;
+        return rootView;
     }
 
-    private void addDataToList(final View rootView) {
+    private void addDataToList(boolean updateList) {
 
-        // FIXME: 16-02-2020 ADD Data from firebase
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        getUserExpenditure(db, "alanT@enigma.com", new ExpenditureCallback() {
-            @Override
-            public void onCallback(HashMap<String, HashMap<String, String>> expenditures) {
-                for (Map.Entry<String, HashMap<String, String>> entry1 : expenditures.entrySet()) {
-                    for (Map.Entry<String, String> entry2 : entry1.getValue().entrySet()) {
-                        String key = entry2.getKey();
-                        switch (key) {
-                            case "title":
-                                mExpenditureTitles.add(entry2.getValue());
-                                break;
-                            case "category":
-                                mExpenditureCategories.add(entry2.getValue());
-                                break;
-                            case "amount":
-                                mExpenditureAmounts.add(entry2.getValue());
-                                break;
-                            default:
-                                mExpenditureDates.add(entry2.getValue());
-                                break;
-                        }
-                    }
-                }
-                initRecyclerView(rootView);
-            }
-        });
+        if (updateList) {
+            mExpenditureTitles.clear();
+            mExpenditureAmounts.clear();
+            mExpenditureDates.clear();
+            mExpenditureCategories.clear();
+        }
+        ArrayList<Expenditure> expenditures = db.getExpenditureDataAsList();
+        for (Expenditure expenditure : expenditures) {
+            mExpenditureTitles.add(expenditure.getTitle());
+            mExpenditureAmounts.add(expenditure.getAmount().toString());
+            mExpenditureDates.add(expenditure.getDate());
+            mExpenditureCategories.add(expenditure.getCategory().getDescription());
+        }
+        initRecyclerView();
     }
 
-    private void getUserExpenditure(FirebaseFirestore db, String email, final ExpenditureCallback callback) {
-        db.collection("users")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        HashMap<String, HashMap<String, String>> expenditures = new HashMap<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.get("expenditures").getClass().toString());
-                        }
-                        callback.onCallback(expenditures);
-                    }
-                });
-    }
-
-    private interface ExpenditureCallback {
-        void onCallback(HashMap<String, HashMap<String, String>> expenditures);
-    }
-
-    private void initRecyclerView(View rootView) {
+    private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: initiator called");
         RecyclerView view = rootView.findViewById(R.id.recyclerViewExpenditure);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(),
-                mExpenditureTitles, mExpenditureCategories,
-                mExpenditureDates, mExpenditureAmounts);
+        RecyclerViewAdapterExpenditures adapter = new RecyclerViewAdapterExpenditures(
+                getActivity(),
+                mExpenditureTitles,
+                mExpenditureCategories,
+                mExpenditureDates,
+                mExpenditureAmounts,
+                username, maxIncome);
         view.setAdapter(adapter);
         view.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
     }

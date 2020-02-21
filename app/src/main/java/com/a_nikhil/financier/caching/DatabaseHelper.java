@@ -192,6 +192,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return Category.valueOf(categoryText.toUpperCase());
     }
 
+    public void updateMaxIncome(double income, String firestoreId) {
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("update user set income = ? where id = ?",
+                new Object[]{income, firestoreId});
+    }
+
     public boolean updateUser(Expenditure expenditure, String date, String title) {
         SQLiteDatabase database = getWritableDatabase();
         try {
@@ -239,8 +245,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean wipeClean() {
         SQLiteDatabase database = getWritableDatabase();
         try {
-            String sqlQuery = "delete from user";
-            database.execSQL(sqlQuery);
+            database.execSQL("delete from user");
+            database.execSQL("delete from Expenditure");
             database.close();
             return true;
         } catch (Exception e) {
