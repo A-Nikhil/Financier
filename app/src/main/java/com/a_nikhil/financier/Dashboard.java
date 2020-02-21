@@ -25,8 +25,6 @@ import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Objects;
-
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
@@ -36,8 +34,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
-
+//        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
+        String firestoreId = "zi16pAymAnxAF8u5C2Bu";
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -1,6 +1,6 @@
 package com.a_nikhil.financier.commons;
 
-import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +17,10 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private Context mContext;
-    private ArrayList<String> mExpenditureTitles = new ArrayList<>(),
-            mExpenditureCategories = new ArrayList<>(),
-            mExpenditureDates = new ArrayList<>(),
-            mExpenditureAmounts = new ArrayList<>();
+    private ArrayList<String> mExpenditureTitles, mExpenditureCategories, mExpenditureDates, mExpenditureAmounts;
 
-    public RecyclerViewAdapter(Context mContext,
-                               ArrayList<String> mExpenditureTitles, ArrayList<String> mExpenditureCategories,
+    public RecyclerViewAdapter(ArrayList<String> mExpenditureTitles, ArrayList<String> mExpenditureCategories,
                                ArrayList<String> mExpenditureDates, ArrayList<String> mExpenditureAmounts) {
-        this.mContext = mContext;
         this.mExpenditureTitles = mExpenditureTitles;
         this.mExpenditureCategories = mExpenditureCategories;
         this.mExpenditureDates = mExpenditureDates;
@@ -45,7 +39,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called");
         holder.expenditureTitle.setText(mExpenditureTitles.get(position));
-        holder.expenditureAmount.setText(mExpenditureAmounts.get(position));
+        holder.expenditureAmount.setText(Html.fromHtml(
+                "\u20B9 " + mExpenditureAmounts.get(position), Html.FROM_HTML_MODE_COMPACT));
         holder.expenditureCategory.setText(mExpenditureCategories.get(position));
         holder.expenditureDate.setText(mExpenditureDates.get(position));
 
