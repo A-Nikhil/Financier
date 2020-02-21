@@ -57,10 +57,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
 
         if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                    new DashboardFragment()).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ExpenditureFragment()).commit();
+                    new DashboardFragment()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                    new ExpenditureFragment()).commit();
         }
         navigationView.setCheckedItem(R.id.menu_dashboard);
     }

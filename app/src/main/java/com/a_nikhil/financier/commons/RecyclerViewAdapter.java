@@ -50,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.expenditureDate.setText(mExpenditureDates.get(position));
 
             /*
-            // LOGIC HINT: Put Actions here, if any
+            // CHECKPOINT: Put Actions here, if any
             holder.expenditureItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

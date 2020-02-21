@@ -11,6 +11,8 @@ import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.a_nikhil.financier.commons.User;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "financier";
@@ -46,6 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
         values.put(userDatabase.getFirestoreIDColumn(), user.getFirestoreID());
         values.put(userDatabase.getMaxIncomeColumn(), user.getMaxIncome());
+
+        // FIXME: 18-02-2020 Update to add expenditures
         try {
             database.insert(userDatabase.getTableName(), null, values);
             database.close();
@@ -161,6 +165,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         database.close();
         return expenditure;
+    }
+
+    public ArrayList<Expenditure> getExpenditureDataAsList() {
+        String selectQuery = "select * from " + expenditureDatabase.getTableName();
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        ArrayList<Expenditure> expenditures = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                expenditures.add(new Expenditure(
+                        cursor.getString(cursor.getColumnIndex(expenditureDatabase.getTitleColumn())),
+                        cursor.getDouble(cursor.getColumnIndex(expenditureDatabase.getAmountColumn())),
+                        cursor.getString(cursor.getColumnIndex(expenditureDatabase.getDateColumn())),
+                        returnCategory(cursor.getString(cursor.getColumnIndex(expenditureDatabase.getCategoryColumn())))
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+        return expenditures;
     }
 
     private Category returnCategory(String categoryText) {

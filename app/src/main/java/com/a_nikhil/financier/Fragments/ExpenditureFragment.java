@@ -15,8 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a_nikhil.financier.DialogActivity.NewExpenditureDialog;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.commons.RecyclerViewAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExpenditureFragment extends Fragment implements NewExpenditureDialog.OnItemInsert {
 
@@ -52,61 +59,55 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         return myView;
     }
 
-    private void addDataToList(View rootView) {
+    private void addDataToList(final View rootView) {
 
         // FIXME: 16-02-2020 ADD Data from firebase
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        getUserExpenditure(db, "alanT@enigma.com", new ExpenditureCallback() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, String>> expenditures) {
+                for (Map.Entry<String, HashMap<String, String>> entry1 : expenditures.entrySet()) {
+                    for (Map.Entry<String, String> entry2 : entry1.getValue().entrySet()) {
+                        String key = entry2.getKey();
+                        switch (key) {
+                            case "title":
+                                mExpenditureTitles.add(entry2.getValue());
+                                break;
+                            case "category":
+                                mExpenditureCategories.add(entry2.getValue());
+                                break;
+                            case "amount":
+                                mExpenditureAmounts.add(entry2.getValue());
+                                break;
+                            default:
+                                mExpenditureDates.add(entry2.getValue());
+                                break;
+                        }
+                    }
+                }
+                initRecyclerView(rootView);
+            }
+        });
+    }
 
-        mExpenditureTitles.add("Est raptus urbs, cesaris.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
+    private void getUserExpenditure(FirebaseFirestore db, String email, final ExpenditureCallback callback) {
+        db.collection("users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        HashMap<String, HashMap<String, String>> expenditures = new HashMap<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.get("expenditures").getClass().toString());
+                        }
+                        callback.onCallback(expenditures);
+                    }
+                });
+    }
 
-        mExpenditureTitles.add("Secundus fluctuss ducunt ad calcaria.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Emeritis fortis virtualiter captiss secula est.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Stella de dexter bubo, transferre vita!");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Barcas cadunts, tanquam audax xiphias.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Accola clemens mensa est.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Nunquam examinare equiso.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Heu.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Musa, calcaria, et fortis.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        mExpenditureTitles.add("Mens cresceres, tanquam fortis solem.");
-        mExpenditureCategories.add("food");
-        mExpenditureDates.add("12th September 2019");
-        mExpenditureAmounts.add("12000");
-
-        initRecyclerView(rootView);
+    private interface ExpenditureCallback {
+        void onCallback(HashMap<String, HashMap<String, String>> expenditures);
     }
 
     private void initRecyclerView(View rootView) {

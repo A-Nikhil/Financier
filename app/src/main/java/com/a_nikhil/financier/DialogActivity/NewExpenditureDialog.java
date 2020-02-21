@@ -28,7 +28,7 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
 
     private static final String TAG = "NewExpenditureDialog";
 
-    // LOGIC HINT: Interface to pass data back
+    // CHECKPOINT: Interface to pass data back
     public interface OnItemInsert {
         void sendInput(String name, String amount, String date, String category);
     }
@@ -59,7 +59,7 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
         amount = expenditureView.findViewById(R.id.NewExpenditureDialogAmount);
 
-        // LOGIC HINT: Add Spinner
+        // CHECKPOINT: Add Spinner
         categories = expenditureView.findViewById(R.id.categories);
         ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(context,
                 R.array.categories, android.R.layout.simple_spinner_item);
@@ -67,7 +67,7 @@ public class NewExpenditureDialog extends AppCompatDialogFragment implements Ada
         categories.setAdapter(categoriesAdapter);
         categories.setOnItemSelectedListener(this);
 
-        // LOGIC HINT: Adding a DatePicker to NewExpenditureDialogDate
+        // CHECKPOINT: Adding a DatePicker to NewExpenditureDialogDate
         final Calendar c = Calendar.getInstance();
         date = expenditureView.findViewById(R.id.NewExpenditureDialogDate);
         date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
