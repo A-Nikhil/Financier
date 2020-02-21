@@ -96,6 +96,7 @@
     <string name="secondCategory">Next being, Category with a total expenditure of this much</string>
     <string name="statsTotal">Till date, you have spent a total of  this much i.e 99 % of your total earnings</string>
     <string name="remark">Not Bad</string>
+    <string name="progressDialogLoading">Please wait while we load your profile</string>
 
 
     <!-- Arrays -->

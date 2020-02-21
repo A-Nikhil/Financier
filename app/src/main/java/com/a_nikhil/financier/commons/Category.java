@@ -7,7 +7,7 @@ public enum Category {
     MORTGAGE("mortgage", 1, 3),
     HOUSEHOLD("household", 1, 4),
     CASUAL("casual", 3, 5),
-    WORK("word", 1, 6),
+    WORK("work", 1, 6),
     OUTDOORS("outdoors", 2, 7),
     RECREATION("recreation", 3, 8),
     TRAVEL("travel", 2, 9),

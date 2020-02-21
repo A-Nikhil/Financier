@@ -1,5 +1,7 @@
 package com.a_nikhil.financier.Fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -44,12 +46,19 @@ public class DashboardFragment extends Fragment {
 //        assert this.getArguments() != null;
 //        String userFirestoreId = this.getArguments().getString("userFirestoreId");
         String userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
-        setDashboard(myView, userFirestoreId);
+
+        // Progress Bar
+        setDashboard(myView, userFirestoreId, getActivity());
         return myView;
     }
 
-    private void setDashboard(final View rootView, final String userFirestoreId) {
+    private void setDashboard(final View rootView, final String userFirestoreId, final Activity activity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setCancelable(false); // if you want user to wait for some process to finish,
+        builder.setView(R.layout.progress_circle);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
         getUserDetails(db, userFirestoreId, new DashboardCallback() {
             @Override
             public void onCallback(HashMap<String, Object> expenditures) {
@@ -132,6 +141,7 @@ public class DashboardFragment extends Fragment {
                 testingModules.checkUser(db);
                 testingModules.checkExpenditure(db);
                 */
+                dialog.dismiss();
             }
         });
     }
@@ -168,7 +178,6 @@ public class DashboardFragment extends Fragment {
             // getting complete data
             DataHandler myHandler = new DataHandler(expenditureList, user.getMaxIncome());
             myHandler.getData();
-            Log.d("pussybitch", "onCallback: Database Add complete");
             totalMonthly.setText(Html.fromHtml(
                     "You have spent <b>\u20B9 " + myHandler.monthlySum + "</b><br/>" +
                             "from your total income of <b>\u20B9 " + user.getMaxIncome() + "</b>", flag));
@@ -305,4 +314,5 @@ public class DashboardFragment extends Fragment {
     private interface DashboardCallback {
         void onCallback(HashMap<String, Object> expenditures);
     }
+
 }
