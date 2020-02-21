@@ -86,7 +86,7 @@
     <string name="switchToDarkButton">Go Dark</string>
 
     <!-- Dashboard text -->
-    <string name="helloUser">Hello <b>User</b></string>
+    <string name="helloUser">Hello <b>John Doe</b></string>
     <string name="financierText">Financier will analyze your data and help you guide through</string>
     <string name="topStats"><u>Here are your top <b>stats</b></u></string>
     <string name="numberExpenditures">You have 9 expenditures so far</string>
@@ -96,6 +96,8 @@
     <string name="secondCategory">Next being, Category with a total expenditure of this much</string>
     <string name="statsTotal">Till date, you have spent a total of  this much i.e 99 % of your total earnings</string>
     <string name="remark">Not Bad</string>
+
+    <!-- Progress Bar -->
     <string name="progressDialogLoading">Please wait while we load your profile</string>
 
 

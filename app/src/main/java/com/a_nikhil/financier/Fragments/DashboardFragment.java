@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class DashboardFragment extends Fragment {
 
@@ -42,6 +43,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        Objects.requireNonNull(getActivity()).setTitle("Your Dashboard");
         Log.d(TAG, "onCreateView: Dashboard Fragment Called");
 //        assert this.getArguments() != null;
 //        String userFirestoreId = this.getArguments().getString("userFirestoreId");
@@ -156,6 +158,10 @@ public class DashboardFragment extends Fragment {
                 "Hello, <b>" + user.getName() + "</b>",
                 flag));
 
+        ((TextView) rootView.findViewById(R.id.financierText)).setText(R.string.financierText);
+        ((TextView) rootView.findViewById(R.id.financierText)).setTextSize(14);
+        ((TextView) rootView.findViewById(R.id.topStats)).setText(R.string.topStats);
+
         TextView numberExpenditures = rootView.findViewById(R.id.numberExpenditures);
         TextView totalMonthly = rootView.findViewById(R.id.totalMonthly);
         TextView monthlyPercentage = rootView.findViewById(R.id.monthlyPercentage);
@@ -179,20 +185,20 @@ public class DashboardFragment extends Fragment {
             DataHandler myHandler = new DataHandler(expenditureList, user.getMaxIncome());
             myHandler.getData();
             totalMonthly.setText(Html.fromHtml(
-                    "You have spent <b>\u20B9 " + myHandler.monthlySum + "</b><br/>" +
-                            "from your total income of <b>\u20B9 " + user.getMaxIncome() + "</b>", flag));
+                    "You have spent <b>\u20B9 " + myHandler.monthlySum + "</b>" +
+                            " from your total income of <b>\u20B9 " + user.getMaxIncome() + "</b>", flag));
             monthlyPercentage.setText(Html.fromHtml(
-                    "These expenditures account for <b>" + myHandler.monthlyPercentage + " % </b><br/>" +
+                    "These expenditures account for <b>" + myHandler.monthlyPercentage + "% </b>" +
                             "of your monthly income", flag));
             topCategory.setText(Html.fromHtml(
-                    "You have spent most of your money on<br/>" +
-                            "<b>\u20B9 " + myHandler.topCategory.getDescription() + "</b>, a total of <b>\u20B9 " + myHandler.topCategorySum + "</b>", flag));
+                    "You have spent most of your money on " +
+                            "<b>" + myHandler.topCategory.getDescription() + "</b>, a total of <b>\u20B9 " + myHandler.topCategorySum + "</b>", flag));
             secondCategory.setText(Html.fromHtml(
-                    "Next being <b>" + myHandler.secondCategory.getDescription() + "</b> with a total expenditure of<br/>" +
+                    "Next being <b>" + myHandler.secondCategory.getDescription() + "</b> with a total expenditure of " +
                             "<b>\u20B9 " + myHandler.secondCategorySum + "</b>", flag));
             statsTotal.setText(Html.fromHtml(
-                    "Till date, you have spent a total of<br/>" +
-                            "<b>\u20B9 " + myHandler.totalStatsNumber + "</b> i.e <b>" + myHandler.totalStatsPercentage + " %</b> of your total earnings", flag));
+                    "Till date, you have spent a total of " +
+                            "<b>\u20B9 " + myHandler.totalStatsNumber + "</b> i.e <b>" + myHandler.totalStatsPercentage + "%</b> of your total earnings", flag));
             String remarks;
             if (myHandler.totalStatsPercentage < 60 && myHandler.monthlyPercentage < 60) {
                 remarks = "Going good on overall";
@@ -256,13 +262,6 @@ public class DashboardFragment extends Fragment {
             }
 
             // getting top category
-            /* How to do this ?
-             * Add total expenses of each category
-             * Copy that array into temp
-             * sort temp
-             * find occurrence of temp[last] in expenses
-             * get category from myCategories
-             */
             double first = 0.0;
             double second = 0.0;
             int firstPos = 0, secondPos = 0;
