@@ -4,27 +4,32 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/menu_dashboard"
+        <item
+            android:id="@+id/menu_dashboard"
             android:icon="@drawable/ic_dashboard"
-            android:title="@string/dashboard"
-            />
-        <item android:id="@+id/menu_add_new"
+            android:title="@string/dashboard" />
+        <item
+            android:id="@+id/menu_expenditure"
             android:icon="@drawable/ic_add_new_expenditure"
-            android:title="@string/add_new" />
-        <item android:id="@+id/menu_visualize"
+            android:title="@string/menu_expenditure" />
+        <item
+            android:id="@+id/menu_visualize"
             android:icon="@drawable/ic_visualize"
             android:title="@string/visualize" />
-        <item android:id="@+id/menu_predict"
-            android:icon="@drawable/ic_predict_breakeven"
-            android:title="@string/predict" />
+        <item
+            android:id="@+id/menu_stats"
+            android:icon="@drawable/ic_stats"
+            android:title="@string/menu_stats" />
     </group>
 
     <item android:title="@string/communicate">
         <menu>
-            <item android:id="@+id/cloud_upload"
+            <item
+                android:id="@+id/cloud_upload"
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/cloud_save" />
-            <item android:id="@+id/cloud_download"
+            <item
+                android:id="@+id/cloud_download"
                 android:icon="@drawable/ic_cloud_download"
                 android:title="@string/cloud_download" />
         </menu>

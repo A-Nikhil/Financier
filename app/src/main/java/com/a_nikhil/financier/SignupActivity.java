@@ -114,7 +114,11 @@ public class SignupActivity extends AppCompatActivity {
                         addToCache(user, localDB);
 
                         // CHECKPOINT: Send intent to dashboard
-                        startActivity(new Intent(SignupActivity.this, Dashboard.class));
+                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
+                        Bundle myBundle = new Bundle();
+                        myBundle.putString("firebaseId", documentReference.getId());
+                        intent.putExtras(myBundle);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.a_nikhil.financier.R;
 
-public class PredictFragment extends Fragment {
+public class StatsFragment extends Fragment {
 
     @Nullable
     @Override

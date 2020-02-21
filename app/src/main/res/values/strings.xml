@@ -33,9 +33,9 @@
 
     <!-- Navigation View -->
     <string name="dashboard">Dashboard</string>
-    <string name="add_new">Add New Expenditure</string>
-    <string name="visualize">Visualize current expenditure</string>
-    <string name="predict">Predict <i>Break Even</i></string>
+    <string name="menu_expenditure">Add New Expenditure</string>
+    <string name="visualize">Visualize Expenditures</string>
+    <string name="menu_stats">View Stats</string>
     <string name="cloud_save">Cloud Save</string>
     <string name="cloud_download">Cloud Download</string>
     <string name="communicate">Communicate</string>

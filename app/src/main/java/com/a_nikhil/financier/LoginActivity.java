@@ -85,7 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                     activityObject.addToCache(returnedUser, localDB);
 
                     // CHECKPOINT: Send intent to dashboard
-                    startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                    Bundle myBundle = new Bundle();
+                    myBundle.putString("firebaseId", returnedUser.getFirestoreID());
+                    intent.putExtras(myBundle);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid username/password", Toast.LENGTH_SHORT).show();
                 }
