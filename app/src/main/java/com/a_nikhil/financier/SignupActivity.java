@@ -13,13 +13,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
@@ -42,7 +47,6 @@ public class SignupActivity extends AppCompatActivity {
         return true;
     }
 
-
     public void clickRegistration(View v) {
 
         // CHECKPOINT: Checking Internet Connection
@@ -51,15 +55,16 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        String name = ((EditText) findViewById(R.id.username)).getText().toString();
-        String email = ((EditText) findViewById(R.id.email)).getText().toString();
-        String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
-        String password = ((EditText) findViewById(R.id.password)).getText().toString();
-        String confirmPassword = ((EditText) findViewById(R.id.confirmPassword)).getText().toString();
-        String maxIncome = ((EditText) findViewById(R.id.signupMonthlyIncome)).getText().toString();
-        boolean termsAreChecked = ((CheckBox) findViewById(R.id.TermsAndConditions)).isChecked();
+        final String name = ((EditText) findViewById(R.id.username)).getText().toString();
+        final String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
+        final String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        final String confirmPassword = ((EditText) findViewById(R.id.confirmPassword)).getText().toString();
+        final String maxIncome = ((EditText) findViewById(R.id.signupMonthlyIncome)).getText().toString();
+        final boolean termsAreChecked = ((CheckBox) findViewById(R.id.TermsAndConditions)).isChecked();
 
-        // Validation
+        final EditText emailText = findViewById(R.id.email);
+        final String email = emailText.getText().toString();
+
         try {
             if (name.length() == 0) {
                 throw new Exception("Name cannot be empty");
@@ -84,41 +89,62 @@ public class SignupActivity extends AppCompatActivity {
             } else if (!termsAreChecked) {
                 throw new Exception("Please agree to terms and conditions");
             }
-            registerNewUser(new User(name, email, phone, password,
-                    Double.parseDouble(maxIncome)));
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        getEmailData(db, email, new TestingCallback() {
+            @Override
+            public void testingCallback(boolean exists) {
+                if (exists) {
+                    Toast.makeText(getApplicationContext(), "Callback : Email exists", Toast.LENGTH_SHORT).show();
+                    // make edit text red
+                    DrawableCompat.setTint(emailText.getBackground(),
+                            ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
+                    emailText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Callback : Email does not exist", Toast.LENGTH_SHORT).show();
+
+                    // FIXME: 01-04-2020 Add Signup here
+                    User user = new User(name, email, phone, password,
+                            Double.parseDouble(maxIncome));
+                    registerNewUser(db, user);
+                }
+            }
+        });
+
     }
 
-    public void registerNewUser(final User user) {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final String collection = "users";
+    public void registerNewUser(final FirebaseFirestore db, final User user) {
+        final String collection = "testCollection";
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(user.getEmail())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void avoid) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
 
                         // CHECKPOINT: Add ID to user object
-                        user.setFirestoreID(documentReference.getId());
-
-                        // CHECKPOINT: Add Firestore ID to user
-                        db.collection("users").document(documentReference.getId())
-                                .update("firestoreID", documentReference.getId(),
-                                        "expenditures", Collections.emptyList());
+//                        user.setFirestoreID(documentReference.getId());
+//
+//                        // CHECKPOINT: Add Firestore ID to user
+//                        db.collection(collection).document(documentReference.getId())
+//                                .update("firestoreID", documentReference.getId(),
+//                                        "expenditures", Collections.emptyList());
 
                         // CHECKPOINT: Send to cache (local db)
-                        addToCache(user, localDB);
-
-                        // CHECKPOINT: Send intent to dashboard
-                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
-                        Bundle myBundle = new Bundle();
-                        myBundle.putString("firestoreId", documentReference.getId());
-                        intent.putExtras(myBundle);
-                        startActivity(intent);
+//                        addToCache(user, localDB);
+//
+//                        // CHECKPOINT: Send intent to dashboard
+//                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
+//                        Bundle myBundle = new Bundle();
+//                        myBundle.putString("firestoreId", documentReference.getId());
+//                        intent.putExtras(myBundle);
+//                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -134,6 +160,29 @@ public class SignupActivity extends AppCompatActivity {
         if (db.insertUser(user)) {
             Log.d("Signup Activity", "Added to cache");
         }
+    }
+
+    private interface TestingCallback {
+        void testingCallback(boolean exists);
+    }
+
+    private void getEmailData(FirebaseFirestore db, String givenEmail, final TestingCallback callback) {
+        // FIXME: 01-04-2020 Change collection to users
+        db.collection("testCollection").document(givenEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        boolean exists = false;
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                exists = true;
+                            }
+                            callback.testingCallback(exists);
+                        }
+                    }
+                });
     }
 
 }
