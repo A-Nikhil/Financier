@@ -6,15 +6,13 @@ class UserDatabase {
     private String emailColumn = "email";
     private String phoneColumn = "phone";
     private String passwordColumn = "password";
-    private String firestoreIDColumn = "id";
     private String maxIncomeColumn = "income";
     private String createUserTableSQL = "create table " + tableName + "(" +
             nameColumn + " varchar(30)," +
             emailColumn + " varchar(30)," +
             phoneColumn + " varchar(10)," +
             passwordColumn + " varchar(30)," +
-            maxIncomeColumn + " double," +
-            firestoreIDColumn + " text" +
+            maxIncomeColumn + " double" +
             ")";
 
     String getTableName() {
@@ -39,10 +37,6 @@ class UserDatabase {
 
     String getCreateUserTableSQL() {
         return createUserTableSQL;
-    }
-
-    String getFirestoreIDColumn() {
-        return firestoreIDColumn;
     }
 
     String getMaxIncomeColumn() {

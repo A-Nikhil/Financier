@@ -37,7 +37,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("firestoreId");
+        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("email");
         Log.d("posty", "Dash : " + firestoreId);
 //        String firestoreId = "zi16pAymAnxAF8u5C2Bu";
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -3,7 +3,6 @@ package com.a_nikhil.financier.commons;
 import androidx.annotation.NonNull;
 
 public class User {
-    private String firestoreID;
     private String name;
     private String email;
     private String phone;
@@ -15,7 +14,6 @@ public class User {
         email = "";
         phone = "";
         password = "";
-        firestoreID = "";
         maxIncome = 0.0;
     }
 
@@ -27,14 +25,6 @@ public class User {
         this.maxIncome = maxIncome;
     }
 
-    public User(String name, String email, String phone, String password, Double maxIncome, String firestoreID) {
-        this.firestoreID = firestoreID;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.maxIncome = maxIncome;
-    }
 
     public String getName() {
         return name;
@@ -68,14 +58,6 @@ public class User {
         this.password = password;
     }
 
-    public String getFirestoreID() {
-        return firestoreID;
-    }
-
-    public void setFirestoreID(String firestoreID) {
-        this.firestoreID = firestoreID;
-    }
-
     public Double getMaxIncome() {
         return maxIncome;
     }
@@ -88,7 +70,6 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "firestoreID='" + firestoreID + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +

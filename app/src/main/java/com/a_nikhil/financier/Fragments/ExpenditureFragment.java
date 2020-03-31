@@ -66,7 +66,7 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         Log.d(TAG, "onCreateView: called");
         db = new DatabaseHelper(getActivity());
         assert this.getArguments() != null;
-        userFirestoreId = this.getArguments().getString("firestoreId");
+        userFirestoreId = this.getArguments().getString("email");
 //        userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
         DatabaseHelper db = new DatabaseHelper(getActivity());
         username = db.getUserData().getName();

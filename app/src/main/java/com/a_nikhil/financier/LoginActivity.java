@@ -88,9 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     // CHECKPOINT: Send intent to dashboard
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     Bundle myBundle = new Bundle();
-                    Log.d("posty", returnedUser.getFirestoreID());
-                    myBundle.putString("firestoreId", returnedUser.getFirestoreID());
-                    Toast.makeText(getApplicationContext(), returnedUser.getFirestoreID(), Toast.LENGTH_SHORT).show();
+                    myBundle.putString("", returnedUser.getEmail());
                     intent.putExtras(myBundle);
                     startActivity(intent);
                 } else {
@@ -148,9 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (entry2.getKey().equals("phone")) {
                     tempUser.setPhone(entry2.getValue().toString());
-                }
-                if (entry2.getKey().equalsIgnoreCase("firestoreID")) {
-                    tempUser.setFirestoreID(entry2.getValue().toString());
                 }
             }
             Log.d("performLogin", "performLogin: " + tempUser.toString());

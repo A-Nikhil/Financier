@@ -46,7 +46,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(userDatabase.getEmailColumn(), user.getEmail());
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
-        values.put(userDatabase.getFirestoreIDColumn(), user.getFirestoreID());
         values.put(userDatabase.getMaxIncomeColumn(), user.getMaxIncome());
 
         // FIXME: 18-02-2020 Update to add expenditures
@@ -73,8 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(userDatabase.getEmailColumn())),
                         cursor.getString(cursor.getColumnIndex(userDatabase.getPhoneColumn())),
                         cursor.getString(cursor.getColumnIndex(userDatabase.getPasswordColumn())),
-                        cursor.getDouble(cursor.getColumnIndex(userDatabase.getMaxIncomeColumn())),
-                        cursor.getString(cursor.getColumnIndex(userDatabase.getFirestoreIDColumn()))
+                        cursor.getDouble(cursor.getColumnIndex(userDatabase.getMaxIncomeColumn()))
                 );
             } while (cursor.moveToNext());
         }

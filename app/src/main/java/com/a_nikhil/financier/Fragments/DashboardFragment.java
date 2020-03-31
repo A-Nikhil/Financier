@@ -46,7 +46,7 @@ public class DashboardFragment extends Fragment {
         Objects.requireNonNull(getActivity()).setTitle("Your Dashboard");
         Log.d(TAG, "onCreateView: Dashboard Fragment Called");
         assert this.getArguments() != null;
-        String userFirestoreId = this.getArguments().getString("firestoreId");
+        String userFirestoreId = this.getArguments().getString("email");
         Log.d("posty", "DashFrag : " + userFirestoreId);
 //        String userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
 
@@ -105,9 +105,6 @@ public class DashboardFragment extends Fragment {
                             break;
                         case "password":
                             user.setPassword(entry.getValue().toString());
-                            break;
-                        case "firestoreid":
-                            user.setFirestoreID(entry.getValue().toString());
                             break;
                         case "email":
                             user.setEmail(entry.getValue().toString());

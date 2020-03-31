@@ -31,10 +31,10 @@ public class SettingsActivity extends AppCompatActivity {
                 DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                 User user = db.getUserData();
                 user.setMaxIncome(amount);
-                db.updateMaxIncome(amount, user.getFirestoreID());
+                db.updateMaxIncome(amount, user.getEmail());
 
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                firestore.collection("users").document(user.getFirestoreID())
+                firestore.collection("users").document(user.getEmail())
                         .update("maxIncome", amount);
 
                 Toast.makeText(SettingsActivity.this, "Updated", Toast.LENGTH_SHORT).show();
