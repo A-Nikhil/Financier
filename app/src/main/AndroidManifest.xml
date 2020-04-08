@@ -28,8 +28,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Partial" />
         <activity
             android:name=".SignupActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Partial">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Partial" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">

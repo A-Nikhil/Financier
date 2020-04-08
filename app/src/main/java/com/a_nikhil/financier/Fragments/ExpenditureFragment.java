@@ -72,6 +72,7 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         userEmail = this.getArguments().getString("email");
         DatabaseHelper db = new DatabaseHelper(getActivity());
         username = db.getUserData().getName();
+        getActivity().setTitle("Expenditures");
         maxIncome = db.getUserData().getMaxIncome().toString();
 
         Toast.makeText(getActivity(), userEmail, Toast.LENGTH_SHORT).show();

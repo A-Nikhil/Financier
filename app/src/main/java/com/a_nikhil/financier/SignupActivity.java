@@ -55,42 +55,27 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        final String name = ((EditText) findViewById(R.id.username)).getText().toString();
-        final String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
-        final String password = ((EditText) findViewById(R.id.password)).getText().toString();
-        final String confirmPassword = ((EditText) findViewById(R.id.confirmPassword)).getText().toString();
-        final String maxIncome = ((EditText) findViewById(R.id.signupMonthlyIncome)).getText().toString();
+        final EditText fieldName = findViewById(R.id.username);
+        final EditText fieldPhone = findViewById(R.id.phone);
+        final EditText fieldPassword = findViewById(R.id.password);
+        final EditText fieldConfirmPassword = findViewById(R.id.confirmPassword);
+        final EditText fieldMaxIncome = findViewById(R.id.signupMonthlyIncome);
         final boolean termsAreChecked = ((CheckBox) findViewById(R.id.TermsAndConditions)).isChecked();
+
+        final String name = fieldName.getText().toString();
+        final String phone = fieldPhone.getText().toString();
+        final String password = fieldPassword.getText().toString();
+        final String confirmPassword = fieldConfirmPassword.getText().toString();
+        final String maxIncome = fieldMaxIncome.getText().toString();
 
         final EditText emailText = findViewById(R.id.email);
         final String email = emailText.getText().toString();
 
-        try {
-            if (name.length() == 0) {
-                throw new Exception("Name cannot be empty");
-            } else if (!name.matches("^[A-Za-z ]*$")) {
-                throw new Exception("Name can only contain Alphabets and Spaces");
-            } else if (email.length() == 0) {
-                throw new Exception("Email cannot be empty");
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                throw new Exception("Please enter a valid email address");
-            } else if (phone.length() == 0) {
-                throw new Exception("Phone cannot be empty");
-            } else if (!Patterns.PHONE.matcher(phone).matches()) {
-                throw new Exception("Invalid phone number");
-            } else if (password.length() == 0) {
-                throw new Exception("Password cannot be empty");
-            } else if (!password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
-                throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
-            } else if (!password.equals(confirmPassword)) {
-                throw new Exception("Passwords don't match");
-            } else if (maxIncome.length() == 0) {
-                throw new Exception("Income cannot be zero");
-            } else if (!termsAreChecked) {
-                throw new Exception("Please agree to terms and conditions");
-            }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        if (!validateCredentials(name, email, phone, password,
+                confirmPassword, maxIncome,
+                fieldName, fieldPhone, emailText,
+                fieldPassword, fieldConfirmPassword, fieldMaxIncome,
+                termsAreChecked)) {
             return;
         }
 
@@ -174,6 +159,76 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private boolean validateCredentials(String name, String email, String phone, String password,
+                                        String confirmPassword, String maxIncome,
+                                        EditText fieldName, EditText fieldPhone, EditText fieldEmail,
+                                        EditText fieldPassword, EditText fieldConfirmPassword,
+                                        EditText fieldMaxIncome, boolean termsAreChecked) {
+
+        removeTintFromEditText(fieldName);
+        removeTintFromEditText(fieldEmail);
+        removeTintFromEditText(fieldPhone);
+        removeTintFromEditText(fieldPassword);
+        removeTintFromEditText(fieldConfirmPassword);
+        removeTintFromEditText(fieldMaxIncome);
+
+        try {
+            if (name.length() == 0) {
+                setTintOnEditText(fieldName);
+                throw new Exception("Name cannot be empty");
+            } else if (!name.matches("^[A-Za-z ]*$")) {
+                setTintOnEditText(fieldName);
+                throw new Exception("Name can only contain Alphabets and Spaces");
+            } else if (email.length() == 0) {
+                setTintOnEditText(fieldEmail);
+                throw new Exception("Email cannot be empty");
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                setTintOnEditText(fieldEmail);
+                throw new Exception("Please enter a valid email address");
+            } else if (phone.length() == 0) {
+                setTintOnEditText(fieldPhone);
+                throw new Exception("Phone cannot be empty");
+            } else if (!Patterns.PHONE.matcher(phone).matches()) {
+                setTintOnEditText(fieldPhone);
+                throw new Exception("Invalid phone number");
+            } else if (password.length() == 0) {
+                setTintOnEditText(fieldPassword);
+                throw new Exception("Password cannot be empty");
+            } else if (!password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
+                setTintOnEditText(fieldPassword);
+                throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
+            } else if (!password.equals(confirmPassword)) {
+                setTintOnEditText(fieldConfirmPassword);
+                throw new Exception("Passwords don't match");
+            } else if (maxIncome.length() == 0) {
+                setTintOnEditText(fieldMaxIncome);
+                throw new Exception("Income cannot be zero");
+            } else if (!termsAreChecked) {
+                throw new Exception("Please agree to terms and conditions");
+            }
+            return true;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    private void setTintOnEditText(EditText textField) {
+        DrawableCompat.setTint(textField.getBackground(),
+                ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
+
+        // setting Text Color
+        textField.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
+    }
+
+    private void removeTintFromEditText(EditText textField) {
+        DrawableCompat.setTint(textField.getBackground(),
+                ContextCompat.getColor(getApplicationContext(), R.color.accent));
+
+        // setting Text Color
+        textField.setTextColor(getColor(R.color.black));
     }
 
 }

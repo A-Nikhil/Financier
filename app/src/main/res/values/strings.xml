@@ -21,7 +21,7 @@
     <string name="hint_signup_name">Enter your name here</string>
     <string name="hint_signup_email">Enter your email address here</string>
     <string name="hint_signup_pno">Type in your phone number</string>
-    <string name="hint_signup_pass">Type in your password</string>
+    <string name="hint_signup_pass">Type in your password, 8 or more chars</string>
     <string name="password_directions">Password must contain 1 uppercase, 1 lowercase and 1 digit</string>
     <string name="hint_signup_confirm_pass">Retype your password</string>
     <string name="t_and_c">I agree to Financier\'s Terms and Conditions</string>
