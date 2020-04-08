@@ -2,7 +2,6 @@ package com.a_nikhil.financier;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,9 +36,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        String firestoreId = Objects.requireNonNull(getIntent().getExtras()).getString("email");
-        Log.d("posty", "Dash : " + firestoreId);
-//        String firestoreId = "zi16pAymAnxAF8u5C2Bu";
+        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,7 +59,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        myBundle.putString("firestoreId", firestoreId);
+        myBundle.putString("email", email);
 
         if (savedInstanceState == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();

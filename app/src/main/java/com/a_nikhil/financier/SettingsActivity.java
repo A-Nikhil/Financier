@@ -15,11 +15,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsActivity";
+    private String collection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        collection = getResources().getString(R.string.collection);
 
         // Update Button
         (findViewById(R.id.updateIncomeButton)).setOnClickListener(new View.OnClickListener() {
@@ -34,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
                 db.updateMaxIncome(amount, user.getEmail());
 
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                firestore.collection("users").document(user.getEmail())
+                firestore.collection(collection).document(user.getEmail())
                         .update("maxIncome", amount);
 
                 Toast.makeText(SettingsActivity.this, "Updated", Toast.LENGTH_SHORT).show();

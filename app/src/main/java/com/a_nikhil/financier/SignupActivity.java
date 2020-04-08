@@ -23,13 +23,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Collections;
-
 public class SignupActivity extends AppCompatActivity {
+
+    private String collection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         ActionBar bar = getActionBar();
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
+        collection = getString(R.string.collection);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,7 +105,6 @@ public class SignupActivity extends AppCompatActivity {
                             ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
                     emailText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Callback : Email does not exist", Toast.LENGTH_SHORT).show();
 
                     // FIXME: 01-04-2020 Add Signup here
                     User user = new User(name, email, phone, password,
@@ -118,7 +117,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void registerNewUser(final FirebaseFirestore db, final User user) {
-        final String collection = "testCollection";
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
                 .document(user.getEmail())
@@ -128,23 +126,15 @@ public class SignupActivity extends AppCompatActivity {
                     public void onSuccess(Void avoid) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
 
-                        // CHECKPOINT: Add ID to user object
-//                        user.setFirestoreID(documentReference.getId());
-//
-//                        // CHECKPOINT: Add Firestore ID to user
-//                        db.collection(collection).document(documentReference.getId())
-//                                .update("firestoreID", documentReference.getId(),
-//                                        "expenditures", Collections.emptyList());
-
                         // CHECKPOINT: Send to cache (local db)
-//                        addToCache(user, localDB);
-//
-//                        // CHECKPOINT: Send intent to dashboard
-//                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
-//                        Bundle myBundle = new Bundle();
-//                        myBundle.putString("firestoreId", documentReference.getId());
-//                        intent.putExtras(myBundle);
-//                        startActivity(intent);
+                        addToCache(user, localDB);
+
+                        // CHECKPOINT: Send intent to dashboard
+                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
+                        Bundle myBundle = new Bundle();
+                        myBundle.putString("email", user.getEmail());
+                        intent.putExtras(myBundle);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -176,6 +166,7 @@ public class SignupActivity extends AppCompatActivity {
                         boolean exists = false;
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
+                            assert document != null;
                             if (document.exists()) {
                                 exists = true;
                             }

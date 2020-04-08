@@ -1,5 +1,8 @@
 <resources>
 
+    <!-- Constants -->
+    <string name="collection">users1</string>
+
     <!-- Extras -->
     <string name="loremIpsumDolores">Lorem Ipsum Dolores</string>
     <string name="exampleEmail">me@example.com</string>

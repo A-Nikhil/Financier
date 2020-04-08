@@ -37,6 +37,7 @@ import java.util.Objects;
 public class DashboardFragment extends Fragment {
 
     private static final String TAG = "DashboardFragment";
+    private String collection;
 
     @Nullable
     @Override
@@ -46,27 +47,29 @@ public class DashboardFragment extends Fragment {
         Objects.requireNonNull(getActivity()).setTitle("Your Dashboard");
         Log.d(TAG, "onCreateView: Dashboard Fragment Called");
         assert this.getArguments() != null;
-        String userFirestoreId = this.getArguments().getString("email");
-        Log.d("posty", "DashFrag : " + userFirestoreId);
-//        String userFirestoreId = "zi16pAymAnxAF8u5C2Bu";
+        String userEmail = this.getArguments().getString("email");
+        Log.d(TAG, "onCreateView: " + userEmail);
+
+        collection = getResources().getString(R.string.collection);
 
         // Progress Bar
-        setDashboard(myView, userFirestoreId, getActivity());
+        setDashboard(myView, userEmail, getActivity());
         return myView;
     }
 
-    private void setDashboard(final View rootView, final String userFirestoreId, final Activity activity) {
+    private void setDashboard(final View rootView, final String userEmail, final Activity activity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setCancelable(false); // if you want user to wait for some process to finish,
         builder.setView(R.layout.progress_circle);
         final AlertDialog dialog = builder.create();
         dialog.show();
-        getUserDetails(db, userFirestoreId, new DashboardCallback() {
+        getUserDetails(db, userEmail, new DashboardCallback() {
             @Override
             public void onCallback(HashMap<String, Object> expenditures) {
                 User user = new User();
                 ArrayList<Expenditure> expendituresList = new ArrayList<>();
+                Log.d(TAG, "onCallback: " + expenditures.toString());
                 for (Map.Entry<String, Object> entry : expenditures.entrySet()) {
                     String key = entry.getKey().toLowerCase();
                     switch (key) {
@@ -211,7 +214,7 @@ public class DashboardFragment extends Fragment {
         }
     }
 
-    private class DataHandler {
+    private static class DataHandler {
         private ArrayList<Expenditure> expenditureList;
         private double maxIncome;
         Category topCategory;
@@ -291,8 +294,8 @@ public class DashboardFragment extends Fragment {
     }
 
     // CHECKPOINT: Getting Data from FirebaseFirestore
-    private void getUserDetails(FirebaseFirestore db, String userFirestoreId, final DashboardCallback callback) {
-        db.collection("users").document(userFirestoreId)
+    private void getUserDetails(FirebaseFirestore db, String userEmail, final DashboardCallback callback) {
+        db.collection(collection).document(userEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

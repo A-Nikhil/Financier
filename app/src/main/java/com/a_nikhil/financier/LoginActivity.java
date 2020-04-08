@@ -18,14 +18,16 @@ import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private String collection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar bar = getActionBar();
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
+
+        collection = getResources().getString(R.string.collection);
 
     }
 
@@ -55,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         final String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
         final String password = ((EditText) findViewById(R.id.login_password)).getText().toString();
         // CHECKPOINT: Validate Inputs
+
         try {
             if (email.length() == 0) {
                 throw new Exception("Email cannot be empty");
@@ -68,27 +73,24 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
         final LoginActivity activityObject = new LoginActivity();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
-        getUserData(db, new LoginCallback() {
+        getUserData(db, email, password, new LoginCallback() {
             @Override
-            public void onCallback(HashMap<String, Map<String, Object>> userList) {
+            public void onCallback(User user) {
                 // CHECKPOINT: Performing validation
                 Log.d("clickLogin", "onCallback: Going to performLogin()");
-                User returnedUser = activityObject.performLogin(email, password, userList);
-                if (returnedUser != null) {
-                    Toast.makeText(getApplicationContext(), "Hello " + returnedUser.getName(), Toast.LENGTH_SHORT).show();
-                    Log.d("posty", "onCallback: " + returnedUser.getName());
+                if (user != null) {
+                    Toast.makeText(getApplicationContext(), "Hello " + user.getName(), Toast.LENGTH_SHORT).show();
 
                     // CHECKPOINT: Adding to local DB
-                    activityObject.addToCache(returnedUser, localDB);
+                    activityObject.addToCache(user, localDB);
 
                     // CHECKPOINT: Send intent to dashboard
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     Bundle myBundle = new Bundle();
-                    myBundle.putString("", returnedUser.getEmail());
+                    myBundle.putString("email", user.getEmail());
                     intent.putExtras(myBundle);
                     startActivity(intent);
                 } else {
@@ -99,23 +101,37 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void getUserData(FirebaseFirestore db, final LoginCallback loginCallback) {
-        db.collection("users")
+    private void getUserData(FirebaseFirestore db, final String email, final String password,
+                             final LoginCallback loginCallback) {
+        db.collection(collection)
+                .document(email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            if (task.getResult() != null) {
-                                HashMap<String, Map<String, Object>> userList = new HashMap<>();
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d("LoginWindow", document.getId() + " => " + document.getData());
-                                    userList.put(document.getId(), document.getData());
-                                    Log.d("LoginWindow", document.getData().toString());
+                            DocumentSnapshot document = task.getResult();
+                            assert document != null;
+                            if (document.exists()) {
+                                Map<String, Object> userWithEmail = document.getData();
+                                assert userWithEmail != null;
+                                if (Objects.equals(userWithEmail.get("password"), password)) {
+                                    String data = email + " => " + password;
+                                    Toast.makeText(LoginActivity.this, data, Toast.LENGTH_SHORT).show();
+
+                                    // CHECKPOINT: User exists
+                                    User user = new User(
+                                            String.valueOf(userWithEmail.get("name")),
+                                            String.valueOf(userWithEmail.get("email")),
+                                            String.valueOf(userWithEmail.get("phone")),
+                                            String.valueOf(userWithEmail.get("password")),
+                                            Double.parseDouble(String.valueOf(userWithEmail.get("maxIncome")))
+                                    );
+
+                                    loginCallback.onCallback(user);
                                 }
-                                loginCallback.onCallback(userList);
                             } else {
-                                Log.d("LoginWindow", "Error getting results: ", task.getException());
+                                Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Log.d("LoginWindow", "Error getting documents: ", task.getException());
@@ -125,41 +141,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private interface LoginCallback {
-        void onCallback(HashMap<String, Map<String, Object>> userList);
-    }
-
-    private User performLogin(String email, String password, HashMap<String, Map<String, Object>> userList) {
-        User finalUser = new User(), tempUser;
-        boolean userFound = false;
-        Log.d("performLogin", "Size = " + userList.size());
-        for (Map.Entry<String, Map<String, Object>> entry1 : userList.entrySet()) {
-            tempUser = new User();
-            for (Map.Entry<String, Object> entry2 : entry1.getValue().entrySet()) {
-                if (entry2.getKey().equals("name")) {
-                    tempUser.setName(entry2.getValue().toString());
-                }
-                if (entry2.getKey().equals("email")) {
-                    tempUser.setEmail(entry2.getValue().toString());
-                }
-                if (entry2.getKey().equals("password")) {
-                    tempUser.setPassword(entry2.getValue().toString());
-                }
-                if (entry2.getKey().equals("phone")) {
-                    tempUser.setPhone(entry2.getValue().toString());
-                }
-            }
-            Log.d("performLogin", "performLogin: " + tempUser.toString());
-            if (tempUser.getEmail().equals(email) && tempUser.getPassword().equals(password)) {
-                userFound = true;
-                finalUser = tempUser;
-                break;
-            }
-        }
-        if (userFound) {
-            return finalUser;
-        } else {
-            return null;
-        }
+        void onCallback(User user);
     }
 
     // CHECKPOINT: Adding the current logged in user to local db
