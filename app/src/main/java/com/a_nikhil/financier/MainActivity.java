@@ -6,6 +6,9 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Button login = findViewById(R.id.log_sgn);
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        // FIXME: 04-05-2020 Adding Firebase Authentication
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            // Move to dashboard
+            startActivity(new Intent(MainActivity.this, Dashboard.class));
+        } // else => Stay as is
     }
 
     public void gotoLogin(View v) {
