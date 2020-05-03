@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -102,6 +103,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void registerNewUser(final FirebaseFirestore db, final User user) {
+        addFirebaseUser(user.getEmail(), user.getPassword());
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
                 .document(user.getEmail())
@@ -128,6 +130,12 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // CHECKPOINT: Adding Firebase Authentication
+    private void addFirebaseUser(String email, String password) {
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(email, password);
     }
 
     // CHECKPOINT: Adding the current signed in user to local db
