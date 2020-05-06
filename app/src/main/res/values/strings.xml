@@ -85,8 +85,8 @@
     <string name="wipeDataCleanTitle">Wipe Data Clean</string>
     <string name="wipeDataCleanText">This would clear your data from the local database.\nYou will be <b><u><i>logged out</i></u></b> of the app.\nSure to Proceed?</string>
     <string name="wipeDataCleanButton">Wipe Data</string>
-    <string name="switchToDarkYes">Switch to Dark Mode</string>
-    <string name="switchToDarkButton">Go Dark</string>
+    <string name="emailVerified">Verify your email</string>
+    <string name="verifyEmailButton">Verify</string>
 
     <!-- Dashboard text -->
     <string name="helloUser">Hello <b>John Doe</b></string>

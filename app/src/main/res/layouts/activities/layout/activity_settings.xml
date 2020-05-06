@@ -19,7 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:importantForAutofill="no"
         android:id="@+id/updateIncomeAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +26,7 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="@string/updateIncomeAmount"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/updateIncomeTitle" />
@@ -87,12 +87,12 @@
         android:id="@+id/wipeDataCleanButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="7dp"
         android:backgroundTint="#f00"
         android:text="@string/wipeDataCleanButton"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emailVerifyText"
         app:layout_constraintTop_toBottomOf="@+id/wipeDataCleanText" />
 
     <View
@@ -102,32 +102,32 @@
         android:layout_marginTop="21dp"
         android:layout_marginBottom="22dp"
         android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/switchToDarkYes"
+        app:layout_constraintBottom_toTopOf="@+id/emailVerifyText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wipeDataCleanButton" />
 
     <TextView
-        android:id="@+id/switchToDarkYes"
+        android:id="@+id/emailVerifyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="44dp"
-        android:text="@string/switchToDarkYes"
+        android:text="@string/emailVerified"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wipeDataCleanButton" />
 
     <Button
-        android:id="@+id/switchToDarkButton"
+        android:id="@+id/emailVerifiedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:text="@string/switchToDarkButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchToDarkYes" />
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="9dp"
+        android:text="@string/verifyEmailButton"
+        app:layout_constraintStart_toEndOf="@+id/emailVerifyText"
+        app:layout_constraintTop_toBottomOf="@+id/emailVerifyText" />
 
     <View
         android:id="@+id/divider3"

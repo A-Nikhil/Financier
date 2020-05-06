@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -49,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (new DatabaseHelper(getApplicationContext()).wipeClean()) {
+                    FirebaseAuth.getInstance().signOut();
                     Log.d(TAG, "onClick: wipe clean works");
                 } else {
                     Log.d(TAG, "onClick: wipe clean sucked");
@@ -56,6 +60,25 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Add Dark Mode Button
+        // Email Verification
+        (findViewById(R.id.emailVerifiedButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    if (user.isEmailVerified()) {
+                        Toast.makeText(SettingsActivity.this, "Email Already Verified", Toast.LENGTH_SHORT).show();
+                    } else {
+                        user.sendEmailVerification()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(SettingsActivity.this, "Email sent", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
+            }
+        });
     }
 }
