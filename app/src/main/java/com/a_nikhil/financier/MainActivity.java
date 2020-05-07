@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,12 +16,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // FIXME: 04-05-2020 Adding Firebase Authentication
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance().signOut();
+        /*FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             // Move to dashboard
             startActivity(new Intent(MainActivity.this, Dashboard.class));
-        } // else => Stay as is
+        } // else => Stay as is*/
     }
 
     public void gotoLogin(View v) {

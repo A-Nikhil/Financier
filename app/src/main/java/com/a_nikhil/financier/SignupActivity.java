@@ -19,12 +19,12 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
@@ -81,29 +81,23 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        getEmailData(db, email, new TestingCallback() {
-            @Override
-            public void testingCallback(boolean exists) {
-                if (exists) {
-                    Toast.makeText(getApplicationContext(), "Callback : Email exists", Toast.LENGTH_SHORT).show();
-                    // make edit text red
-                    DrawableCompat.setTint(emailText.getBackground(),
-                            ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
-                    emailText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
-                } else {
-
-                    // FIXME: 01-04-2020 Add Signup here
-                    User user = new User(name, email, phone, password,
-                            Double.parseDouble(maxIncome));
-                    registerNewUser(db, user);
-                }
-            }
-        });
+        User user = new User(name, email, phone, password,
+                Double.parseDouble(maxIncome));
+        addFirebaseUser(email, password, user, db, emailText);
 
     }
 
     public void registerNewUser(final FirebaseFirestore db, final User user) {
-        addFirebaseUser(user.getEmail(), user.getPassword());
+
+        // setting User Basic Details
+        FirebaseUser FbUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (FbUser != null) {
+            UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(user.getName())
+                    .build();
+            FbUser.updateProfile(request);
+        }
+
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         db.collection(collection)
                 .document(user.getEmail())
@@ -133,9 +127,25 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     // CHECKPOINT: Adding Firebase Authentication
-    private void addFirebaseUser(String email, String password) {
+    private void addFirebaseUser(String email, String password,
+                                 final User user, final FirebaseFirestore db,
+                                 final EditText emailText) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(email, password);
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(SignupActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                        registerNewUser(db, user);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignupActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                        new SignupActivity().setTintOnEditText(emailText);
+                    }
+                });
     }
 
     // CHECKPOINT: Adding the current signed in user to local db
@@ -143,30 +153,6 @@ public class SignupActivity extends AppCompatActivity {
         if (db.insertUser(user)) {
             Log.d("Signup Activity", "Added to cache");
         }
-    }
-
-    private interface TestingCallback {
-        void testingCallback(boolean exists);
-    }
-
-    private void getEmailData(FirebaseFirestore db, String givenEmail, final TestingCallback callback) {
-        // FIXME: 01-04-2020 Change collection to users
-        db.collection("testCollection").document(givenEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        boolean exists = false;
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            assert document != null;
-                            if (document.exists()) {
-                                exists = true;
-                            }
-                            callback.testingCallback(exists);
-                        }
-                    }
-                });
     }
 
     private boolean validateCredentials(String name, String email, String phone, String password,
