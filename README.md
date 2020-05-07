@@ -1,4 +1,4 @@
-# Money Manager
+# Financier
 
 ## Platform : Android
 ### Status : Incomplete
