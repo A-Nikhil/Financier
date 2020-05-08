@@ -15,10 +15,6 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        setTitle("About");
-        ActionBar bar = getActionBar();
-        assert bar != null;
-        bar.setDisplayHomeAsUpEnabled(true);
 
     }
 

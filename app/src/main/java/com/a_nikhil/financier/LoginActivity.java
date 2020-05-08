@@ -17,12 +17,16 @@ import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar bar = getActionBar();
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
-
         collection = getResources().getString(R.string.collection);
 
     }
@@ -73,36 +76,43 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        // FIXME: 09-05-2020 Trying out new login
         final LoginActivity activityObject = new LoginActivity();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
-        getUserData(db, email, password, new LoginCallback() {
-            @Override
-            public void onCallback(User user) {
-                // CHECKPOINT: Performing validation
-                Log.d("clickLogin", "onCallback: Going to performLogin()");
-                if (user != null) {
-                    Toast.makeText(getApplicationContext(), "Hello " + user.getName(), Toast.LENGTH_SHORT).show();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        FirebaseUser firestoreUser = auth.getCurrentUser();
+                        if (firestoreUser != null) {
+                            Toast.makeText(getApplicationContext(), "Hello " + firestoreUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            getUserData(db, firestoreUser.getEmail(), new LoginCallback() {
+                                @Override
+                                public void onCallback(User user) {
+                                    activityObject.addToCache(user, localDB);
+                                    // CHECKPOINT: Send intent to dashboard
+                                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                                    Bundle myBundle = new Bundle();
+                                    myBundle.putString("email", user.getEmail());
+                                    intent.putExtras(myBundle);
+                                    startActivity(intent);
+                                }
+                            });
 
-                    // CHECKPOINT: Adding to local DB
-                    activityObject.addToCache(user, localDB);
-
-                    // CHECKPOINT: Send intent to dashboard
-                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                    Bundle myBundle = new Bundle();
-                    myBundle.putString("email", user.getEmail());
-                    intent.putExtras(myBundle);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Invalid username/password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-
-    private void getUserData(FirebaseFirestore db, final String email, final String password,
-                             final LoginCallback loginCallback) {
+    private void getUserData(FirebaseFirestore db, final String email, final LoginCallback loginCallback) {
         db.collection(collection)
                 .document(email)
                 .get()
@@ -115,21 +125,16 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists()) {
                                 Map<String, Object> userWithEmail = document.getData();
                                 assert userWithEmail != null;
-                                if (Objects.equals(userWithEmail.get("password"), password)) {
-                                    String data = email + " => " + password;
-                                    Toast.makeText(LoginActivity.this, data, Toast.LENGTH_SHORT).show();
+                                // CHECKPOINT: User exists
+                                User user = new User(
+                                        String.valueOf(userWithEmail.get("name")),
+                                        String.valueOf(userWithEmail.get("email")),
+                                        String.valueOf(userWithEmail.get("phone")),
+                                        String.valueOf(userWithEmail.get("password")),
+                                        Double.parseDouble(String.valueOf(userWithEmail.get("maxIncome")))
+                                );
 
-                                    // CHECKPOINT: User exists
-                                    User user = new User(
-                                            String.valueOf(userWithEmail.get("name")),
-                                            String.valueOf(userWithEmail.get("email")),
-                                            String.valueOf(userWithEmail.get("phone")),
-                                            String.valueOf(userWithEmail.get("password")),
-                                            Double.parseDouble(String.valueOf(userWithEmail.get("maxIncome")))
-                                    );
-
-                                    loginCallback.onCallback(user);
-                                }
+                                loginCallback.onCallback(user);
                             } else {
                                 Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                             }

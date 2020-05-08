@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.a_nikhil.financier.MainActivity;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LogoutDialog extends AppCompatDialogFragment {
 
@@ -34,6 +35,7 @@ public class LogoutDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 db.wipeClean();
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
