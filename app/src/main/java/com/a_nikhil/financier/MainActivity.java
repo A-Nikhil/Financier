@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // FIXME: 04-05-2020 Adding Firebase Authentication
+        // FIXME: 21-09-2020 Adding Firebase Authentication
         FirebaseAuth.getInstance().signOut();
         /*FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
