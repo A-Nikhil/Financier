@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginEnd="19dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="@string/singleExpenditureTitle"
@@ -54,20 +54,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/singleExpenditureTitle" />
 
-    <TextView
-        android:id="@+id/singleExpenditurePercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginBottom="9dp"
-        android:text="@string/singleExpenditurePercentage"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureBar"
-        app:layout_constraintEnd_toEndOf="@+id/singleExpenditureDate"
-        app:layout_constraintStart_toStartOf="@+id/singleExpenditureBar" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/singleExpenditurePercentage"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/singleExpenditurePercentage"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="184dp"-->
+    <!--        tools:layout_editor_absoluteY="332dp" />-->
 
     <TextView
         android:id="@+id/singleExpenditureDate"
@@ -75,40 +71,43 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="87dp"
+        android:layout_marginBottom="34dp"
         android:text="@string/singleExpenditureDate"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureBar"
+        app:layout_constraintBottom_toTopOf="@+id/anyChartView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/singleExpenditureCategory" />
 
-    <ProgressBar
-        android:id="@+id/singleExpenditureBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/singleExpenditureBar"-->
+    <!--        style="?android:attr/progressBarStyleHorizontal"-->
+    <!--        android:layout_width="373dp"-->
+    <!--        android:layout_height="4dp"-->
+    <!--        android:progress="25"-->
+    <!--        tools:layout_editor_absoluteX="19dp"-->
+    <!--        tools:layout_editor_absoluteY="368dp" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/singleExpenditureTotalIncome"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:text="@string/singleExpenditureTotalIncome"-->
+    <!--        tools:layout_editor_absoluteX="48dp"-->
+    <!--        tools:layout_editor_absoluteY="384dp" />-->
+
+    <com.anychart.AnyChartView
+        android:id="@+id/anyChartView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="12dp"
-        android:progress="25"
-        app:layout_constraintBottom_toTopOf="@+id/singleExpenditureTotalIncome"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/singleExpenditureDate" />
-
-    <TextView
-        android:id="@+id/singleExpenditureTotalIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginBottom="328dp"
-        android:gravity="center_horizontal"
-        android:text="@string/singleExpenditureTotalIncome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/singleExpenditureBar"
-        app:layout_constraintTop_toBottomOf="@+id/singleExpenditureBar" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
