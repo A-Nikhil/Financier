@@ -1,6 +1,7 @@
 package com.a_nikhil.financier;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.AddAndRemoveTints;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SignupActivity extends AppCompatActivity {
 
     private String collection;
+    private Context context;
+    private AddAndRemoveTints tints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class SignupActivity extends AppCompatActivity {
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
         collection = getString(R.string.collection);
+        tints = new AddAndRemoveTints();
+        context = getApplicationContext();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,7 +149,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(SignupActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
-                        new SignupActivity().setTintOnEditText(emailText);
+                        tints.setTintOnEditText(context, emailText);
                     }
                 });
     }
@@ -161,43 +167,43 @@ public class SignupActivity extends AppCompatActivity {
                                         EditText fieldPassword, EditText fieldConfirmPassword,
                                         EditText fieldMaxIncome, boolean termsAreChecked) {
 
-        removeTintFromEditText(fieldName);
-        removeTintFromEditText(fieldEmail);
-        removeTintFromEditText(fieldPhone);
-        removeTintFromEditText(fieldPassword);
-        removeTintFromEditText(fieldConfirmPassword);
-        removeTintFromEditText(fieldMaxIncome);
+        tints.removeTintFromEditText(context, fieldName);
+        tints.removeTintFromEditText(context, fieldEmail);
+        tints.removeTintFromEditText(context, fieldPhone);
+        tints.removeTintFromEditText(context, fieldPassword);
+        tints.removeTintFromEditText(context, fieldConfirmPassword);
+        tints.removeTintFromEditText(context, fieldMaxIncome);
 
         try {
             if (name.length() == 0) {
-                setTintOnEditText(fieldName);
+                tints.setTintOnEditText(context, fieldName);
                 throw new Exception("Name cannot be empty");
             } else if (!name.matches("^[A-Za-z ]*$")) {
-                setTintOnEditText(fieldName);
+                tints.setTintOnEditText(context, fieldName);
                 throw new Exception("Name can only contain Alphabets and Spaces");
             } else if (email.length() == 0) {
-                setTintOnEditText(fieldEmail);
+                tints.setTintOnEditText(context, fieldEmail);
                 throw new Exception("Email cannot be empty");
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                setTintOnEditText(fieldEmail);
+                tints.setTintOnEditText(context, fieldEmail);
                 throw new Exception("Please enter a valid email address");
             } else if (phone.length() == 0) {
-                setTintOnEditText(fieldPhone);
+                tints.setTintOnEditText(context, fieldPhone);
                 throw new Exception("Phone cannot be empty");
             } else if (!Patterns.PHONE.matcher(phone).matches()) {
-                setTintOnEditText(fieldPhone);
+                tints.setTintOnEditText(context, fieldPhone);
                 throw new Exception("Invalid phone number");
             } else if (password.length() == 0) {
-                setTintOnEditText(fieldPassword);
+                tints.setTintOnEditText(context, fieldPassword);
                 throw new Exception("Password cannot be empty");
             } else if (!password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,})")) {
-                setTintOnEditText(fieldPassword);
+                tints.setTintOnEditText(context, fieldPassword);
                 throw new Exception("Password must contain 1 uppercase, 1 lowercase and 1 digit");
             } else if (!password.equals(confirmPassword)) {
-                setTintOnEditText(fieldConfirmPassword);
+                tints.setTintOnEditText(context, fieldConfirmPassword);
                 throw new Exception("Passwords don't match");
             } else if (maxIncome.length() == 0) {
-                setTintOnEditText(fieldMaxIncome);
+                tints.setTintOnEditText(context, fieldMaxIncome);
                 throw new Exception("Income cannot be zero");
             } else if (!termsAreChecked) {
                 throw new Exception("Please agree to terms and conditions");
@@ -208,21 +214,4 @@ public class SignupActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    private void setTintOnEditText(EditText textField) {
-        DrawableCompat.setTint(textField.getBackground(),
-                ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
-
-        // setting Text Color
-        textField.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.duplicateEmail));
-    }
-
-    private void removeTintFromEditText(EditText textField) {
-        DrawableCompat.setTint(textField.getBackground(),
-                ContextCompat.getColor(getApplicationContext(), R.color.accent));
-
-        // setting Text Color
-        textField.setTextColor(getColor(R.color.black));
-    }
-
 }

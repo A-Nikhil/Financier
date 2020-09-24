@@ -1,6 +1,7 @@
 package com.a_nikhil.financier;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.AddAndRemoveTints;
 import com.a_nikhil.financier.commons.ConnectionStatus;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String collection;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
         collection = getResources().getString(R.string.collection);
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -59,16 +61,25 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        final String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
-        final String password = ((EditText) findViewById(R.id.login_password)).getText().toString();
-        // CHECKPOINT: Validate Inputs
+        final AddAndRemoveTints tints = new AddAndRemoveTints();
+        final Context context = getApplicationContext();
+        final EditText emailField = findViewById(R.id.login_email);
+        final String email = emailField.getText().toString();
+        final EditText passwordField = findViewById(R.id.login_password);
+        final String password = passwordField.getText().toString();
 
+        // CHECKPOINT: Validate Inputs
+        tints.removeTintFromEditText(context, emailField);
+        tints.removeTintFromEditText(context, passwordField);
         try {
             if (email.length() == 0) {
+                tints.setTintOnEditText(context, emailField);
                 throw new Exception("Email cannot be empty");
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                tints.setTintOnEditText(context, emailField);
                 throw new Exception("Please enter a valid email address");
             } else if (password.length() == 0) {
+                tints.setTintOnEditText(context, passwordField);
                 throw new Exception("Password cannot be empty");
             }
         } catch (Exception e) {
@@ -107,7 +118,9 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
+                        tints.setTintOnEditText(context, emailField);
+                        tints.setTintOnEditText(context, passwordField);
+                        Toast.makeText(LoginActivity.this, "Wrong Combination", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
