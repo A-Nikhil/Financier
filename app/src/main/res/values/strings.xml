@@ -68,7 +68,7 @@
     <string name="expenditureDate">Expenditure Date</string>
     <string name="expenditureAmount">Amount</string>
 
-    <!-- New Expenditure Layout -->
+    <!-- New Expenditure Dialog -->
     <string name="ExpenditureDialogTitle">Add New Expenditure</string>
     <string name="ExpenditureDialogMessage">Tell us what you spent on</string>
     <string name="ExpenditureDialogName">What did you spend on?</string>
@@ -77,6 +77,16 @@
     <string name="ExpenditureDialogTime">Enter the time (optional)</string>
     <string name="cancelAddNewExpenditure">Cancel</string>
     <string name="addNewExpenditure">Add</string>
+
+    <!-- New Expenditure Activity -->
+    <string name="ExpenditureActivityTitle">Add New Expenditure</string>
+    <string name="ExpenditureActivityMessage">Tell us what you spent on</string>
+    <string name="ExpenditureActivityName">What did you spend on?</string>
+    <string name="ExpenditureActivityAmount">Enter the amount</string>
+    <string name="ExpenditureActivityDate">Enter the date *</string>
+    <string name="ExpenditureActivityTime">Enter the time (optional)</string>
+    <string name="cancelAddNewExpenditureActivity">Cancel</string>
+    <string name="addNewExpenditureActivity">Add</string>
 
     <!-- Settings -->
     <string name="updateIncomeTitle">Update your monthly income</string>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewExpenditureActivity">
+
+    <TextView
+        android:id="@+id/NewExpenditureActivityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ExpenditureActivityTitle"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/NewExpenditureActivityMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ExpenditureActivityMessage"
+        android:textColor="#424949"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/NewExpenditureActivityName"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/NewExpenditureActivityName"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="67dp"
+        android:ems="10"
+        android:hint="@string/ExpenditureActivityName"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/NewExpenditureActivityAmount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/NewExpenditureActivityTitle" />
+
+
+    <EditText
+        android:id="@+id/NewExpenditureActivityDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="274dp"
+        android:ems="10"
+        android:hint="@string/ExpenditureActivityDate"
+        android:importantForAutofill="no"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cancelAddNewExpenditureActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="@string/cancelAddNewExpenditure"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addNewExpenditureActivity"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/addNewExpenditureActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="18dp"
+        android:backgroundTint="@color/accent"
+        android:text="@string/addNewExpenditure"
+        android:textColor="@color/primaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/cancelAddNewExpenditureActivity"
+        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureActivityDate" />
+
+    <EditText
+        android:id="@+id/NewExpenditureActivityAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="14dp"
+        android:ems="10"
+        android:hint="@string/ExpenditureActivityAmount"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="0dp"
+        android:layout_height="187dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="58dp"
+        app:chipSpacing="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/NewExpenditureActivityDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/NewExpenditureActivityAmount">
+
+        <!--        <com.google.android.material.chip.Chip-->
+        <!--            android:id="@+id/chip4"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="My Food"-->
+        <!--            style="@style/Widget.MaterialComponents.Chip.Entry"/>-->
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_1"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Boo" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_2"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Boo" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_3"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Boo" />
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
