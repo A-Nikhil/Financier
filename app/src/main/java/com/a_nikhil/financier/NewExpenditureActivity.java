@@ -15,8 +15,8 @@ public class NewExpenditureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_expenditure);
-        final ChipGroup chipGroup = findViewById(R.id.chipGroup);
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+        final ChipGroup chipGroup = findViewById(R.id.CategoriesChipGroup);
+        findViewById(R.id.addNewExpenditureActivity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int id = chipGroup.getCheckedChipId();

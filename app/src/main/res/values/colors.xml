@@ -13,6 +13,7 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="gray">#424949</color>
+    <color name="subtle_gray">#ebebeb</color>
 
     <color name="duplicateEmail">#E74C3C</color>
 </resources>
