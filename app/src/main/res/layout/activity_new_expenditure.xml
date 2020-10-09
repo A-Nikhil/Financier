@@ -212,7 +212,8 @@
         android:text="@string/addNewExpenditure"
         android:textColor="@color/primaryDark"
         app:layout_constraintEnd_toStartOf="@+id/cancelAddNewExpenditureActivity"
-        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureActivityDate" />
+        app:layout_constraintTop_toBottomOf="@+id/NewExpenditureActivityDate"
+        android:onClick="addNewExpenditure"/>
 
     <!-- Cancel Expenditure Button -->
     <Button
