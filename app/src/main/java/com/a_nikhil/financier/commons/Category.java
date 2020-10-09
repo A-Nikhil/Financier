@@ -3,16 +3,13 @@ package com.a_nikhil.financier.commons;
 public enum Category {
 
     FOOD("food", 1, 1),
-    RENT("rent", 1, 2),
-    MORTGAGE("mortgage", 1, 3),
-    HOUSEHOLD("household", 1, 4),
-    CASUAL("casual", 3, 5),
-    WORK("work", 1, 6),
-    OUTDOORS("outdoors", 2, 7),
-    RECREATION("recreation", 3, 8),
-    TRAVEL("travel", 2, 9),
-    STATIONARY("stationary", 1, 10),
-    EDUCATION("education", 1, 11);
+    HOUSEHOLD("household", 1, 2),
+    CASUAL("casual", 3, 3),
+    WORK("work", 1, 4),
+    AMENITIES("amenities", 2, 5),
+    RECREATION("recreation", 3, 6),
+    TRAVEL("travel", 2, 7),
+    EDUCATION("education", 1, 8);
 
     private String description;
     private int category;
@@ -37,8 +34,7 @@ public enum Category {
     }
 
     public Category getCategoryFromIndex(int index) {
-        Category[] myCategories = {FOOD, RENT, MORTGAGE, HOUSEHOLD, CASUAL, WORK, OUTDOORS,
-                RECREATION, TRAVEL, STATIONARY, EDUCATION};
+        Category[] myCategories = {FOOD, HOUSEHOLD, CASUAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
         return myCategories[index - 1];
     }
 }
