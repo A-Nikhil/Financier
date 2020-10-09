@@ -4,7 +4,7 @@ public enum Category {
 
     FOOD("food", 1, 1),
     HOUSEHOLD("household", 1, 2),
-    CASUAL("casual", 3, 3),
+    SOCIAL("social", 3, 3),
     WORK("work", 1, 4),
     AMENITIES("amenities", 2, 5),
     RECREATION("recreation", 3, 6),
@@ -34,7 +34,7 @@ public enum Category {
     }
 
     public Category getCategoryFromIndex(int index) {
-        Category[] myCategories = {FOOD, HOUSEHOLD, CASUAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
+        Category[] myCategories = {FOOD, HOUSEHOLD, SOCIAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
         return myCategories[index - 1];
     }
 }

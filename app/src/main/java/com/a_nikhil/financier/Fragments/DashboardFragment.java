@@ -233,7 +233,7 @@ public class DashboardFragment extends Fragment {
 
         void getData() {
             // Category Array
-            String[] myCategories = new String[]{"FOOD", "HOUSEHOLD", "CASUAL", "WORK", "AMENITIES", "RECREATION", "TRAVEL", "EDUCATION"};
+            String[] myCategories = new String[]{"FOOD", "HOUSEHOLD", "SOCIAL", "WORK", "AMENITIES", "RECREATION", "TRAVEL", "EDUCATION"};
 
             // expense array
             double[] expenses = new double[11];

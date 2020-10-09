@@ -121,6 +121,15 @@
     <string name="singleExpenditurePercentage">99 %</string>
     <string name="singleExpenditureDate">This Date</string>
 
+    <!-- Chip group -->
+    <string name="foodChip">Food</string>
+    <string name="householdChip">Household</string>
+    <string name="socialChip">Social</string>
+    <string name="workChip">Work</string>
+    <string name="amenitiesChip">Amenities</string>
+    <string name="recreationChip">Recreation</string>
+    <string name="travelChip">Travel</string>
+    <string name="educationChip">Education</string>
 
     <!-- Arrays -->
     <string-array name="categories">
