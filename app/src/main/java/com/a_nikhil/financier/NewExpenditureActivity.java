@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
+import com.a_nikhil.financier.Fragments.ExpenditureFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,10 +26,17 @@ public class NewExpenditureActivity extends AppCompatActivity {
     private static final String TAG = "NewExpenditureActivity";
 
     EditText dateEditText;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle emailBundle = getIntent().getExtras();
+        assert emailBundle != null;
+        userEmail = emailBundle.getString("email");
+        Toast.makeText(this, userEmail, Toast.LENGTH_SHORT).show();
+
         setContentView(R.layout.activity_new_expenditure);
         dateEditText = findViewById(R.id.NewExpenditureActivityDate);
 
@@ -54,9 +63,17 @@ public class NewExpenditureActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.addNewExpenditureActivity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewExpenditure(view);
+            }
+        });
     }
 
     public void addNewExpenditure(View v) {
+        Log.d(TAG, "addNewExpenditure: new expenditure");
         final EditText nameEditText = findViewById(R.id.NewExpenditureActivityName);
         final EditText amountEditText = findViewById(R.id.NewExpenditureActivityAmount);
         final Chip selectedCategory = findViewById(((ChipGroup) findViewById(R.id.CategoriesChipGroup)).getCheckedChipId());
@@ -67,11 +84,19 @@ public class NewExpenditureActivity extends AppCompatActivity {
         final String category = selectedCategory.getText().toString();
 
         if (performValidation(name, amount, date, category, v)) {
-            showStatusAsSnackbar("Expenditure Added", v);
+//            showStatusAsSnackbar("Expenditure Added", v);
+            Log.d(TAG, "addNewExpenditure: validation success");
+            Bundle bundle = new Bundle();
+            String[] data = new String[]{name, amount, date, category};
+            bundle.putStringArray("newExpenditureData", data);
+            bundle.putString("email", userEmail);
+            ExpenditureFragment fragmentObject = new ExpenditureFragment();
+            fragmentObject.setArguments(bundle);
         }
     }
 
     private boolean performValidation(String name, String amount, String date, String category, View v) {
+        Toast.makeText(this, "Inside validations", Toast.LENGTH_SHORT).show();
         try {
             if (name == null || name.length() == 0) {
                 throw new Exception("Please enter a valid title");

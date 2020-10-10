@@ -24,8 +24,9 @@ import com.a_nikhil.financier.Fragments.VisualizeFragment;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Objects;
+// import java.util.Objects;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,7 +37,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
+//        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
+
+        /* Uncomment for testing */
+        String email = "covid19@pandemic.org";
+
+        // */ Test section over
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
