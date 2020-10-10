@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
@@ -24,7 +25,6 @@ import com.a_nikhil.financier.Fragments.VisualizeFragment;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 // import java.util.Objects;
 
@@ -80,30 +80,32 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (menuItem.getItemId()) {
             case R.id.menu_dashboard:
                 DashboardFragment dashboardFragment = new DashboardFragment();
                 dashboardFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        dashboardFragment).commit();
+                transaction.replace(R.id.fragment_container,
+                        dashboardFragment).addToBackStack(null).commit();
+
                 break;
             case R.id.menu_expenditure:
                 ExpenditureFragment expenditureFragment = new ExpenditureFragment();
                 expenditureFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        expenditureFragment).commit();
+                transaction.replace(R.id.fragment_container,
+                        expenditureFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_visualize:
                 VisualizeFragment visualizeFragment = new VisualizeFragment();
                 visualizeFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        visualizeFragment).commit();
+                transaction.replace(R.id.fragment_container,
+                        visualizeFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_stats:
                 StatsFragment statsFragment = new StatsFragment();
                 statsFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        statsFragment).commit();
+                transaction.replace(R.id.fragment_container,
+                        statsFragment).addToBackStack(null).commit();
                 break;
             case R.id.cloud_download:
                 Toast.makeText(getApplicationContext(), "Downloaded from cloud", Toast.LENGTH_SHORT).show();
