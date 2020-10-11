@@ -2,6 +2,7 @@ package com.a_nikhil.financier;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragment;
@@ -25,18 +27,23 @@ import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Objects;
-
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private Bundle myBundle = new Bundle();
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
+        Bundle inputBundle = getIntent().getExtras();
+//        email = inputBundle.getString("email");
+
+        /* Uncomment for testing */
+        email = "covid19@pandemic.org";
+
+        // */ Test section over
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,44 +67,72 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
 
         myBundle.putString("email", email);
-
-        if (savedInstanceState == null) {
+        if (inputBundle == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();
             dashboardFragment.setArguments(myBundle);
+            myBundle.clear();
+            myBundle.putString("email", email);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     dashboardFragment).commit();
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                    new ExpenditureFragment()).commit();
-        }
-        navigationView.setCheckedItem(R.id.menu_dashboard);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.menu_dashboard:
+            navigationView.setCheckedItem(R.id.menu_dashboard);
+        } else {
+            if (inputBundle.containsKey("newExpenditurePresent")) {
+                boolean newExpenditurePresent = inputBundle.getBoolean("newExpenditurePresent");
+                Log.d("NewExpenditureActivity test", "onCreate: New Expenditure Present = " + newExpenditurePresent);
+                if (newExpenditurePresent) {
+                    String[] expenditureDetails = inputBundle.getStringArray("newExpenditureData");
+                    myBundle.putStringArray("newExpenditureData", expenditureDetails);
+                }
+                myBundle.putBoolean("newExpenditurePresent", newExpenditurePresent);
+                ExpenditureFragment expenditureFragment = new ExpenditureFragment();
+                expenditureFragment.setArguments(myBundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expenditureFragment).commit();
+                navigationView.setCheckedItem(R.id.menu_expenditure);
+            } else {
                 DashboardFragment dashboardFragment = new DashboardFragment();
                 dashboardFragment.setArguments(myBundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         dashboardFragment).commit();
+            }
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        switch (menuItem.getItemId()) {
+            case R.id.menu_dashboard:
+                DashboardFragment dashboardFragment = new DashboardFragment();
+                dashboardFragment.setArguments(myBundle);
+                myBundle.clear();
+                myBundle.putString("email", email);
+                transaction.replace(R.id.fragment_container,
+                        dashboardFragment).addToBackStack(null).commit();
+
                 break;
             case R.id.menu_expenditure:
                 ExpenditureFragment expenditureFragment = new ExpenditureFragment();
                 expenditureFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        expenditureFragment).commit();
+                myBundle.clear();
+                myBundle.putString("email", email);
+                transaction.replace(R.id.fragment_container,
+                        expenditureFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_visualize:
                 VisualizeFragment visualizeFragment = new VisualizeFragment();
                 visualizeFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        visualizeFragment).commit();
+                myBundle.clear();
+                myBundle.putString("email", email);
+                transaction.replace(R.id.fragment_container,
+                        visualizeFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_stats:
                 StatsFragment statsFragment = new StatsFragment();
                 statsFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        statsFragment).commit();
+                myBundle.clear();
+                myBundle.putString("email", email);
+                transaction.replace(R.id.fragment_container,
+                        statsFragment).addToBackStack(null).commit();
                 break;
             case R.id.cloud_download:
                 Toast.makeText(getApplicationContext(), "Downloaded from cloud", Toast.LENGTH_SHORT).show();
