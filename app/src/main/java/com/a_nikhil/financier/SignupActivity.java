@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.AddAndRemoveTints;

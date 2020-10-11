@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LogoutDialog extends AppCompatDialogFragment {
 
     private DatabaseHelper db;
+
     public LogoutDialog(DatabaseHelper db) {
         this.db = db;
     }

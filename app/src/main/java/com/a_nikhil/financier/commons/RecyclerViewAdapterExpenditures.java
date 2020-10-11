@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<RecyclerViewAdapterExpenditures.ViewHolder> {
 
+    private static final String TAG = "RecyclerViewAdapterExpenditures";
     private ArrayList<String> mExpenditureTitles, mExpenditureCategories, mExpenditureDates, mExpenditureAmounts;
     private String username;
     private Context mContext;
@@ -82,8 +83,6 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
     public int getItemCount() {
         return mExpenditureTitles.size();
     }
-
-    private static final String TAG = "RecyclerViewAdapterExpenditures";
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

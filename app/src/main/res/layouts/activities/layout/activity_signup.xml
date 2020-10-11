@@ -106,7 +106,6 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
-        android:importantForAutofill="no"
         android:id="@+id/signupMonthlyIncome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -115,6 +114,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/signupMonthlyIncome"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

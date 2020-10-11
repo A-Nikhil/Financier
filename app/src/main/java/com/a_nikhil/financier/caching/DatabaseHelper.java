@@ -14,8 +14,8 @@ import com.a_nikhil.financier.commons.User;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "financier";
+    private static int DATABASE_VERSION = 1;
     private final UserDatabase userDatabase = new UserDatabase();
     private final ExpenditureDatabase expenditureDatabase = new ExpenditureDatabase();
 

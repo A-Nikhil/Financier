@@ -8,7 +8,7 @@
         android:id="@+id/major_menu"
         android:icon="@drawable/ic_more_vert_black_24dp"
         android:title=""
-        app:showAsAction="ifRoom" >
+        app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/settings_dot_menu"

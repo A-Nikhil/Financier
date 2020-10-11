@@ -158,14 +158,14 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private interface LoginCallback {
-        void onCallback(User user);
-    }
-
     // CHECKPOINT: Adding the current logged in user to local db
     private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Login Activity", "Added to cache");
         }
+    }
+
+    private interface LoginCallback {
+        void onCallback(User user);
     }
 }

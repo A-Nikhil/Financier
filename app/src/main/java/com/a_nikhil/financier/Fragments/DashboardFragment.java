@@ -214,9 +214,29 @@ public class DashboardFragment extends Fragment {
         }
     }
 
+    // CHECKPOINT: Getting Data from FirebaseFirestore
+    private void getUserDetails(FirebaseFirestore db, String userEmail, final DashboardCallback callback) {
+        db.collection(collection).document(userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        HashMap<String, Object> expenditures = new HashMap<>();
+                        if ((task.getResult() != null) && (task.getResult().getData() != null)) {
+                            for (Map.Entry<String, Object> taskEntry : task.getResult().getData().entrySet()) {
+                                expenditures.put(taskEntry.getKey(), taskEntry.getValue());
+                            }
+                            callback.onCallback(expenditures);
+                        }
+                    }
+                });
+    }
+
+    private interface DashboardCallback {
+        void onCallback(HashMap<String, Object> expenditures);
+    }
+
     private static class DataHandler {
-        private ArrayList<Expenditure> expenditureList;
-        private double maxIncome;
         Category topCategory;
         double topCategorySum;
         Category secondCategory;
@@ -225,6 +245,8 @@ public class DashboardFragment extends Fragment {
         double monthlySum;
         double totalStatsNumber;
         int totalStatsPercentage;
+        private ArrayList<Expenditure> expenditureList;
+        private double maxIncome;
 
         DataHandler(ArrayList<Expenditure> expenditureList, double maxIncome) {
             this.expenditureList = expenditureList;
@@ -291,28 +313,6 @@ public class DashboardFragment extends Fragment {
             this.totalStatsNumber = totalSum;
             this.totalStatsPercentage = (int) Math.round(totalSum * 100.0d / (maxIncome * monthsActive.size()));
         }
-    }
-
-    // CHECKPOINT: Getting Data from FirebaseFirestore
-    private void getUserDetails(FirebaseFirestore db, String userEmail, final DashboardCallback callback) {
-        db.collection(collection).document(userEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        HashMap<String, Object> expenditures = new HashMap<>();
-                        if ((task.getResult() != null) && (task.getResult().getData() != null)) {
-                            for (Map.Entry<String, Object> taskEntry : task.getResult().getData().entrySet()) {
-                                expenditures.put(taskEntry.getKey(), taskEntry.getValue());
-                            }
-                            callback.onCallback(expenditures);
-                        }
-                    }
-                });
-    }
-
-    private interface DashboardCallback {
-        void onCallback(HashMap<String, Object> expenditures);
     }
 
 }

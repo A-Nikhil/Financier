@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.a_nikhil.financier.DialogActivity.NewExpenditureDialog;
 import com.a_nikhil.financier.NewExpenditureActivity;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.caching.DatabaseHelper;
@@ -26,11 +25,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class ExpenditureFragment extends Fragment implements NewExpenditureDialog.OnItemInsert {
+public class ExpenditureFragment extends Fragment {
 
+    private static final String TAG = "DashboardFragment";
     private String userEmail;
     private DatabaseHelper db;
-    private static final String TAG = "DashboardFragment";
     private ArrayList<String> mExpenditureTitles = new ArrayList<>(),
             mExpenditureCategories = new ArrayList<>(),
             mExpenditureDates = new ArrayList<>(),
@@ -38,31 +37,6 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
     private View rootView;
     private String username;
     private String maxIncome;
-
-    // Implemented Function
-    @Override
-    public void sendInput(String name, String amount, String date, String category) {
-        String TAG = "ReceivedInput";
-        Log.d(TAG, "Name = " + name);
-        Log.d(TAG, "Amount = " + amount);
-        Log.d(TAG, "Date = " + date);
-        Log.d(TAG, "Category = " + category);
-        Expenditure expenditure = new Expenditure(name, Double.parseDouble(amount),
-                date, Category.valueOf(category.toUpperCase()));
-
-        String collection = getResources().getString(R.string.collection);
-
-        // FIXME: 17-02-2020 Add input to database
-        DatabaseHelper db = new DatabaseHelper(getActivity());
-        db.insertExpenditure(expenditure);
-
-        // FIXME: 22-02-2020 Add to firebase
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection(collection).document(userEmail)
-                .update("expenditures", FieldValue.arrayUnion(expenditure));
-
-        addDataToList(true);
-    }
 
     @Nullable
     @Override

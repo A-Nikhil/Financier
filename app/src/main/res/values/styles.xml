@@ -44,7 +44,7 @@
     </style>
 
     <!-- Chip style -->
-    <style name="CustomChipStyle" parent="Theme.MaterialComponents.Light.DarkActionBar" >
+    <style name="CustomChipStyle" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="chipBackgroundColor">@color/chip_background_color_state</item>
         <item name="checkedIconEnabled">false</item>
         <item name="checkedIcon">@null</item>
