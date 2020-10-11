@@ -1,6 +1,7 @@
 package com.a_nikhil.financier;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-import androidx.fragment.app.FragmentManager;
 
-import com.a_nikhil.financier.Fragments.ExpenditureFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,7 +53,7 @@ public class NewExpenditureActivity extends AppCompatActivity {
                     DatePickerDialog datePickerDialog = new DatePickerDialog(NewExpenditureActivity.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            String dater = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                            String dater = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                             dateEditText.setText(dater);
                         }
                     }, mYear, mMonth, mDay);
@@ -91,8 +90,10 @@ public class NewExpenditureActivity extends AppCompatActivity {
             String[] data = new String[]{name, amount, date, category};
             bundle.putStringArray("newExpenditureData", data);
             bundle.putString("email", userEmail);
-            ExpenditureFragment fragmentObject = new ExpenditureFragment();
-            fragmentObject.setArguments(bundle);
+            bundle.putBoolean("newExpenditurePresent", true);
+            Intent backToDashboard = new Intent(NewExpenditureActivity.this, Dashboard.class);
+            backToDashboard.putExtras(bundle);
+            startActivity(backToDashboard);
         }
     }
 

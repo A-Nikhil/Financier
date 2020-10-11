@@ -81,16 +81,25 @@ public class ExpenditureFragment extends Fragment implements NewExpenditureDialo
         Toast.makeText(getActivity(), userEmail, Toast.LENGTH_SHORT).show();
 
         /*
-        The Bundle from Dashboard will only have email and no other fields, whereas the bundle from
-        NewExpenditureActivity will have expenditure data
+        Bundle from Dashboard
+        Case 1: Initial Click => Does not contains newExpenditurePresent
+        Case 2: Coming from NewExpenditureActivity =>
+                        Case 2.1 => NewExpenditureAdded = true ; contains newExpenditureData
+                        Case 2.2 => NewExpenditureAdded = false
          */
-        String[] expenditureData = inputBundle.getStringArray("newExpenditureData");
-        if (expenditureData == null) {
+
+        if (!inputBundle.containsKey("newExpenditurePresent")) {
             addDataToList(false);
         } else {
-            // expenditureData[] = {name, amount, date, category};
-            setNewExpenditureFromActivity(expenditureData[0], expenditureData[1],
-                    expenditureData[2], expenditureData[3]);
+            if (inputBundle.containsKey("newExpenditureData")) {
+                // expenditureData[] = {name, amount, date, category};
+                String[] expenditureData = inputBundle.getStringArray("newExpenditureData");
+                assert expenditureData != null;
+                setNewExpenditureFromActivity(expenditureData[0], expenditureData[1],
+                        expenditureData[2], expenditureData[3]);
+            } else {
+                addDataToList(false);
+            }
         }
 
         (rootView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {

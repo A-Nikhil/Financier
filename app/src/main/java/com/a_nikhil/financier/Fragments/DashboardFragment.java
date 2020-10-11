@@ -247,11 +247,12 @@ public class DashboardFragment extends Fragment {
             // getting number of months active
             HashSet<Integer> monthsActive = new HashSet<>();
             double totalSum = 0.0;
-
+            Log.d(TAG, "getData: " + expenditureList);
             for (Expenditure expenditure : this.expenditureList) {
                 expenses[expenditure.getCategory().getIndex() - 1] += expenditure.getAmount();
 
                 // getting monthly expense
+                Log.d(TAG, "getData: " + expenditure.getDate());
                 if (Integer.parseInt(expenditure.getDate().split("/")[1]) == month) {
                     totalMonthlyExpense += expenditure.getAmount();
                 }
