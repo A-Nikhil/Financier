@@ -32,9 +32,11 @@ public class ExpenditureDisplay extends AppCompatActivity {
         int flag = Html.FROM_HTML_MODE_COMPACT;
         String username = Objects.requireNonNull(getIntent().getExtras()).getString("username");
         String maxIncomeString = Objects.requireNonNull(getIntent().getExtras()).getString("maxIncome");
+        assert maxIncomeString != null;
         double maxIncome = Double.parseDouble(maxIncomeString);
         String title = Objects.requireNonNull(getIntent().getExtras()).getString("title");
         String amountString = Objects.requireNonNull(getIntent().getExtras()).getString("amount");
+        assert amountString != null;
         double amount = Double.parseDouble(amountString);
         String date = Objects.requireNonNull(getIntent().getExtras()).getString("date");
         String category = Objects.requireNonNull(getIntent().getExtras()).getString("category");
