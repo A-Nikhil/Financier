@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,8 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
-import com.a_nikhil.financier.commons.AddAndRemoveTints;
-import com.a_nikhil.financier.commons.ConnectionStatus;
+import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private String collection;
     private Context context;
-    private AddAndRemoveTints tints;
+    private AndroidUtilities.AddAndRemoveTints tints;
+    private AndroidUtilities.ShowStatusAsSnackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,9 @@ public class SignupActivity extends AppCompatActivity {
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
         collection = getString(R.string.collection);
-        tints = new AddAndRemoveTints();
+        tints = new AndroidUtilities.AddAndRemoveTints();
         context = getApplicationContext();
+        snackbar = new AndroidUtilities.ShowStatusAsSnackbar(context, findViewById(R.id.signup_screen));
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,9 +56,12 @@ public class SignupActivity extends AppCompatActivity {
 
     public void clickRegistration(View v) {
 
+        // hide soft keyboard
+        hideSoftKeyboard();
+
         // CHECKPOINT: Checking Internet Connection
-        if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        if (new AndroidUtilities.ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+            snackbar.showStatus("No Internet Connection");
             return;
         }
 
@@ -125,7 +130,7 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
+                        snackbar.showStatus("Not Registered");
                     }
                 });
     }
@@ -146,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignupActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                        snackbar.showStatus("Email Already exists");
                         tints.setTintOnEditText(context, emailText);
                     }
                 });
@@ -208,8 +213,16 @@ public class SignupActivity extends AppCompatActivity {
             }
             return true;
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            snackbar.showStatus(e.getMessage());
             return false;
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (manager.isAcceptingText()) {
+            assert getCurrentFocus() != null;
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

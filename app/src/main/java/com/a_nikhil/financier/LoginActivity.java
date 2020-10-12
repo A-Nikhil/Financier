@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,8 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
-import com.a_nikhil.financier.commons.AddAndRemoveTints;
-import com.a_nikhil.financier.commons.ConnectionStatus;
+import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private String collection;
-
+    private AndroidUtilities.ShowStatusAsSnackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         assert bar != null;
         bar.setDisplayHomeAsUpEnabled(true);
         collection = getResources().getString(R.string.collection);
+        snackbar = new AndroidUtilities.ShowStatusAsSnackbar(getApplicationContext(), findViewById(R.id.login_screen));
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -55,13 +56,16 @@ public class LoginActivity extends AppCompatActivity {
 
     public void clickLogin(View v) {
 
+        // Hiding Soft Keyboard
+        hideSoftKeyboard();
+
         // CHECKPOINT: Checking Internet Connection
-        if (new ConnectionStatus().isNetworkConnected(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        if (new AndroidUtilities.ConnectionStatus().isNetworkConnected(getApplicationContext())) {
+            snackbar.showStatus("No Internet Connection");
             return;
         }
 
-        final AddAndRemoveTints tints = new AddAndRemoveTints();
+        final AndroidUtilities.AddAndRemoveTints tints = new AndroidUtilities.AddAndRemoveTints();
         final Context context = getApplicationContext();
         final EditText emailField = findViewById(R.id.login_email);
         final String email = emailField.getText().toString();
@@ -83,11 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                 throw new Exception("Password cannot be empty");
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            snackbar.showStatus(e.getMessage());
             return;
         }
 
-        // FIXME: 09-05-2020 Trying out new login
         final LoginActivity activityObject = new LoginActivity();
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
@@ -120,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         tints.setTintOnEditText(context, emailField);
                         tints.setTintOnEditText(context, passwordField);
-                        Toast.makeText(LoginActivity.this, "Wrong Combination", Toast.LENGTH_SHORT).show();
+                        snackbar.showStatus("Wrong Combination");
                     }
                 });
     }
@@ -150,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                 loginCallback.onCallback(user);
                             } else {
                                 Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                                snackbar.showStatus("User Not Found");
                             }
                         } else {
                             Log.d("LoginWindow", "Error getting documents: ", task.getException());
@@ -167,5 +171,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private interface LoginCallback {
         void onCallback(User user);
+    }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (manager.isAcceptingText()) {
+            assert getCurrentFocus() != null;
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

@@ -55,13 +55,6 @@ public class ExpenditureDisplay extends AppCompatActivity {
         AnyChartView anyChartView = findViewById(R.id.anyChartView);
         anyChartView.setChart(setSpeedometer(maxIncome, amount));
 
-        // fixme changes
-//        ((ProgressBar) findViewById(R.id.singleExpenditureBar)).setProgress((int) (amount * 100 / maxIncome), true);
-//        ((TextView) findViewById(R.id.singleExpenditurePercentage)).setText(Html.fromHtml(
-//                "<b>" + (int) (amount * 100 / maxIncome) + " %</b>", flag));
-//        ((TextView) findViewById(R.id.singleExpenditureTotalIncome)).setText(Html.fromHtml(
-//                "of your total monthly income of \u20B9 " + maxIncome, flag));
-
     }
 
     @Override

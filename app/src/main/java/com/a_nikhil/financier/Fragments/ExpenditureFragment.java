@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a_nikhil.financier.NewExpenditureActivity;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.a_nikhil.financier.commons.AndroidUtilities.ShowStatusAsSnackbar;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.a_nikhil.financier.commons.RecyclerViewAdapterExpenditures;
@@ -97,11 +98,11 @@ public class ExpenditureFragment extends Fragment {
 
         String collection = getResources().getString(R.string.collection);
 
-        // FIXME: 17-02-2020 Add input to database
+        // Add input to database
         DatabaseHelper db = new DatabaseHelper(getActivity());
         db.insertExpenditure(expenditure);
 
-        // FIXME: 22-02-2020 Add to firebase
+        // Add to firebase
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(collection).document(userEmail)
                 .update("expenditures", FieldValue.arrayUnion(expenditure));
@@ -125,6 +126,9 @@ public class ExpenditureFragment extends Fragment {
             mExpenditureCategories.add(expenditure.getCategory().getDescription());
         }
         initRecyclerView();
+        ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
+                getActivity().findViewById(R.id.fragment_container));
+        snackbar.showStatus(updateList ? "New Expenditure Added" : "Expenditures Loaded");
     }
 
     private void initRecyclerView() {

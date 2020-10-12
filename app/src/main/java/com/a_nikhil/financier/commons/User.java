@@ -66,8 +66,6 @@ public class User {
         this.maxIncome = maxIncome;
     }
 
-    // FIXME: 08-04-2020 add getter and setter to array
-
     @NonNull
     @Override
     public String toString() {
