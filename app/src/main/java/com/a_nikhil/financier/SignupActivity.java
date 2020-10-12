@@ -59,7 +59,7 @@ public class SignupActivity extends AppCompatActivity {
         // hide soft keyboard
         hideSoftKeyboard();
 
-        // CHECKPOINT: Checking Internet Connection
+        //  Checking Internet Connection
         if (new AndroidUtilities.ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             snackbar.showStatus("No Internet Connection");
             return;
@@ -116,10 +116,10 @@ public class SignupActivity extends AppCompatActivity {
                     public void onSuccess(Void avoid) {
                         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
 
-                        // CHECKPOINT: Send to cache (local db)
+                        //  Send to cache (local db)
                         addToCache(user, localDB);
 
-                        // CHECKPOINT: Send intent to dashboard
+                        //  Send intent to dashboard
                         Intent intent = new Intent(SignupActivity.this, Dashboard.class);
                         Bundle myBundle = new Bundle();
                         myBundle.putString("email", user.getEmail());
@@ -135,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
-    // CHECKPOINT: Adding Firebase Authentication
+    //  Adding Firebase Authentication
     private void addFirebaseUser(String email, String password,
                                  final User user, final FirebaseFirestore db,
                                  final EditText emailText) {
@@ -157,7 +157,7 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
-    // CHECKPOINT: Adding the current signed in user to local db
+    //  Adding the current signed in user to local db
     private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Signup Activity", "Added to cache");

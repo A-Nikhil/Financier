@@ -78,7 +78,7 @@ public class DashboardFragment extends Fragment {
                     String key = entry.getKey().toLowerCase();
                     switch (key) {
                         case "expenditures":
-                            // CHECKPOINT: entry.getValue() returns ArrayList<HashMap<String, Object>>
+                            //  entry.getValue() returns ArrayList<HashMap<String, Object>>
                             @SuppressWarnings("unchecked")
                             ArrayList<HashMap<String, Object>> mapper1 =
                                     (ArrayList<HashMap<String, Object>>) entry.getValue();
@@ -122,7 +122,7 @@ public class DashboardFragment extends Fragment {
                     }
                 }
 
-                // CHECKPOINT: Adding the above data to local DB
+                //  Adding the above data to local DB
                 DatabaseHelper db = new DatabaseHelper(getActivity());
                 if (db.wipeClean()) {
                     Log.d(TAG, "onCallback: Wipe Data worked");
@@ -153,7 +153,7 @@ public class DashboardFragment extends Fragment {
         });
     }
 
-    // CHECKPOINT: Calculating stats and adding to Database
+    //  Calculating stats and adding to Database
     private void addStatsToDatabase(User user, ArrayList<Expenditure> expenditureList, View rootView) {
 
         int flag = Html.FROM_HTML_MODE_COMPACT;
@@ -218,7 +218,7 @@ public class DashboardFragment extends Fragment {
         }
     }
 
-    // CHECKPOINT: Getting Data from FirebaseFirestore
+    //  Getting Data from FirebaseFirestore
     private void getUserDetails(FirebaseFirestore db, String userEmail, final DashboardCallback callback) {
         db.collection(collection).document(userEmail)
                 .get()

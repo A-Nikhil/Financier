@@ -80,7 +80,7 @@ public class ExpenditureFragment extends Fragment {
         (rootView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // CHECKPOINT: Opens up a dialog to add new Expenditure
+                //  Opens up a dialog to add new Expenditure
                 addNewExpenditure();
             }
         });

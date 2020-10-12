@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
         values.put(userDatabase.getPasswordColumn(), user.getPassword());
         values.put(userDatabase.getMaxIncomeColumn(), user.getMaxIncome());
-        
+
         try {
             database.insert(userDatabase.getTableName(), null, values);
             database.close();

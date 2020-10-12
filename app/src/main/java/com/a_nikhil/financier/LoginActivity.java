@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         // Hiding Soft Keyboard
         hideSoftKeyboard();
 
-        // CHECKPOINT: Checking Internet Connection
+        //  Checking Internet Connection
         if (new AndroidUtilities.ConnectionStatus().isNetworkConnected(getApplicationContext())) {
             snackbar.showStatus("No Internet Connection");
             return;
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordField = findViewById(R.id.login_password);
         final String password = passwordField.getText().toString();
 
-        // CHECKPOINT: Validate Inputs
+        //  Validate Inputs
         tints.removeTintFromEditText(context, emailField);
         tints.removeTintFromEditText(context, passwordField);
         try {
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallback(User user) {
                                     activityObject.addToCache(user, localDB);
-                                    // CHECKPOINT: Send intent to dashboard
+                                    //  Send intent to dashboard
                                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                                     Bundle myBundle = new Bundle();
                                     myBundle.putString("email", user.getEmail());
@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists()) {
                                 Map<String, Object> userWithEmail = document.getData();
                                 assert userWithEmail != null;
-                                // CHECKPOINT: User exists
+                                //  User exists
                                 User user = new User(
                                         String.valueOf(userWithEmail.get("name")),
                                         String.valueOf(userWithEmail.get("email")),
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // CHECKPOINT: Adding the current logged in user to local db
+    //  Adding the current logged in user to local db
     private void addToCache(User user, DatabaseHelper db) {
         if (db.insertUser(user)) {
             Log.d("Login Activity", "Added to cache");
