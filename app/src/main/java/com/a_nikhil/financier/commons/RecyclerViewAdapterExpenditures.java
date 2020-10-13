@@ -2,6 +2,7 @@ package com.a_nikhil.financier.commons;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -72,44 +73,44 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
 
         // Category chip
         String category = mExpenditureCategories.get(position);
-        int categoryColor = 0;
+        ColorStateList categoryColor = null;
         Drawable categoryIcon = null;
         switch (category.toLowerCase()) {
             case "food":
-                categoryColor = ContextCompat.getColor(mContext, R.color.food_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_food);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_food_black_48dp);
                 break;
             case "household":
-                categoryColor = ContextCompat.getColor(mContext, R.color.household_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_household);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_household_black_48dp);
                 break;
             case "social":
-                categoryColor = ContextCompat.getColor(mContext, R.color.social_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_social);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_social_black_48dp);
                 break;
             case "work":
-                categoryColor = ContextCompat.getColor(mContext, R.color.work_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_work);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_work_black_48dp);
                 break;
             case "amenities":
-                categoryColor = ContextCompat.getColor(mContext, R.color.amenities_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_amenities);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_amenities_black_48dp);
                 break;
             case "recreation":
-                categoryColor = ContextCompat.getColor(mContext, R.color.recreation_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_recreation);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_recreation_black_48dp);
                 break;
             case "travel":
-                categoryColor = ContextCompat.getColor(mContext, R.color.travel_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_travel);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_travel_black_48dp);
                 break;
             case "education":
-                categoryColor = ContextCompat.getColor(mContext, R.color.education_color);
+                categoryColor = ContextCompat.getColorStateList(mContext, R.color.chip_education);
                 categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_education_black_48dp);
                 break;
         }
         holder.expenditureCategory.setText(mExpenditureCategories.get(position));
-//        holder.expenditureCategory.setChipBackgroundColor(categoryColor);
+        holder.expenditureCategory.setChipBackgroundColor(categoryColor);
         holder.expenditureCategory.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         holder.expenditureCategory.setChipIcon(categoryIcon);
 
