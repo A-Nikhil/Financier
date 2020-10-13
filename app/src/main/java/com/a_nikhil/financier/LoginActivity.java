@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser firestoreUser = auth.getCurrentUser();
                         if (firestoreUser != null) {
                             Toast.makeText(getApplicationContext(), "Hello " + firestoreUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            snackbar.showStatus("You are now logged in");
                             getUserData(db, firestoreUser.getEmail(), new LoginCallback() {
                                 @Override
                                 public void onCallback(User user) {

@@ -59,9 +59,9 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setDashboard(final View rootView, final String userEmail, final Activity activity) {
-        ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
-                        getActivity().findViewById(R.id.fragment_container));
-        snackbar.showStatus("Logged in");
+//        ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
+//                        getActivity().findViewById(R.id.fragment_container));
+//        snackbar.showStatus("Logged in");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setCancelable(false); // if you want user to wait for some process to finish,

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a_nikhil.financier.ExpenditureDisplay;
 import com.a_nikhil.financier.R;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -131,14 +129,6 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
                 mContext.startActivity(intent);
             }
         });
-
-        // Deleting an expenditure
-        holder.deleteExpenditure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Deleting", Snackbar.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -151,7 +141,6 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
         TextView expenditureTitle, expenditureDate, expenditureAmount;
         ConstraintLayout expenditureItemLayout;
         Chip expenditureCategory;
-        ImageButton deleteExpenditure;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -160,7 +149,6 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
             expenditureAmount = itemView.findViewById(R.id.expenditureAmount);
             expenditureCategory = itemView.findViewById(R.id.recycler_item_category_chip);
             expenditureDate = itemView.findViewById(R.id.expenditureDate);
-            deleteExpenditure = itemView.findViewById(R.id.recycler_item_delete_button);
         }
     }
 }

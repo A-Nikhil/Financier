@@ -132,6 +132,7 @@
     <string name="singleExpenditurePercentage">99 %</string>
     <string name="singleExpenditureDate">This Date</string>
     <string name="delete_this_expenditure">Delete this expenditure</string>
+    <string name="edit_this_expenditure">Edit this expenditure</string>
 
     <!-- Arrays -->
     <string-array name="categories">
