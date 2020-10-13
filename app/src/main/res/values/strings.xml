@@ -134,6 +134,17 @@
     <string name="delete_this_expenditure">Delete this expenditure</string>
     <string name="edit_this_expenditure">Edit this expenditure</string>
 
+    <!-- Visualization Fragment Entry -->
+    <string name="description_title">Welcome to Visualizations</string>
+    <string name="description1">
+        Financier visualizes your expenditures for you so that you have a
+        clear perspective of what is going on in your pocket.
+        \n\nWe have divided your expenditures into categories to better classify them.
+    </string>
+    <string name="categories_description">Here are the <u>categories</u></string>
+    <string name="visualize_button">Visualize</string>
+    <string name="small_warning1">Visualizations might take a few minutes to load</string>
+
     <!-- Arrays -->
     <string-array name="categories">
         <item>Select a category..</item>

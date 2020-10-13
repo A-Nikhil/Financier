@@ -16,6 +16,13 @@ public class VisualizeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_visualize, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_visualize, container, false);
+        (rootView.findViewById(R.id.visualize_button_fragment)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Pass to Activity
+            }
+        });
+        return rootView;
     }
 }
