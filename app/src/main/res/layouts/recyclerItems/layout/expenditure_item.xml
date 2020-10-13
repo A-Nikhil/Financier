@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/expenditureItemView"
     android:layout_width="match_parent"
-    android:layout_height="141dp"
+    android:layout_height="180dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/expenditureTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="15dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/expenditureTitle"
@@ -30,48 +30,74 @@
         android:id="@+id/expenditureDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="128dp"
         android:text="@string/expenditureDate"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/expenditureTitle"
+        app:layout_constraintEnd_toStartOf="@+id/expenditureAmount"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expenditureTitle" />
 
     <TextView
-        android:id="@+id/expenditureCategory"
+        android:id="@+id/expenditureAmount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/expenditureAmount"
+        android:textColor="@color/accentDark"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_item_category_chip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/expenditureDate"
+        app:layout_constraintTop_toBottomOf="@+id/expenditureTitle" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/recycler_item_category_chip"
+        style="@style/CustomChipStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="241dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/expenditureCategory"
-        android:textColor="@color/gray"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:checkable="false"
+        android:clickable="false"
+        android:text="@string/foodChip"
+        app:chipIcon="@drawable/ic_food_black_48dp"
+        app:chipIconVisible="true"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/recycler_item_delete_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expenditureAmount" />
 
-    <TextView
-        android:id="@+id/expenditureAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="39dp"
-        android:text="@string/expenditureAmount"
-        android:textColor="@color/accentDark"
-        android:textSize="20sp"
+    <ImageButton
+        android:id="@+id/recycler_item_delete_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="9dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/delete_this_expenditure"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recycler_item_category_chip"
+        app:layout_constraintTop_toBottomOf="@+id/expenditureAmount"
+        app:srcCompat="@drawable/ic_delete_expenditure" />
 
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/accentDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_editor_absoluteX="0dp"
-        app:layout_editor_absoluteY="139dp" />
+        app:layout_editor_absoluteY="178dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

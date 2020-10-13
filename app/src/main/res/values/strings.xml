@@ -131,6 +131,7 @@
     <string name="singleExpenditureTotalIncome">of your total monthly income of this muchhhh</string>
     <string name="singleExpenditurePercentage">99 %</string>
     <string name="singleExpenditureDate">This Date</string>
+    <string name="delete_this_expenditure">Delete this expenditure</string>
 
     <!-- Arrays -->
     <string-array name="categories">

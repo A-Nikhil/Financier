@@ -16,4 +16,14 @@
     <color name="subtle_gray">#ebebeb</color>
 
     <color name="duplicateEmail">#E74C3C</color>
+
+    <!-- Colors for categories -->
+    <color name="food_color">#F4D03F</color>
+    <color name="household_color">#C39BD3</color>
+    <color name="social_color">#48C9B0</color>
+    <color name="work_color">#5DADE2</color>
+    <color name="amenities_color">#B3B6B7</color>
+    <color name="recreation_color">#F0B27A</color>
+    <color name="travel_color">#E59866</color>
+    <color name="education_color">#D98880</color>
 </resources>

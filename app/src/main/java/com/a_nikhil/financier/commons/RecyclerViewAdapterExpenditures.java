@@ -2,20 +2,25 @@ package com.a_nikhil.financier.commons;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a_nikhil.financier.ExpenditureDisplay;
 import com.a_nikhil.financier.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -54,13 +59,61 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapterExpenditures.ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
+
+        // Title
         holder.expenditureTitle.setText(mExpenditureTitles.get(position));
+
+        // Amount
         holder.expenditureAmount.setText(Html.fromHtml(
                 "\u20B9 " + mExpenditureAmounts.get(position), Html.FROM_HTML_MODE_COMPACT));
-        holder.expenditureCategory.setText(mExpenditureCategories.get(position));
+
+        // Date
         holder.expenditureDate.setText(mExpenditureDates.get(position));
 
-        //  Put Actions here, if any
+        // Category chip
+        String category = mExpenditureCategories.get(position);
+        int categoryColor = 0;
+        Drawable categoryIcon = null;
+        switch (category.toLowerCase()) {
+            case "food":
+                categoryColor = ContextCompat.getColor(mContext, R.color.food_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_food_black_48dp);
+                break;
+            case "household":
+                categoryColor = ContextCompat.getColor(mContext, R.color.household_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_household_black_48dp);
+                break;
+            case "social":
+                categoryColor = ContextCompat.getColor(mContext, R.color.social_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_social_black_48dp);
+                break;
+            case "work":
+                categoryColor = ContextCompat.getColor(mContext, R.color.work_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_work_black_48dp);
+                break;
+            case "amenities":
+                categoryColor = ContextCompat.getColor(mContext, R.color.amenities_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_amenities_black_48dp);
+                break;
+            case "recreation":
+                categoryColor = ContextCompat.getColor(mContext, R.color.recreation_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_recreation_black_48dp);
+                break;
+            case "travel":
+                categoryColor = ContextCompat.getColor(mContext, R.color.travel_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_travel_black_48dp);
+                break;
+            case "education":
+                categoryColor = ContextCompat.getColor(mContext, R.color.education_color);
+                categoryIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_education_black_48dp);
+                break;
+        }
+        holder.expenditureCategory.setText(mExpenditureCategories.get(position));
+//        holder.expenditureCategory.setChipBackgroundColor(categoryColor);
+        holder.expenditureCategory.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+        holder.expenditureCategory.setChipIcon(categoryIcon);
+
+        // Opening an expenditure in detail
         holder.expenditureItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +130,14 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
                 mContext.startActivity(intent);
             }
         });
+
+        // Deleting an expenditure
+        holder.deleteExpenditure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Deleting", Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -84,18 +145,21 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
         return mExpenditureTitles.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView expenditureTitle, expenditureCategory, expenditureDate, expenditureAmount;
+        TextView expenditureTitle, expenditureDate, expenditureAmount;
         ConstraintLayout expenditureItemLayout;
+        Chip expenditureCategory;
+        ImageButton deleteExpenditure;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             expenditureItemLayout = itemView.findViewById(R.id.expenditureItemView);
             expenditureTitle = itemView.findViewById(R.id.expenditureTitle);
             expenditureAmount = itemView.findViewById(R.id.expenditureAmount);
-            expenditureCategory = itemView.findViewById(R.id.expenditureCategory);
+            expenditureCategory = itemView.findViewById(R.id.recycler_item_category_chip);
             expenditureDate = itemView.findViewById(R.id.expenditureDate);
+            deleteExpenditure = itemView.findViewById(R.id.recycler_item_delete_button);
         }
     }
 }
