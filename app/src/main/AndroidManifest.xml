@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".VisualizationHomePage"></activity>
+        <activity android:name=".VisualizationHomePage"/>
         <activity
             android:name=".NewExpenditureActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Partial" />
