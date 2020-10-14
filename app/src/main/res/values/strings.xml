@@ -145,6 +145,9 @@
     <string name="visualize_button">Visualize</string>
     <string name="small_warning1">Visualizations might take a few minutes to load</string>
 
+    <!-- Visualization Activity -->
+    <string name="each_category_expenditure">Category wise</string>
+
     <!-- Arrays -->
     <string-array name="categories">
         <item>Select a category..</item>

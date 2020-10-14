@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/categories_vs_total"
+            android:title="@string/each_category_expenditure"
+            android:icon="@null" />
+        <item
+            android:id="@+id/categories_vs_total1"
+            android:title="@string/each_category_expenditure"
+            android:icon="@null" />
+        <item
+            android:id="@+id/categories_vs_total2"
+            android:title="@string/each_category_expenditure"
+            android:icon="@null" />
+        <item
+            android:id="@+id/categories_vs_total3"
+            android:title="@string/each_category_expenditure"
+            android:icon="@null" />
+    </group>
+
+</menu>
