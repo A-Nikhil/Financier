@@ -20,8 +20,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary1"
             android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
         <FrameLayout
             android:id="@+id/viz_fragment_container"
@@ -32,7 +32,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/dash_vis_nav"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/viz_menu" />
