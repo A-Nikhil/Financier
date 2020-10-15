@@ -1,5 +1,6 @@
 package com.a_nikhil.financier;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -16,7 +17,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.a_nikhil.financier.commons.AndroidUtilities;
+import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class VisualizationHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,11 +41,11 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         View vizHeader = vizNav.getHeaderView(0);
         vizNav.setNavigationItemSelectedListener(this);
 
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-//                R.string.dashboard_nav_drawer_open,
-//                R.string.dashboard_nav_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.dashboard_nav_drawer_open,
+                R.string.dashboard_nav_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         /*
         // Get Bundle
@@ -69,6 +73,18 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         int flag = Html.FROM_HTML_MODE_COMPACT;
         ((TextView) vizHeader.findViewById(R.id.nav_header_email)).setText(Html.fromHtml(
                 "\u20B9 " + maxIncome, flag));
+
+        // Loading circle
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false); // if you want user to wait for some process to finish,
+        builder.setView(R.layout.progress_circle);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Get data from local database
+        // DatabaseHelper db = new DatabaseHelper(this);
+        DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
+        ArrayList<Expenditure> expenditures = db.getExpenditureDataAsList();
     }
 
     @Override
@@ -76,7 +92,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         AndroidUtilities.ShowStatusAsSnackbar snackbar = new AndroidUtilities.ShowStatusAsSnackbar(getApplicationContext(), drawer);
         switch (item.getItemId()) {
             case R.id.categories_vs_total:
-                snackbar.showStatus("A");
+
                 break;
             case R.id.categories_vs_total1:
                 snackbar.showStatus("B");
