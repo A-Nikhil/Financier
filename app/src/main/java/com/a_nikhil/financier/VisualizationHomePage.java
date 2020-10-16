@@ -93,6 +93,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         // Generate an output bundle
         outputBundle = new Bundle();
         outputBundle.putParcelableArrayList("expenditures", expenditures);
+        outputBundle.putDouble("maxIncome", maxIncome == null ? 0 : Double.parseDouble(maxIncome));
     }
 
     @Override
