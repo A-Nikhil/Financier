@@ -11,6 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,6 +24,10 @@ android {
         main {
             res.srcDirs = ['src/main/res/layouts/fragments', 'src/main/res/layouts/activities', 'src/main/res/layouts/menus', 'src/main/res/layouts/dialogs', 'src/main/res/layouts/recyclerItems', 'src/main/res']
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -51,4 +56,6 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

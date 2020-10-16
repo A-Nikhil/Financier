@@ -24,6 +24,8 @@ public class PieChartFragment extends Fragment {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_pie_chart, container, false);
 
+        Log.d(TAG, "onCreateView: Enter PieChart");
+
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 

@@ -101,6 +101,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.monthly_percentage_pie_chart:
+                Toast.makeText(this, "PieChart called", Toast.LENGTH_SHORT).show();
                 PieChartFragment pieChartFragment = new PieChartFragment();
                 pieChartFragment.setArguments(outputBundle);
                 transaction.replace(R.id.viz_fragment_container, pieChartFragment)
