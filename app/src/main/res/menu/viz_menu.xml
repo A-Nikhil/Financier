@@ -5,8 +5,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/categories_vs_total"
-            android:title="@string/each_category_expenditure" />
+            android:id="@+id/monthly_percentage_pie_chart"
+            android:title="@string/monthly_percentage_pie_chart" />
         <item
             android:id="@+id/categories_vs_total1"
             android:title="@string/each_category_expenditure" />

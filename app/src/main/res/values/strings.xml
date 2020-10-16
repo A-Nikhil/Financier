@@ -147,6 +147,7 @@
 
     <!-- Visualization Activity -->
     <string name="each_category_expenditure">Category wise</string>
+    <string name="monthly_percentage_pie_chart">Expenditure Distribution</string>
 
     <!-- Arrays -->
     <string-array name="categories">

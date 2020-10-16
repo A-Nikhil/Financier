@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.caching.DatabaseHelper;
-import com.a_nikhil.financier.commons.AndroidUtilities.ShowStatusAsSnackbar;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.a_nikhil.financier.commons.User;

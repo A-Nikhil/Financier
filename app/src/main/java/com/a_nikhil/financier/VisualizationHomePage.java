@@ -1,6 +1,5 @@
 package com.a_nikhil.financier;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.a_nikhil.financier.Fragments.PieChartFragment;
 import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
@@ -27,6 +28,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
     private static final String TAG = "VisualizationHomePage";
 
     private DrawerLayout drawer;
+    private Bundle outputBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,25 +76,35 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         ((TextView) vizHeader.findViewById(R.id.nav_header_email)).setText(Html.fromHtml(
                 "\u20B9 " + maxIncome, flag));
 
+        /*
         // Loading circle
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false); // if you want user to wait for some process to finish,
         builder.setView(R.layout.progress_circle);
         final AlertDialog dialog = builder.create();
         dialog.show();
+        */
 
         // Get data from local database
         // DatabaseHelper db = new DatabaseHelper(this);
         DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
         ArrayList<Expenditure> expenditures = db.getExpenditureDataAsList();
+
+        // Generate an output bundle
+        outputBundle = new Bundle();
+        outputBundle.putParcelableArrayList("expenditures", expenditures);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AndroidUtilities.ShowStatusAsSnackbar snackbar = new AndroidUtilities.ShowStatusAsSnackbar(getApplicationContext(), drawer);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
-            case R.id.categories_vs_total:
-
+            case R.id.monthly_percentage_pie_chart:
+                PieChartFragment pieChartFragment = new PieChartFragment();
+                pieChartFragment.setArguments(outputBundle);
+                transaction.replace(R.id.viz_fragment_container, pieChartFragment)
+                        .addToBackStack(null).commit();
                 break;
             case R.id.categories_vs_total1:
                 snackbar.showStatus("B");
