@@ -11,6 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -21,8 +22,12 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs = ['src/main/res', 'src/main/res/layouts/fragments', 'src/main/res/layouts/activities', 'src/main/res/layouts/menus', 'src/main/res/layouts/dialogs', 'src/main/res/layouts/recyclerItems']
+            res.srcDirs = ['src/main/res/layouts/fragments', 'src/main/res/layouts/activities', 'src/main/res/layouts/menus', 'src/main/res/layouts/dialogs', 'src/main/res/layouts/recyclerItems', 'src/main/res']
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -46,8 +51,11 @@ dependencies {
 
     // Visualization - AnyChart - https://github.com/AnyChart/AnyChart-Android
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

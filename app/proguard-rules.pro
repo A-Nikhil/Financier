@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# To remove Didn't find class "com.google.firebase.provider.FirebaseInitProvider" on path: DexPathList
+# -keep class com.google.firebase.provider.FirebaseInitProvider
