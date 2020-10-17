@@ -56,7 +56,7 @@ public class PieChartFragment extends Fragment {
     }
 
     private void displayPieChart(final View rootView, ArrayList<Expenditure> expenditures, Double maxIncome) {
-        AnyChartView pieView = rootView.findViewById(R.id.pie_chart_space); // FIXME: 16-10-2020 Add the pie chart
+        AnyChartView pieView = rootView.findViewById(R.id.pie_chart_space);
 
         Pie pie = AnyChart.pie();
 

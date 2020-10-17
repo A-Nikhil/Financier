@@ -8,8 +8,8 @@
             android:id="@+id/monthly_percentage_pie_chart"
             android:title="@string/monthly_percentage_pie_chart" />
         <item
-            android:id="@+id/categories_vs_total1"
-            android:title="@string/each_category_expenditure" />
+            android:id="@+id/monthly_percentage_column_chart"
+            android:title="@string/monthly_percentage_column_chart" />
         <item
             android:id="@+id/categories_vs_total2"
             android:title="@string/each_category_expenditure" />

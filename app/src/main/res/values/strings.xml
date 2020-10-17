@@ -148,20 +148,11 @@
     <!-- Visualization Activity -->
     <string name="each_category_expenditure">Category wise</string>
     <string name="monthly_percentage_pie_chart">Expenditure Distribution</string>
+    <string name="monthly_percentage_column_chart">ColumnWise Display</string>
 
-    <!-- Arrays -->
-    <string-array name="categories">
-        <item>Select a category..</item>
-        <item>Food</item>
-        <item>Rent</item>
-        <item>Mortgage</item>
-        <item>Household</item>
-        <item>Casual</item>
-        <item>Work</item>
-        <item>Outdoors</item>
-        <item>Recreation</item>
-        <item>Travel</item>
-        <item>Stationary</item>
-        <item>Education</item>
-    </string-array>
+    <!-- Pie chart fragment -->
+    <string name="pie_chart_description">How much you spent per Category</string>
+
+    <!-- Column chart fragment -->
+
 </resources>

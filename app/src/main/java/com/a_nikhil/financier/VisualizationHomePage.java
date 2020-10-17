@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.a_nikhil.financier.Fragments.ColumnChartFragment;
 import com.a_nikhil.financier.Fragments.PieChartFragment;
 import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.Expenditure;
@@ -108,8 +109,12 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
                 transaction.replace(R.id.viz_fragment_container, pieChartFragment)
                         .addToBackStack(null).commit();
                 break;
-            case R.id.categories_vs_total1:
-                snackbar.showStatus("B");
+            case R.id.monthly_percentage_column_chart:
+                Toast.makeText(this, "ColumnChart called", Toast.LENGTH_SHORT).show();
+                ColumnChartFragment columnChartFragment = new ColumnChartFragment();
+                columnChartFragment.setArguments(outputBundle);
+                transaction.replace(R.id.viz_fragment_container, columnChartFragment)
+                        .addToBackStack(null).commit();
                 break;
             case R.id.categories_vs_total2:
                 snackbar.showStatus("C");
