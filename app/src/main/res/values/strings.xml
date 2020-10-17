@@ -154,5 +154,5 @@
     <string name="pie_chart_description">How much you spent per Category</string>
 
     <!-- Column chart fragment -->
-
+    <string name="adjust_graph">Adjust Graph to your Income</string>
 </resources>

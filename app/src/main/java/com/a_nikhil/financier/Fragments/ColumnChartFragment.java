@@ -1,6 +1,5 @@
 package com.a_nikhil.financier.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,30 +28,43 @@ import java.util.List;
 
 public class ColumnChartFragment extends Fragment {
     private static final String TAG = "ColumnChartFragment";
-    private Context context;
+    private boolean graphAdjustedToIncome = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_column_chart, container, false);
-        context = getActivity();
+
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
-        double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
-        displayColumnChart(rootView, expenditures, maxIncome);
+
+        // InitData
+        final List<DataEntry> dataForColumn = new ArrayList<>();
+        final String[] palette = formColumnDataAndPalette(expenditures, dataForColumn);
+
+        // Construct Chart
+        constructColumnChart(rootView, dataForColumn, palette, 0d);
+
+        // Graph will be adjusted for maximum income
+        (rootView.findViewById(R.id.adjust_graph)).setOnClickListener(view -> {
+            graphAdjustedToIncome = !graphAdjustedToIncome;
+            constructColumnChart(rootView, dataForColumn, palette,
+                    graphAdjustedToIncome ? 0d : maxIncome);
+        });
+
         return rootView;
     }
 
-    private void displayColumnChart(View rootView, ArrayList<Expenditure> expenditures, double maxIncome) {
+    private void constructColumnChart(final View rootView, List<DataEntry> dataForColumn, String[] palette,
+                                      double maxIncome) {
         AnyChartView chartPlaceholder = rootView.findViewById(R.id.column_chart_placeholder);
         chartPlaceholder.setProgressBar(rootView.findViewById(R.id.progress_bar_column));
 
         Cartesian columns = AnyChart.column();
-        List<DataEntry> dataForColumn = new ArrayList<>();
-        String[] palette = formColumnDataAndPalette(expenditures, dataForColumn);
 
         columns.data(dataForColumn);
 
@@ -67,6 +79,9 @@ public class ColumnChartFragment extends Fragment {
         columns.animation(true);
 
         columns.yScale().minimum(0d);
+        if (maxIncome != 0d) {
+            columns.yScale().maximum(maxIncome);
+        }
 
         columns.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
 
