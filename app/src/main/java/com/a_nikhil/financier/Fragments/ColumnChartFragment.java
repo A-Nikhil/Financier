@@ -29,6 +29,7 @@ import java.util.List;
 public class ColumnChartFragment extends Fragment {
     private static final String TAG = "ColumnChartFragment";
     private boolean graphAdjustedToIncome = false;
+    private AnyChartView chartPlaceholder;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,7 +39,8 @@ public class ColumnChartFragment extends Fragment {
         assert inputBundle != null;
 
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
-        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+//        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        final double maxIncome = 30000d;
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
 
@@ -52,16 +54,18 @@ public class ColumnChartFragment extends Fragment {
         // Graph will be adjusted for maximum income
         (rootView.findViewById(R.id.adjust_graph)).setOnClickListener(view -> {
             graphAdjustedToIncome = !graphAdjustedToIncome;
+            chartPlaceholder.invalidate();
             constructColumnChart(rootView, dataForColumn, palette,
-                    graphAdjustedToIncome ? 0d : maxIncome);
+                    graphAdjustedToIncome ? maxIncome : 0d);
         });
 
         return rootView;
     }
 
+
     private void constructColumnChart(final View rootView, List<DataEntry> dataForColumn, String[] palette,
                                       double maxIncome) {
-        AnyChartView chartPlaceholder = rootView.findViewById(R.id.column_chart_placeholder);
+        chartPlaceholder = rootView.findViewById(R.id.column_chart_placeholder);
         chartPlaceholder.setProgressBar(rootView.findViewById(R.id.progress_bar_column));
 
         Cartesian columns = AnyChart.column();
@@ -79,8 +83,8 @@ public class ColumnChartFragment extends Fragment {
         columns.animation(true);
 
         columns.yScale().minimum(0d);
-        if (maxIncome != 0d) {
-            columns.yScale().maximum(maxIncome);
+        if (maxIncome > 0) {
+            columns.yScale().maximum(300000d);
         }
 
         columns.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
