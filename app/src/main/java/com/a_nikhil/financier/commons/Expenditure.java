@@ -17,7 +17,7 @@ public class Expenditure implements Parcelable {
     public Expenditure(String title, Double amount, String date, Category category) {
         this.title = title;
         this.amount = amount;
-        this.date = date;
+        this.date = formatDate(date);
         this.category = category;
     }
 
@@ -61,11 +61,12 @@ public class Expenditure implements Parcelable {
     }
 
     public String getDate() {
-        return date;
+        // If date is not of the format "DD/MM/YYYY => format it
+        return date.length() != 10 ? formatDate(date) : date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.date = formatDate(date);
     }
 
     public Category getCategory() {
@@ -103,5 +104,14 @@ public class Expenditure implements Parcelable {
         }
         parcel.writeString(date);
         parcel.writeString(category.toString());
+    }
+
+    private String formatDate(String date) {
+        String[] dateComponents = date.split("/");
+        dateComponents[0] = Integer.parseInt(dateComponents[0]) < 10 ?
+                "0" + dateComponents[0] : dateComponents[0];
+        dateComponents[1] = Integer.parseInt(dateComponents[1]) < 10 ?
+                "0" + dateComponents[1] : dateComponents[1];
+        return dateComponents[0] + "/" + dateComponents[1] + "/" + dateComponents[2];
     }
 }
