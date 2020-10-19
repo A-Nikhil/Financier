@@ -3,8 +3,8 @@ package com.a_nikhil.financier.commons;
 import java.util.HashMap;
 
 public class CategoryColorMap {
-    private HashMap<Category, String> colorMap;
-    private String[] categories;
+    private final HashMap<Category, String> colorMap;
+    private final String[] categories;
 
     public CategoryColorMap() {
         colorMap = new HashMap<>();

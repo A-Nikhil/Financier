@@ -30,6 +30,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="11dp"
         android:backgroundTint="@color/accent"
+        android:clickable="false"
         android:text="@string/adjust_graph"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/column_chart_placeholder"
