@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.a_nikhil.financier.Fragments.ColumnChartFragment;
 import com.a_nikhil.financier.Fragments.PieChartFragment;
+import com.a_nikhil.financier.Fragments.SplineChartFragment;
 import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
@@ -117,7 +118,11 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
                         .addToBackStack(null).commit();
                 break;
             case R.id.categories_vs_total2:
-                snackbar.showStatus("C");
+                Toast.makeText(this, "SplineChart called", Toast.LENGTH_SHORT).show();
+                SplineChartFragment splineChartFragment = new SplineChartFragment();
+                splineChartFragment.setArguments(outputBundle);
+                transaction.replace(R.id.viz_fragment_container, splineChartFragment)
+                        .addToBackStack(null).commit();
                 break;
             case R.id.categories_vs_total3:
                 snackbar.showStatus("D");
