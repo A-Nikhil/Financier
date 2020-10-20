@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.a_nikhil.financier.Fragments.ColumnChartFragment;
 import com.a_nikhil.financier.Fragments.PieChartFragment;
 import com.a_nikhil.financier.Fragments.SplineChartFragment;
-import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
 
@@ -78,15 +77,6 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         ((TextView) vizHeader.findViewById(R.id.nav_header_email)).setText(Html.fromHtml(
                 "\u20B9 " + maxIncome, flag));
 
-        /*
-        // Loading circle
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false); // if you want user to wait for some process to finish,
-        builder.setView(R.layout.progress_circle);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-        */
-
         // Get data from local database
         // DatabaseHelper db = new DatabaseHelper(this);
         DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
@@ -100,35 +90,33 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        AndroidUtilities.ShowStatusAsSnackbar snackbar = new AndroidUtilities.ShowStatusAsSnackbar(getApplicationContext(), drawer);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        switch (item.getItemId()) {
-            case R.id.monthly_percentage_pie_chart:
-                Toast.makeText(this, "PieChart called", Toast.LENGTH_SHORT).show();
-                PieChartFragment pieChartFragment = new PieChartFragment();
-                pieChartFragment.setArguments(outputBundle);
-                transaction.replace(R.id.viz_fragment_container, pieChartFragment)
-                        .addToBackStack(null).commit();
-                break;
-            case R.id.monthly_percentage_column_chart:
-                Toast.makeText(this, "ColumnChart called", Toast.LENGTH_SHORT).show();
-                ColumnChartFragment columnChartFragment = new ColumnChartFragment();
-                columnChartFragment.setArguments(outputBundle);
-                transaction.replace(R.id.viz_fragment_container, columnChartFragment)
-                        .addToBackStack(null).commit();
-                break;
-            case R.id.categories_vs_total2:
-                Toast.makeText(this, "SplineChart called", Toast.LENGTH_SHORT).show();
-                SplineChartFragment splineChartFragment = new SplineChartFragment();
-                splineChartFragment.setArguments(outputBundle);
-                transaction.replace(R.id.viz_fragment_container, splineChartFragment)
-                        .addToBackStack(null).commit();
-                break;
-            case R.id.categories_vs_total3:
-                snackbar.showStatus("D");
-                break;
-            default:
-                Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.monthly_percentage_pie_chart) {
+            Toast.makeText(this, "PieChart called", Toast.LENGTH_SHORT).show();
+            PieChartFragment pieChartFragment = new PieChartFragment();
+            pieChartFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, pieChartFragment)
+                    .addToBackStack(null).commit();
+        } else if (item.getItemId() == R.id.monthly_percentage_column_chart) {
+            Toast.makeText(this, "ColumnChart called", Toast.LENGTH_SHORT).show();
+            ColumnChartFragment columnChartFragment = new ColumnChartFragment();
+            columnChartFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, columnChartFragment)
+                    .addToBackStack(null).commit();
+        } else if (item.getItemId() == R.id.spline_chart_overall) {
+            SplineChartFragment splineChartFragment = new SplineChartFragment();
+            outputBundle.putBoolean("overall", true);
+            splineChartFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, splineChartFragment)
+                    .addToBackStack(null).commit();
+        } else if (item.getItemId() == R.id.spline_chart_category_wise) {
+            SplineChartFragment splineChartFragment = new SplineChartFragment();
+            outputBundle.putBoolean("overall", false);
+            splineChartFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, splineChartFragment)
+                    .addToBackStack(null).commit();
+        } else {
+            Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

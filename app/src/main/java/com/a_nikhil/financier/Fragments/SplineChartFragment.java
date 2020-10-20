@@ -39,7 +39,6 @@ public class SplineChartFragment extends Fragment {
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
-//        ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
         ArrayList<Expenditure> expenditures = new DummyExpenditures().getExpenditureDataAsList(1);
         final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         if (expenditures == null) {
@@ -77,18 +76,6 @@ public class SplineChartFragment extends Fragment {
         for (Map.Entry<Integer, Double> entry : dateMap.entrySet()) {
             dataForSpline.add(new ValueDataEntry(entry.getKey(), entry.getValue()));
         }
-
-        /*
-        Testing data
-        List<DataEntry> myData = new ArrayList<>();
-        myData.add(new ValueDataEntry(1, 10));
-        myData.add(new ValueDataEntry(2, 20));
-        myData.add(new ValueDataEntry(3, 40));
-        myData.add(new ValueDataEntry(4, 60));
-        myData.add(new ValueDataEntry(5, 10));
-        myData.add(new ValueDataEntry(6, 50));
-        myData.add(new ValueDataEntry(7, 5));
-        */
 
         Set dataSet = Set.instantiate();
         dataSet.data(dataForSpline);

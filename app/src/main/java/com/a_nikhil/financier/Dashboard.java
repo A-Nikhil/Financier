@@ -30,7 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    private Bundle myBundle = new Bundle();
+    private final Bundle myBundle = new Bundle();
     private String email;
 
     @Override
@@ -100,46 +100,39 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        switch (menuItem.getItemId()) {
-            case R.id.menu_dashboard:
-                DashboardFragment dashboardFragment = new DashboardFragment();
-                dashboardFragment.setArguments(myBundle);
-                myBundle.clear();
-                myBundle.putString("email", email);
-                transaction.replace(R.id.fragment_container,
-                        dashboardFragment).addToBackStack(null).commit();
+        if (menuItem.getItemId() == R.id.menu_dashboard) {
+            DashboardFragment dashboardFragment = new DashboardFragment();
+            dashboardFragment.setArguments(myBundle);
+            myBundle.clear();
+            myBundle.putString("email", email);
+            transaction.replace(R.id.fragment_container,
+                    dashboardFragment).addToBackStack(null).commit();
 
-                break;
-            case R.id.menu_expenditure:
-                ExpenditureFragment expenditureFragment = new ExpenditureFragment();
-                expenditureFragment.setArguments(myBundle);
-                myBundle.clear();
-                myBundle.putString("email", email);
-                transaction.replace(R.id.fragment_container,
-                        expenditureFragment).addToBackStack(null).commit();
-                break;
-            case R.id.menu_visualize:
-                VisualizeFragment visualizeFragment = new VisualizeFragment();
-                visualizeFragment.setArguments(myBundle);
-                myBundle.clear();
-                myBundle.putString("email", email);
-                transaction.replace(R.id.fragment_container,
-                        visualizeFragment).addToBackStack(null).commit();
-                break;
-            case R.id.menu_stats:
-                StatsFragment statsFragment = new StatsFragment();
-                statsFragment.setArguments(myBundle);
-                myBundle.clear();
-                myBundle.putString("email", email);
-                transaction.replace(R.id.fragment_container,
-                        statsFragment).addToBackStack(null).commit();
-                break;
-            case R.id.cloud_download:
-                Toast.makeText(getApplicationContext(), "Downloaded from cloud", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cloud_upload:
-                Toast.makeText(getApplicationContext(), "Uploaded to cloud", Toast.LENGTH_SHORT).show();
-                break;
+        } else if (menuItem.getItemId() == R.id.menu_expenditure) {
+            ExpenditureFragment expenditureFragment = new ExpenditureFragment();
+            expenditureFragment.setArguments(myBundle);
+            myBundle.clear();
+            myBundle.putString("email", email);
+            transaction.replace(R.id.fragment_container,
+                    expenditureFragment).addToBackStack(null).commit();
+        } else if (menuItem.getItemId() == R.id.menu_visualize) {
+            VisualizeFragment visualizeFragment = new VisualizeFragment();
+            visualizeFragment.setArguments(myBundle);
+            myBundle.clear();
+            myBundle.putString("email", email);
+            transaction.replace(R.id.fragment_container,
+                    visualizeFragment).addToBackStack(null).commit();
+        } else if (menuItem.getItemId() == R.id.menu_stats) {
+            StatsFragment statsFragment = new StatsFragment();
+            statsFragment.setArguments(myBundle);
+            myBundle.clear();
+            myBundle.putString("email", email);
+            transaction.replace(R.id.fragment_container,
+                    statsFragment).addToBackStack(null).commit();
+        } else if (menuItem.getItemId() == R.id.cloud_download) {
+            Toast.makeText(getApplicationContext(), "Downloaded from cloud", Toast.LENGTH_SHORT).show();
+        } else if (menuItem.getItemId() == R.id.cloud_upload) {
+            Toast.makeText(getApplicationContext(), "Uploaded to cloud", Toast.LENGTH_SHORT).show();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -163,19 +156,19 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings_dot_menu:
-                startActivity(new Intent(Dashboard.this, SettingsActivity.class));
-                return true;
-            case R.id.about_dot_menu:
-                startActivity(new Intent(Dashboard.this, About.class));
-                return true;
-            case R.id.logout_dot_menu:
-                openDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.settings_dot_menu) {
+            startActivity(new Intent(Dashboard.this, SettingsActivity.class));
+            return true;
+        }
+        if (item.getItemId() == R.id.about_dot_menu) {
+            startActivity(new Intent(Dashboard.this, About.class));
+            return true;
+        }
+        if (item.getItemId() == R.id.logout_dot_menu) {
+            openDialog();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

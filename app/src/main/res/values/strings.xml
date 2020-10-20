@@ -149,12 +149,13 @@
     <string name="each_category_expenditure">Category wise</string>
     <string name="monthly_percentage_pie_chart">Expenditure Distribution</string>
     <string name="monthly_percentage_column_chart">ColumnWise Display</string>
+    <string name="spline_chart_overall">Monthly overalls</string>
+    <string name="spline_chart_category_wise">Monthly Overalls (CategoryWise)</string>
 
     <!-- Pie chart fragment -->
     <string name="pie_chart_description">How much you spent per Category</string>
 
     <!-- Column chart fragment -->
     <string name="adjust_graph">Adjust Graph to your Income</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -11,10 +11,10 @@
             android:id="@+id/monthly_percentage_column_chart"
             android:title="@string/monthly_percentage_column_chart" />
         <item
-            android:id="@+id/categories_vs_total2"
-            android:title="@string/each_category_expenditure" />
+            android:id="@+id/spline_chart_overall"
+            android:title="@string/spline_chart_overall" />
         <item
-            android:id="@+id/categories_vs_total3"
-            android:title="@string/each_category_expenditure" />
+            android:id="@+id/spline_chart_category_wise"
+            android:title="@string/spline_chart_category_wise" />
     </group>
 </menu>
