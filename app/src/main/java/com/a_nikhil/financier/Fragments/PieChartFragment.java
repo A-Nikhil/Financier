@@ -23,6 +23,7 @@ import com.anychart.chart.common.listener.ListenersInterface;
 import com.anychart.charts.Pie;
 import com.anychart.enums.Align;
 import com.anychart.enums.LegendLayout;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class PieChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View myView = inflater.inflate(R.layout.fragment_pie_chart, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false);
         context = getActivity();
 
         Log.d(TAG, "onCreateView: Enter PieChart");
@@ -49,10 +50,14 @@ public class PieChartFragment extends Fragment {
 
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
         Double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        if (expenditures == null) {
+            Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
+            return rootView;
+        }
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
-        displayPieChart(myView, expenditures, maxIncome);
-        return myView;
+        displayPieChart(rootView, expenditures, maxIncome);
+        return rootView;
     }
 
     private void displayPieChart(final View rootView, ArrayList<Expenditure> expenditures, Double maxIncome) {

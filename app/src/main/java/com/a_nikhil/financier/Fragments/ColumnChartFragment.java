@@ -18,10 +18,12 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Column;
 import com.anychart.enums.Anchor;
 import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,15 +45,19 @@ public class ColumnChartFragment extends Fragment {
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
 //        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         final double maxIncome = 30000d;
+        if (expenditures == null) {
+            Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
+            return rootView;
+        }
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
 
         // InitData
         final List<DataEntry> dataForColumn = new ArrayList<>();
-        final String[] palette = formColumnDataAndPalette(expenditures, dataForColumn);
+        formColumnDataAndPalette(expenditures, dataForColumn);
 
         // Construct Chart
-        constructColumnChart(rootView, dataForColumn, palette);
+        constructColumnChart(rootView, dataForColumn);
         adjustButton.setClickable(true);
 
         // Graph will be adjusted for maximum income
@@ -64,20 +70,15 @@ public class ColumnChartFragment extends Fragment {
     }
 
 
-    private void constructColumnChart(final View rootView, List<DataEntry> dataForColumn, String[] palette) {
+    private void constructColumnChart(final View rootView, List<DataEntry> dataForColumn) {
         AnyChartView chartPlaceholder = rootView.findViewById(R.id.column_chart_placeholder);
         chartPlaceholder.setProgressBar(rootView.findViewById(R.id.progress_bar_column));
 
         columns = AnyChart.column();
-
-        List<DataEntry> dataForColumn1 = new ArrayList<>();
-        dataForColumn1.add(new ValueDataEntry("Food", 30));
-        dataForColumn1.add(new ValueDataEntry("Work", 40));
-        dataForColumn1.add(new ValueDataEntry("Education", 50));
-        String[] palette1 = new String[]{"#F4D03F", "#5DADE2", "#D98880"};
+        Column series = columns.column(dataForColumn);
+        series.name("Expenditure");
 
 //        columns.data(dataForColumn);
-        columns.data(dataForColumn1);
 
         columns.tooltip()
                 .titleFormat("{%X}")
@@ -99,14 +100,10 @@ public class ColumnChartFragment extends Fragment {
         columns.xAxis(0).title("Category");
         columns.yAxis(0).title("Amount");
 
-//        columns.palette(palette);
-        columns.palette(palette1);
-
         chartPlaceholder.setChart(columns);
     }
 
-    private String[] formColumnDataAndPalette(ArrayList<Expenditure> expenditures, List<DataEntry> dataForColumn) {
-        ArrayList<String> palette = new ArrayList<>();
+    private void formColumnDataAndPalette(ArrayList<Expenditure> expenditures, List<DataEntry> dataForColumn) {
         double[] categoryWise = new double[8];
         for (Expenditure expenditure : expenditures) {
             Log.d(TAG, "formatDataForPie: " + expenditure);
@@ -122,10 +119,18 @@ public class ColumnChartFragment extends Fragment {
 
         for (int i = 0; i < 8; i++) {
             if (categoryWise[i] > 0) {
-                dataForColumn.add(new ValueDataEntry(categories[i], categoryWise[i]));
-                palette.add(colorMap.get(Category.valueOf(categories[i])));
+                String color = colorMap.get(Category.valueOf(categories[i]));
+                Log.d(TAG, "formColumnDataAndPalette: {Category="+categories[i]+",Color="+color);
+                dataForColumn.add(new ColumnDataEntry(categories[i], categoryWise[i], color));
             }
         }
-        return palette.toArray(new String[0]);
+    }
+
+    private static class ColumnDataEntry extends ValueDataEntry {
+        ColumnDataEntry(String x, Number value, String color) {
+            super(x, value);
+            setValue("fill", color);
+            setValue("stroke", 0);
+        }
     }
 }

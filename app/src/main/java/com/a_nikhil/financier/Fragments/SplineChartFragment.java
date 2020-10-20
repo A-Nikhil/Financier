@@ -18,6 +18,7 @@ import com.anychart.charts.Cartesian;
 import com.anychart.core.cartesian.series.Spline;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,11 @@ public class SplineChartFragment extends Fragment {
         assert inputBundle != null;
 
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
-//        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
-        final double maxIncome = 30000d;
+        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        if (expenditures == null) {
+            Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
+            return rootView;
+        }
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
         createSplineChart(rootView, expenditures);
