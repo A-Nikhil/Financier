@@ -31,36 +31,41 @@ import java.util.Map;
 
 public class SplineChartFragment extends Fragment {
     private static final String TAG = "SplineChartFragment";
+    private ArrayList<Expenditure> expenditures;
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_spline_chart, container, false);
+        rootView = inflater.inflate(R.layout.fragment_spline_chart, container, false);
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
-        ArrayList<Expenditure> expenditures = new DummyExpenditures().getExpenditureDataAsList(1);
+        expenditures = new DummyExpenditures().getExpenditureDataAsList(1);
         final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
             return rootView;
         }
+
         Log.d(TAG, "onCreateView: " + expenditures.toString());
         Log.d(TAG, "onCreateView: Max Income = " + maxIncome);
-        createSplineChart(rootView, expenditures);
-        return rootView;
-    }
-
-    @SuppressWarnings("all")
-    private void createSplineChart(final View rootView, ArrayList<Expenditure> expenditures) {
-        AnyChartView chartPlaceholder = rootView.findViewById(R.id.spline_chart_view);
-        chartPlaceholder.setProgressBar(rootView.findViewById(R.id.spline_progress_bar));
-        Cartesian line = AnyChart.line();
 
         // Get month
         Date today = new Date();
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         int month = Integer.parseInt(formatter.format(today).split("/")[1]);
+        Log.d(TAG, "onCreateView: Month = " + month);
+
+        createSplineChart(month);
+        return rootView;
+    }
+
+    @SuppressWarnings("all")
+    private void createSplineChart(int month) {
+        AnyChartView chartPlaceholder = rootView.findViewById(R.id.spline_chart_view);
+        chartPlaceholder.setProgressBar(rootView.findViewById(R.id.spline_progress_bar));
+        Cartesian line = AnyChart.line();
 
         // Map Data of expenditures of current month
         HashMap<Integer, Double> dateMap = new HashMap<>(); // Day of Month : Total amount spent on that day
@@ -80,9 +85,11 @@ public class SplineChartFragment extends Fragment {
         Set dataSet = Set.instantiate();
         dataSet.data(dataForSpline);
         dataSet.mapAs("{ x: 'x', value: 'value' }");
+
         line.spline(dataSet, "");
         line.animation(true);
         line.xScroller(true);
+        line.xScale("{mode: 'continuous'}");
         line.title("For the month of - " + month);
 
         chartPlaceholder.setChart(line);

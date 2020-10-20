@@ -11,9 +11,9 @@ public enum Category {
     TRAVEL("travel", 2, 7),
     EDUCATION("education", 1, 8);
 
-    private String description;
-    private int category;
-    private int index;
+    private final String description;
+    private final int category;
+    private final int index;
 
     Category(String description, int category, int index) {
         this.description = description;
@@ -33,7 +33,7 @@ public enum Category {
         return index;
     }
 
-    public Category getCategoryFromIndex(int index) {
+    public static Category getCategoryFromIndex(int index) {
         Category[] myCategories = {FOOD, HOUSEHOLD, SOCIAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
         return myCategories[index - 1];
     }

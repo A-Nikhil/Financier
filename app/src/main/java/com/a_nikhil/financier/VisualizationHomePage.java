@@ -105,13 +105,11 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
                     .addToBackStack(null).commit();
         } else if (item.getItemId() == R.id.spline_chart_overall) {
             SplineChartFragment splineChartFragment = new SplineChartFragment();
-            outputBundle.putBoolean("overall", true);
             splineChartFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, splineChartFragment)
                     .addToBackStack(null).commit();
-        } else if (item.getItemId() == R.id.spline_chart_category_wise) {
+        } else if (item.getItemId() == R.id.scatter_chart) {
             SplineChartFragment splineChartFragment = new SplineChartFragment();
-            outputBundle.putBoolean("overall", false);
             splineChartFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, splineChartFragment)
                     .addToBackStack(null).commit();

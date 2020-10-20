@@ -14,7 +14,7 @@
             android:id="@+id/spline_chart_overall"
             android:title="@string/spline_chart_overall" />
         <item
-            android:id="@+id/spline_chart_category_wise"
-            android:title="@string/spline_chart_category_wise" />
+            android:id="@+id/scatter_chart"
+            android:title="@string/scatter_chart" />
     </group>
 </menu>
