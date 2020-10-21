@@ -18,9 +18,14 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.SortedMap;
 
 public class CircularGaugeFragment extends Fragment {
 
@@ -40,6 +45,7 @@ public class CircularGaugeFragment extends Fragment {
 
         expenditures = new DummyExpenditures().getExpenditureDataAsList();
         maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        maxIncome = 30000d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
             return rootView;
@@ -60,33 +66,42 @@ public class CircularGaugeFragment extends Fragment {
 
     private void createCircularGauge(int month) {
         // Initializing data
-        double[] categoryPercentage = new double[9];
-        double sum = 0.0d;
+        double[] categorySum = new double[8];
+        double total = 0.0d;
 
         // Calculating total
+        Map<String, Double> costMap = new HashMap<>();
         for (Expenditure expenditure : expenditures) {
-            if (Integer.parseInt(expenditure.getDate().split("/")[1]) == month) {
-                categoryPercentage[expenditure.getCategory().getIndex() - 1] += expenditure.getAmount();
-                sum += expenditure.getAmount();
+            int eMonth = Integer.parseInt(expenditure.getDate().split("/")[1]); // expenditureMonth -> eMonth
+            if (eMonth == month) {
+                String category = expenditure.getCategory().toString();
+                costMap.put(category, costMap.getOrDefault(category, 0d) + expenditure.getAmount());
             }
         }
-        categoryPercentage[8] = maxIncome - sum; // savings
+
+        List<Map.Entry<String, Double>> costMapEntrySet = new LinkedList<>(costMap.entrySet());
+        costMapEntrySet.sort(Map.Entry.comparingByValue());
 
         // Get percentages
-        List<Double> data = new ArrayList<>();
-        for (double percentage : categoryPercentage) {
-            if (percentage != 0) {
-                data.add((percentage * 100 / maxIncome));
+        List<Integer> data = new ArrayList<>();
+        for (double sum : categorySum) {
+            if (sum != 0) {
+                Log.d(TAG, "\ncreateCircularGauge: sum = " + sum + " maxIncome = " + maxIncome);
+                data.add(((int)sum * 100) / (int)maxIncome);
             }
         }
+
+        Log.d(TAG, "\ncreateCircularGauge: savings = " + (maxIncome - total) + " maxIncome = " + maxIncome);
+        data.add((int)(maxIncome - total) * 100 / (int)maxIncome);
+        data.add(100); // 100%
 
         // Creating circular gauge
         AnyChartView chartPlaceholder = rootView.findViewById(R.id.circular_chart_view);
         chartPlaceholder.setProgressBar(rootView.findViewById(R.id.circular_progress_bar));
-
         CircularGauge circular = AnyChart.circular();
-        Log.d(TAG, "createCircularGauge: " + data);
-        circular.data(new SingleValueDataSet(data.toArray(new Double[0])));
+
+        Log.d(TAG, "createCircularGauge: Data = " + data);
+//        circular.data(new SingleValueDataSet(data.toArray(new Double[0])));
 
         circular.fill("#fff")
                 .stroke(null)

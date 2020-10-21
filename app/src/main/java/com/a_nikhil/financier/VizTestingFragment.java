@@ -36,8 +36,8 @@ public class VizTestingFragment extends Fragment {
                 .stroke(null)
                 .padding(0d, 0d, 0d, 0d)
                 .margin(100d, 100d, 100d, 100d);
-        circularGauge.startAngle(0d);
-        circularGauge.sweepAngle(270d);
+        circularGauge.startAngle(180d);
+        circularGauge.sweepAngle(-270d);
 
         Circular xAxis = circularGauge.axis(0)
                 .radius(100d)
