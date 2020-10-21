@@ -107,12 +107,19 @@ public class ScatterChartFragment extends Fragment {
 
         scatter.tooltip().displayMode(TooltipDisplayMode.UNION);
 
+        // Adding Markers
         Marker marker = scatter.marker(dataForScatter);
         marker.type(MarkerType.CIRCLE)
                 .size(4d);
         marker.tooltip()
                 .hAlign(HAlign.START)
                 .format("Title: ${%title} \\nDate: ${%X} \\nAmount: ${%Value}");
+
+        // FIXME: 21-10-2020 Adding different mappings
+
+
+        // fixme Adding zoom to Scatter Chart
+
 
         chartPlaceholder.setChart(scatter);
     }

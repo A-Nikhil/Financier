@@ -16,6 +16,7 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Spline;
 import com.anychart.data.Set;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -88,6 +89,7 @@ public class SplineChartFragment extends Fragment {
         line.spline(dataSet, "");
         line.animation(true);
         line.xScroller(true);
+        line.xZoom().setTo(0, 0.3);
         line.xScale("{mode: 'continuous'}");
         line.title("For the month of - " + month);
 
