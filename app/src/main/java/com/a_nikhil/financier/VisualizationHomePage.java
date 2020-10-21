@@ -114,7 +114,20 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
             scatterChartFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, scatterChartFragment)
                     .addToBackStack(null).commit();
-        } else {
+        }
+        else if (item.getItemId() == R.id.circular_gauge) {
+            CircularGaugeFragment circularGaugeFragment = new CircularGaugeFragment();
+            circularGaugeFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, circularGaugeFragment)
+                    .addToBackStack(null).commit();
+        }
+        else if (item.getItemId() == R.id.testing) {
+            VizTestingFragment vizTest = new VizTestingFragment();
+            vizTest.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, vizTest)
+                    .addToBackStack(null).commit();
+        }
+        else {
             Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();
         }
         drawer.closeDrawer(GravityCompat.START);

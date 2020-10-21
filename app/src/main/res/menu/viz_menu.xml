@@ -16,5 +16,13 @@
         <item
             android:id="@+id/scatter_chart"
             android:title="@string/scatter_chart" />
+
+        <item
+            android:id="@+id/circular_gauge"
+            android:title="@string/category_overall_circular" />
+
+        <item
+            android:id="@+id/testing"
+            android:title="@string/testing" />
     </group>
 </menu>
