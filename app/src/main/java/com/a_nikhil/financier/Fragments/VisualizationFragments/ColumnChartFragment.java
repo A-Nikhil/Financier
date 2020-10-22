@@ -91,6 +91,9 @@ public class ColumnChartFragment extends Fragment {
 
         columns.yScale().minimum(0d);
 
+        columns.xScroller(true);
+        columns.xZoom().setToPointsCount(3, false, columns.xScale());
+
         columns.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
 
         columns.tooltip().positionMode(TooltipPositionMode.POINT);
