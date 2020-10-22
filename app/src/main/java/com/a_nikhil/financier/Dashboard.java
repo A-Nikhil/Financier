@@ -32,23 +32,27 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private final Bundle myBundle = new Bundle();
     private DrawerLayout drawer;
     private String email;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Bundle inputBundle = getIntent().getExtras();
-        email = inputBundle.getString("email");
+        assert inputBundle != null;
+        email = inputBundle.containsKey("email") ? inputBundle.getString("email") : "No Email found";
 
         /* Uncomment for testing
         email = "covid19@pandemic.org";
+        inputBundle.putBoolean("coming_from_login_signup", true);
         Test section over */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.dashboard_drawer_layout);
-        NavigationView navigationView = findViewById(R.id.dash_nav_view);
+        navigationView = findViewById(R.id.dash_nav_view);
         View headerView = navigationView.getHeaderView(0);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // Set Name and Email
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
@@ -57,7 +61,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         navName.setText(user.getName());
         TextView navEmail = (headerView.findViewById(R.id.nav_header_email));
         navEmail.setText(user.getEmail());
-        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.dashboard_nav_drawer_open,
@@ -66,9 +69,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
 
         myBundle.putString("email", email);
-        if (inputBundle == null) {
+        if (inputBundle.containsKey("coming_from_login_signup")) {
             DashboardFragment dashboardFragment = new DashboardFragment();
             dashboardFragment.setArguments(myBundle);
+            Toast.makeText(this, "Coming from signup", Toast.LENGTH_SHORT).show();
             myBundle.clear();
             myBundle.putString("email", email);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -76,6 +80,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             navigationView.setCheckedItem(R.id.menu_dashboard);
         } else {
             if (inputBundle.containsKey("newExpenditurePresent")) {
+                Toast.makeText(this, "Coming from NEA", Toast.LENGTH_SHORT).show();
                 boolean newExpenditurePresent = inputBundle.getBoolean("newExpenditurePresent");
                 Log.d("NewExpenditureActivity test", "onCreate: New Expenditure Present = " + newExpenditurePresent);
                 if (newExpenditurePresent) {
@@ -85,11 +90,13 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 myBundle.putBoolean("newExpenditurePresent", newExpenditurePresent);
                 ExpenditureFragment expenditureFragment = new ExpenditureFragment();
                 expenditureFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expenditureFragment).commit();
                 navigationView.setCheckedItem(R.id.menu_expenditure);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expenditureFragment).commit();
             } else {
                 DashboardFragment dashboardFragment = new DashboardFragment();
                 dashboardFragment.setArguments(myBundle);
+                myBundle.putBoolean("coming_from_new_expenditure", false);
+                navigationView.setCheckedItem(R.id.menu_dashboard);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         dashboardFragment).commit();
             }
@@ -99,29 +106,32 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (menuItem.getItemId() == R.id.menu_dashboard) {
+        if (menuItem.getItemId() == R.id.menu_dashboard) {          // Dashboard
             DashboardFragment dashboardFragment = new DashboardFragment();
             dashboardFragment.setArguments(myBundle);
             myBundle.clear();
             myBundle.putString("email", email);
+            navigationView.setCheckedItem(R.id.menu_dashboard);
             transaction.replace(R.id.fragment_container,
                     dashboardFragment).addToBackStack(null).commit();
 
-        } else if (menuItem.getItemId() == R.id.menu_expenditure) {
+        } else if (menuItem.getItemId() == R.id.menu_expenditure) {          // Expenditure
             ExpenditureFragment expenditureFragment = new ExpenditureFragment();
             expenditureFragment.setArguments(myBundle);
             myBundle.clear();
             myBundle.putString("email", email);
+            navigationView.setCheckedItem(R.id.menu_expenditure);
             transaction.replace(R.id.fragment_container,
                     expenditureFragment).addToBackStack(null).commit();
-        } else if (menuItem.getItemId() == R.id.menu_visualize) {
+        } else if (menuItem.getItemId() == R.id.menu_visualize) {          // Visualize
             VisualizeFragment visualizeFragment = new VisualizeFragment();
             visualizeFragment.setArguments(myBundle);
             myBundle.clear();
             myBundle.putString("email", email);
+            navigationView.setCheckedItem(R.id.menu_visualize);
             transaction.replace(R.id.fragment_container,
                     visualizeFragment).addToBackStack(null).commit();
-        } else if (menuItem.getItemId() == R.id.menu_stats) {
+        } else if (menuItem.getItemId() == R.id.menu_stats) {          // Dashboard
             StatsFragment statsFragment = new StatsFragment();
             statsFragment.setArguments(myBundle);
             myBundle.clear();

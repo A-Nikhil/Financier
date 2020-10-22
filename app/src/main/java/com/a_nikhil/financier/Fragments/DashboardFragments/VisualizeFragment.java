@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.VisualizationHomePage;
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 public class VisualizeFragment extends Fragment {
 
@@ -22,10 +23,7 @@ public class VisualizeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_visualize, container, false);
 
-        FragmentActivity activity = getActivity();
-        assert activity != null;
-
-        DatabaseHelper db = new DatabaseHelper(activity);
+        DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
@@ -33,16 +31,22 @@ public class VisualizeFragment extends Fragment {
         String name = db.getUserData().getName();
         String maxIncome = db.getUserData().getMaxIncome().toString();
 
+        final int numberOfExpenditures = db.getExpenditureDataAsList().size();
+
         final Bundle outputBundle = new Bundle();
         outputBundle.putString("email", email);
         outputBundle.putString("name", name);
         outputBundle.putString("maxIncome", maxIncome);
 
         (rootView.findViewById(R.id.visualize_button_fragment)).setOnClickListener(view -> {
-            // fixme Pass to Activity
-            Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
-            intent.putExtras(outputBundle);
-            startActivity(intent);
+            if (numberOfExpenditures == 0) {
+                Snackbar.make(getActivity().findViewById(R.id.fragment_container),
+                        "No Expenditures Yet", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
+                intent.putExtras(outputBundle);
+                startActivity(intent);
+            }
         });
         return rootView;
     }

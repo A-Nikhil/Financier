@@ -120,11 +120,14 @@ public class SignupActivity extends AppCompatActivity {
                         addToCache(user, localDB);
 
                         //  Send intent to dashboard
-                        Intent intent = new Intent(SignupActivity.this, Dashboard.class);
+                        Intent goToDashboard = new Intent(SignupActivity.this, Dashboard.class);
                         Bundle myBundle = new Bundle();
                         myBundle.putString("email", user.getEmail());
-                        intent.putExtras(myBundle);
-                        startActivity(intent);
+//                        myBundle.putString("name", user.getName());
+//                        myBundle.putString("maxIncome", String.valueOf(user.getMaxIncome()));
+                        myBundle.putBoolean("coming_from_login_signup", true);
+                        goToDashboard.putExtras(myBundle);
+                        startActivity(goToDashboard);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

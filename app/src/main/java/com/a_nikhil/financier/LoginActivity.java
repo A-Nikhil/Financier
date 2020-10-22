@@ -96,36 +96,30 @@ public class LoginActivity extends AppCompatActivity {
         final DatabaseHelper localDB = new DatabaseHelper(getApplicationContext());
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        FirebaseUser firestoreUser = auth.getCurrentUser();
-                        if (firestoreUser != null) {
-                            Toast.makeText(getApplicationContext(), "Hello " + firestoreUser.getDisplayName(), Toast.LENGTH_SHORT).show();
-                            snackbar.showStatus("You are now logged in");
-                            getUserData(db, firestoreUser.getEmail(), new LoginCallback() {
-                                @Override
-                                public void onCallback(User user) {
-                                    activityObject.addToCache(user, localDB);
-                                    //  Send intent to dashboard
-                                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                                    Bundle myBundle = new Bundle();
-                                    myBundle.putString("email", user.getEmail());
-                                    intent.putExtras(myBundle);
-                                    startActivity(intent);
-                                }
-                            });
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser firestoreUser = auth.getCurrentUser();
+                    if (firestoreUser != null) {
+                        Toast.makeText(getApplicationContext(), "Hello " + firestoreUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+                        snackbar.showStatus("You are now logged in");
+                        getUserData(db, firestoreUser.getEmail(), user -> {
+                            activityObject.addToCache(user, localDB);
+                            //  Send intent to dashboard
+                            Intent goToDashboard = new Intent(LoginActivity.this, Dashboard.class);
+                            Bundle myBundle = new Bundle();
+                            myBundle.putString("email", user.getEmail());
+//                            myBundle.putString("name", user.getName());
+//                            myBundle.putString("maxIncome", String.valueOf(user.getMaxIncome()));
+                            myBundle.putBoolean("coming_from_login_signup", true);
+                            goToDashboard.putExtras(myBundle);
+                            startActivity(goToDashboard);
+                        });
 
-                        }
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        tints.setTintOnEditText(context, emailField);
-                        tints.setTintOnEditText(context, passwordField);
-                        snackbar.showStatus("Wrong Combination");
-                    }
+                .addOnFailureListener(e -> {
+                    tints.setTintOnEditText(context, emailField);
+                    tints.setTintOnEditText(context, passwordField);
+                    snackbar.showStatus("Wrong Combination");
                 });
     }
 
@@ -133,32 +127,29 @@ public class LoginActivity extends AppCompatActivity {
         db.collection(collection)
                 .document(email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            assert document != null;
-                            if (document.exists()) {
-                                Map<String, Object> userWithEmail = document.getData();
-                                assert userWithEmail != null;
-                                //  User exists
-                                User user = new User(
-                                        String.valueOf(userWithEmail.get("name")),
-                                        String.valueOf(userWithEmail.get("email")),
-                                        String.valueOf(userWithEmail.get("phone")),
-                                        String.valueOf(userWithEmail.get("password")),
-                                        Double.parseDouble(String.valueOf(userWithEmail.get("maxIncome")))
-                                );
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        assert document != null;
+                        if (document.exists()) {
+                            Map<String, Object> userWithEmail = document.getData();
+                            assert userWithEmail != null;
+                            //  User exists
+                            User user = new User(
+                                    String.valueOf(userWithEmail.get("name")),
+                                    String.valueOf(userWithEmail.get("email")),
+                                    String.valueOf(userWithEmail.get("phone")),
+                                    String.valueOf(userWithEmail.get("password")),
+                                    Double.parseDouble(String.valueOf(userWithEmail.get("maxIncome")))
+                            );
 
-                                loginCallback.onCallback(user);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
-                                snackbar.showStatus("User Not Found");
-                            }
+                            loginCallback.onCallback(user);
                         } else {
-                            Log.d("LoginWindow", "Error getting documents: ", task.getException());
+                            Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                            snackbar.showStatus("User Not Found");
                         }
+                    } else {
+                        Log.d("LoginWindow", "Error getting documents: ", task.getException());
                     }
                 });
     }

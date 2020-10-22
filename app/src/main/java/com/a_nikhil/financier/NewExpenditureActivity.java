@@ -70,6 +70,13 @@ public class NewExpenditureActivity extends AppCompatActivity {
                 addNewExpenditure(view);
             }
         });
+
+        findViewById(R.id.cancelAddNewExpenditureActivity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelActivity(view);
+            }
+        });
     }
 
     public void addNewExpenditure(View v) {
@@ -91,6 +98,7 @@ public class NewExpenditureActivity extends AppCompatActivity {
             bundle.putStringArray("newExpenditureData", data);
             bundle.putString("email", userEmail);
             bundle.putBoolean("newExpenditurePresent", true);
+//            bundle.putBoolean("coming_from_new_expenditure", true);
             Intent backToDashboard = new Intent(NewExpenditureActivity.this, Dashboard.class);
             backToDashboard.putExtras(bundle);
             startActivity(backToDashboard);
@@ -139,6 +147,12 @@ public class NewExpenditureActivity extends AppCompatActivity {
     }
 
     public void cancelActivity(View v) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("email", userEmail);
+        bundle.putBoolean("newExpenditurePresent", false);
+//        bundle.putBoolean("coming_from_new_expenditure", true);
+        Intent backToDashboard = new Intent(NewExpenditureActivity.this, Dashboard.class);
+        backToDashboard.putExtras(bundle);
+        startActivity(backToDashboard);
     }
 }

@@ -13,9 +13,10 @@ import com.a_nikhil.financier.commons.User;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("all")
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "financier";
-    private static int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
     private final UserDatabase userDatabase = new UserDatabase();
     private final ExpenditureDatabase expenditureDatabase = new ExpenditureDatabase();
 
@@ -50,10 +51,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             database.insert(userDatabase.getTableName(), null, values);
-            database.close();
+            
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -77,9 +78,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        database.close();
+        
         return user;
     }
+
 
     public boolean updateUser(User user, String identityEmail) {
         SQLiteDatabase database = getWritableDatabase();
@@ -100,10 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             user.getPassword(),
                             identityEmail
                     });
-            database.close();
+            
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -117,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             database.execSQL(sqlQuery, new String[]{user.getEmail()});
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -134,10 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(expenditureDatabase.getCategoryColumn(), expenditure.getCategory().getDescription());
         try {
             database.insert(expenditureDatabase.getTableName(), null, values);
-            database.close();
+            
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -160,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        database.close();
+        
         return expenditure;
     }
 
@@ -181,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        database.close();
+        
         return expenditures;
     }
 
@@ -213,10 +215,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             expenditure.getCategory().toString(),
                             date, title
                     });
-            database.close();
+            
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -232,7 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             expenditure.getDate()});
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -244,10 +246,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             database.execSQL("delete from user");
             database.execSQL("delete from Expenditure");
-            database.close();
+            
             return true;
         } catch (Exception e) {
-            database.close();
+            
             Log.d("DatabaseInteraction", e.getMessage());
             return false;
         }

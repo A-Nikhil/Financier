@@ -107,6 +107,8 @@ public class Expenditure implements Parcelable {
     }
 
     private String formatDate(String date) {
+        if (date.length() == 10)
+            return date;
         String[] dateComponents = date.split("/");
         dateComponents[0] = Integer.parseInt(dateComponents[0]) < 10 ?
                 "0" + dateComponents[0] : dateComponents[0];
