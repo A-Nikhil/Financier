@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExpenditureFragment extends Fragment {
 
@@ -49,12 +50,12 @@ public class ExpenditureFragment extends Fragment {
         getActivity().setTitle("Expenditures");
         Log.d(TAG, "onCreateView: called");
 
-        db = new DatabaseHelper(getActivity());
+        db = new DatabaseHelper(getActivity().getApplicationContext());
 
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
         userEmail = inputBundle.getString("email");
-        DatabaseHelper db = new DatabaseHelper(getActivity());
+        DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         username = db.getUserData().getName();
         maxIncome = db.getUserData().getMaxIncome().toString();
         Toast.makeText(getActivity(), userEmail, Toast.LENGTH_SHORT).show();
@@ -76,6 +77,7 @@ public class ExpenditureFragment extends Fragment {
             if (inputBundle.getBoolean("newExpenditurePresent")) {
                 // expenditureData[] = {name, amount, date, category};
                 String[] expenditureData = inputBundle.getStringArray("newExpenditureData");
+                Log.d(TAG, "onCreateView: Expenditure data: " + Arrays.asList(expenditureData));
                 assert expenditureData != null;
                 setNewExpenditureFromActivity(expenditureData[0], expenditureData[1],
                         expenditureData[2], expenditureData[3]);
@@ -103,7 +105,7 @@ public class ExpenditureFragment extends Fragment {
         String collection = getResources().getString(R.string.collection);
 
         // Add input to database
-        DatabaseHelper db = new DatabaseHelper(getActivity());
+        DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         db.insertExpenditure(expenditure);
 
         // Add to firebase

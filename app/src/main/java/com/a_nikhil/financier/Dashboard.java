@@ -72,6 +72,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         if (inputBundle.containsKey("coming_from_login_signup")) {
             DashboardFragment dashboardFragment = new DashboardFragment();
             dashboardFragment.setArguments(myBundle);
+            Toast.makeText(this, "Coming from signup", Toast.LENGTH_SHORT).show();
             myBundle.clear();
             myBundle.putString("email", email);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -79,6 +80,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             navigationView.setCheckedItem(R.id.menu_dashboard);
         } else {
             if (inputBundle.containsKey("newExpenditurePresent")) {
+                Toast.makeText(this, "Coming from NEA", Toast.LENGTH_SHORT).show();
                 boolean newExpenditurePresent = inputBundle.getBoolean("newExpenditurePresent");
                 Log.d("NewExpenditureActivity test", "onCreate: New Expenditure Present = " + newExpenditurePresent);
                 if (newExpenditurePresent) {

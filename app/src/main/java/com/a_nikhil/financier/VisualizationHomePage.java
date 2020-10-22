@@ -23,6 +23,7 @@ import com.a_nikhil.financier.Fragments.VisualizationFragments.PieChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.PolarChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.ScatterChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.SplineChartFragment;
+import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
 
@@ -82,8 +83,8 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
                 "\u20B9 " + maxIncome, flag));
 
         // Get data from local database
-        // DatabaseHelper db = new DatabaseHelper(this);
-        DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
+         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+//        DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
         ArrayList<Expenditure> expenditures = db.getExpenditureDataAsList();
 
         // Generate an output bundle

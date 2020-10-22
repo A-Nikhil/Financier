@@ -23,10 +23,7 @@ public class VisualizeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_visualize, container, false);
 
-        FragmentActivity activity = getActivity();
-        assert activity != null;
-
-        DatabaseHelper db = new DatabaseHelper(activity);
+        DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
@@ -34,7 +31,7 @@ public class VisualizeFragment extends Fragment {
         String name = db.getUserData().getName();
         String maxIncome = db.getUserData().getMaxIncome().toString();
 
-        int numberOfExpenditures = db.getExpenditureDataAsList().size();
+        final int numberOfExpenditures = db.getExpenditureDataAsList().size();
 
         final Bundle outputBundle = new Bundle();
         outputBundle.putString("email", email);

@@ -117,13 +117,13 @@ public class DashboardFragment extends Fragment {
             }
 
             //  Adding the above data to local DB
-            DatabaseHelper db1 = new DatabaseHelper(getActivity());
+            DatabaseHelper db1 = new DatabaseHelper(getActivity().getApplicationContext());
             if (db1.wipeClean()) {
                 Log.d(TAG, "onCallback: Wipe Data worked");
             } else {
                 Log.d(TAG, "onCallback: Wipe Data sucked");
             }
-            db1 = new DatabaseHelper(getActivity());
+            db1 = new DatabaseHelper(getActivity().getApplicationContext());
             int total = expendituresList.size(); // TESTING
             int count = 0;
             for (Expenditure expenditure : expendituresList) {
