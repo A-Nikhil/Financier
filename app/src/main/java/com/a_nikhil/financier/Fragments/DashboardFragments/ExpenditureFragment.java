@@ -29,24 +29,28 @@ import java.util.ArrayList;
 public class ExpenditureFragment extends Fragment {
 
     private static final String TAG = "DashboardFragment";
-    private String userEmail;
-    private DatabaseHelper db;
     private final ArrayList<String> mExpenditureTitles = new ArrayList<>(),
             mExpenditureCategories = new ArrayList<>(),
             mExpenditureDates = new ArrayList<>(),
             mExpenditureAmounts = new ArrayList<>();
+    private String userEmail;
+    private DatabaseHelper db;
     private View rootView;
     private String username;
     private String maxIncome;
+    private ShowStatusAsSnackbar snackbar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_expenditure, container, false);
+
         assert getActivity() != null;
         getActivity().setTitle("Expenditures");
         Log.d(TAG, "onCreateView: called");
+
         db = new DatabaseHelper(getActivity());
+
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
         userEmail = inputBundle.getString("email");
@@ -54,6 +58,9 @@ public class ExpenditureFragment extends Fragment {
         username = db.getUserData().getName();
         maxIncome = db.getUserData().getMaxIncome().toString();
         Toast.makeText(getActivity(), userEmail, Toast.LENGTH_SHORT).show();
+
+        snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
+                getActivity().findViewById(R.id.fragment_container));
 
         /*
         Bundle from Dashboard
@@ -64,16 +71,16 @@ public class ExpenditureFragment extends Fragment {
          */
 
         if (!inputBundle.containsKey("newExpenditurePresent")) {
-            addDataToList(false);
+            addDataToList(false, false);
         } else {
-            if (inputBundle.containsKey("newExpenditureData")) {
+            if (inputBundle.getBoolean("newExpenditurePresent")) {
                 // expenditureData[] = {name, amount, date, category};
                 String[] expenditureData = inputBundle.getStringArray("newExpenditureData");
                 assert expenditureData != null;
                 setNewExpenditureFromActivity(expenditureData[0], expenditureData[1],
                         expenditureData[2], expenditureData[3]);
             } else {
-                addDataToList(false);
+                addDataToList(false, true);
             }
         }
 
@@ -104,10 +111,10 @@ public class ExpenditureFragment extends Fragment {
         firestore.collection(collection).document(userEmail)
                 .update("expenditures", FieldValue.arrayUnion(expenditure));
 
-        addDataToList(true);
+        addDataToList(true, true);
     }
 
-    private void addDataToList(boolean updateList) {
+    private void addDataToList(boolean updateList, boolean addingActivityVisited) {
 
         if (updateList) {
             mExpenditureTitles.clear();
@@ -126,9 +133,8 @@ public class ExpenditureFragment extends Fragment {
 
         // Show status on snackbar
         assert getActivity() != null;
-        ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
-                getActivity().findViewById(R.id.fragment_container));
-        snackbar.showStatus(updateList ? "New Expenditure Added" : "Expenditures Loaded");
+        snackbar.showStatus(addingActivityVisited ? (updateList ? "New Expenditure Added" : "Action Cancelled")
+                : "Expenditures loaded");
     }
 
     private void initRecyclerView() {

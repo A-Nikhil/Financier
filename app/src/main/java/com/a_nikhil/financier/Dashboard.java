@@ -88,11 +88,13 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 myBundle.putBoolean("newExpenditurePresent", newExpenditurePresent);
                 ExpenditureFragment expenditureFragment = new ExpenditureFragment();
                 expenditureFragment.setArguments(myBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expenditureFragment).commit();
                 navigationView.setCheckedItem(R.id.menu_expenditure);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expenditureFragment).commit();
             } else {
                 DashboardFragment dashboardFragment = new DashboardFragment();
                 dashboardFragment.setArguments(myBundle);
+                myBundle.putBoolean("coming_from_new_expenditure", false);
+                navigationView.setCheckedItem(R.id.menu_dashboard);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         dashboardFragment).commit();
             }

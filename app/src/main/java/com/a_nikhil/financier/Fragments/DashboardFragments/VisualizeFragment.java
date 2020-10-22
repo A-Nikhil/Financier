@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.VisualizationHomePage;
 import com.a_nikhil.financier.caching.DatabaseHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 public class VisualizeFragment extends Fragment {
 
@@ -33,16 +34,22 @@ public class VisualizeFragment extends Fragment {
         String name = db.getUserData().getName();
         String maxIncome = db.getUserData().getMaxIncome().toString();
 
+        int numberOfExpenditures = db.getExpenditureDataAsList().size();
+
         final Bundle outputBundle = new Bundle();
         outputBundle.putString("email", email);
         outputBundle.putString("name", name);
         outputBundle.putString("maxIncome", maxIncome);
 
         (rootView.findViewById(R.id.visualize_button_fragment)).setOnClickListener(view -> {
-            // fixme Pass to Activity
-            Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
-            intent.putExtras(outputBundle);
-            startActivity(intent);
+            if (numberOfExpenditures == 0) {
+                Snackbar.make(getActivity().findViewById(R.id.fragment_container),
+                        "No Expenditures Yet", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
+                intent.putExtras(outputBundle);
+                startActivity(intent);
+            }
         });
         return rootView;
     }
