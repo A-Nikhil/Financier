@@ -51,10 +51,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             database.insert(userDatabase.getTableName(), null, values);
-            
+
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        
+
         return user;
     }
 
@@ -102,10 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             user.getPassword(),
                             identityEmail
                     });
-            
+
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -119,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             database.execSQL(sqlQuery, new String[]{user.getEmail()});
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -136,10 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(expenditureDatabase.getCategoryColumn(), expenditure.getCategory().getDescription());
         try {
             database.insert(expenditureDatabase.getTableName(), null, values);
-            
+
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -162,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        
+
         return expenditure;
     }
 
@@ -183,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        
+
         return expenditures;
     }
 
@@ -215,10 +215,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             expenditure.getCategory().toString(),
                             date, title
                     });
-            
+
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -234,7 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             expenditure.getDate()});
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseTest", e.getMessage());
             return false;
         }
@@ -246,10 +246,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             database.execSQL("delete from user");
             database.execSQL("delete from Expenditure");
-            
+
             return true;
         } catch (Exception e) {
-            
+
             Log.d("DatabaseInteraction", e.getMessage());
             return false;
         }

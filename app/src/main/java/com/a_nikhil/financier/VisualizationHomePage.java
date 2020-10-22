@@ -83,7 +83,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
                 "\u20B9 " + maxIncome, flag));
 
         // Get data from local database
-         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 //        DummyExpenditures db = new DummyExpenditures(); // Get dummy expenditures for testing
         ArrayList<Expenditure> expenditures = db.getExpenditureDataAsList();
 

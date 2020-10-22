@@ -6,6 +6,17 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Expenditure implements Parcelable {
+    public static final Creator<Expenditure> CREATOR = new Creator<Expenditure>() {
+        @Override
+        public Expenditure createFromParcel(Parcel in) {
+            return new Expenditure(in);
+        }
+
+        @Override
+        public Expenditure[] newArray(int size) {
+            return new Expenditure[size];
+        }
+    };
     private String title;
     private Double amount;
     private String date;
@@ -31,18 +42,6 @@ public class Expenditure implements Parcelable {
         date = in.readString();
         category = Category.valueOf(in.readString());
     }
-
-    public static final Creator<Expenditure> CREATOR = new Creator<Expenditure>() {
-        @Override
-        public Expenditure createFromParcel(Parcel in) {
-            return new Expenditure(in);
-        }
-
-        @Override
-        public Expenditure[] newArray(int size) {
-            return new Expenditure[size];
-        }
-    };
 
     public String getTitle() {
         return title;

@@ -122,7 +122,7 @@ public class ColumnChartFragment extends Fragment {
         for (int i = 0; i < 8; i++) {
             if (categoryWise[i] > 0) {
                 String color = colorMap.get(Category.valueOf(categories[i]));
-                Log.d(TAG, "formColumnDataAndPalette: {Category="+categories[i]+",Color="+color);
+                Log.d(TAG, "formColumnDataAndPalette: {Category=" + categories[i] + ",Color=" + color);
                 dataForColumn.add(new ColumnDataEntry(categories[i], categoryWise[i], color));
             }
         }
