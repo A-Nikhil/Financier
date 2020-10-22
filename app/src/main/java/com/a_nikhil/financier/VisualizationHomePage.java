@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.CircularGaugeFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.ColumnChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.PieChartFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.PolarChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.ScatterChartFragment;
 import com.a_nikhil.financier.Fragments.VisualizationFragments.SplineChartFragment;
 import com.a_nikhil.financier.commons.Expenditure;
@@ -119,6 +120,11 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
             CircularGaugeFragment circularGaugeFragment = new CircularGaugeFragment();
             circularGaugeFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, circularGaugeFragment)
+                    .addToBackStack(null).commit();
+        } else if (item.getItemId() == R.id.polar_chart) {
+            PolarChartFragment polarChartFragment = new PolarChartFragment();
+            polarChartFragment.setArguments(outputBundle);
+            transaction.replace(R.id.viz_fragment_container, polarChartFragment)
                     .addToBackStack(null).commit();
         } else {
             Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();

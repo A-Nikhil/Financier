@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.a_nikhil.financier.DummyExpenditures;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.anychart.AnyChart;
@@ -16,7 +15,6 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
-import com.anychart.core.cartesian.series.Spline;
 import com.anychart.data.Set;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -42,7 +40,10 @@ public class SplineChartFragment extends Fragment {
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
+        expenditures = inputBundle.getParcelableArrayList("expenditures");
+        /* Uncomment for testing
         expenditures = new DummyExpenditures().getExpenditureDataAsList(1);
+         */
         final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();

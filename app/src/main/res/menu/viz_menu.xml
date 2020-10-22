@@ -22,7 +22,7 @@
             android:title="@string/category_overall_circular" />
 
         <item
-            android:id="@+id/testing"
-            android:title="@string/testing" />
+            android:id="@+id/polar_chart"
+            android:title="@string/polar_chart" />
     </group>
 </menu>

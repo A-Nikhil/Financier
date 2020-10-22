@@ -152,7 +152,7 @@
     <string name="spline_chart_overall">Monthly overalls</string>
     <string name="scatter_chart">Monthly Overalls (CategoryWise)</string>
     <string name="category_overall_circular">Category-wise coverage</string>
-    <string name="testing">Testing</string>
+    <string name="polar_chart">Day-wise Expenditure</string>
 
 
     <!-- Pie chart fragment -->
@@ -160,4 +160,5 @@
 
     <!-- Column chart fragment -->
     <string name="adjust_graph">Adjust Graph to your Income</string>
+
 </resources>

@@ -43,8 +43,7 @@ public class ColumnChartFragment extends Fragment {
         final Button adjustButton = rootView.findViewById(R.id.adjust_graph);
 
         ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
-//        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
-        final double maxIncome = 30000d;
+        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
             return rootView;

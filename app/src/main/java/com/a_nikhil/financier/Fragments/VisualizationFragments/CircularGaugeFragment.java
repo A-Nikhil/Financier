@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.a_nikhil.financier.DummyExpenditures;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.CategoryColorMap;
@@ -54,9 +53,8 @@ public class CircularGaugeFragment extends Fragment {
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
-        expenditures = new DummyExpenditures().getExpenditureDataAsList();
+        expenditures = inputBundle.getParcelableArrayList("expenditures");
         maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
-        maxIncome = 30000d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
             return rootView;

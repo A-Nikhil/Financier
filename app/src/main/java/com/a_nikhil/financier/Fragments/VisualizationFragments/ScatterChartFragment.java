@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.a_nikhil.financier.DummyExpenditures;
 import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.CategoryColorMap;
@@ -48,10 +47,11 @@ public class ScatterChartFragment extends Fragment {
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;
 
-//        ArrayList<Expenditure> expenditures = inputBundle.getParcelableArrayList("expenditures");
-//        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
+        expenditures = inputBundle.getParcelableArrayList("expenditures");
+        /* Uncomment for testing
         expenditures = new DummyExpenditures().getExpenditureDataAsList(1.0d);
-        final double maxIncome = 30000d;
+         */
+        final double maxIncome = inputBundle.containsKey("maxIncome") ? inputBundle.getDouble("maxIncome") : 0d;
         if (expenditures == null) {
             Snackbar.make(rootView, "No Expenditure", Snackbar.LENGTH_SHORT).show();
             return rootView;
