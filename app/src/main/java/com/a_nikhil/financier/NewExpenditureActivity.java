@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,41 +41,26 @@ public class NewExpenditureActivity extends AppCompatActivity {
 
         // Adding a DatePicker
         final Calendar c = Calendar.getInstance();
-        dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                int mYear, mMonth, mDay;
-                if (hasFocus) {
-                    mYear = c.get(Calendar.YEAR);
-                    mMonth = c.get(Calendar.MONTH);
-                    mDay = c.get(Calendar.DAY_OF_MONTH);
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(NewExpenditureActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        dateEditText.setOnFocusChangeListener((view, hasFocus) -> {
+            int mYear, mMonth, mDay;
+            if (hasFocus) {
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NewExpenditureActivity.this,
+                        (view1, year, monthOfYear, dayOfMonth) -> {
                             String dater = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                             dateEditText.setText(dater);
-                        }
-                    }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                } else {
-                    dateEditText.clearFocus();
-                }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            } else {
+                dateEditText.clearFocus();
             }
         });
 
-        findViewById(R.id.addNewExpenditureActivity).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewExpenditure(view);
-            }
-        });
+        findViewById(R.id.addNewExpenditureActivity).setOnClickListener(this::addNewExpenditure);
 
-        findViewById(R.id.cancelAddNewExpenditureActivity).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelActivity(view);
-            }
-        });
+        findViewById(R.id.cancelAddNewExpenditureActivity).setOnClickListener(this::cancelActivity);
     }
 
     public void addNewExpenditure(View v) {
@@ -127,12 +111,7 @@ public class NewExpenditureActivity extends AppCompatActivity {
 
     private void showStatusAsSnackbar(String status, View v) {
         final Snackbar infoSnackbar = Snackbar.make(v, status, Snackbar.LENGTH_SHORT);
-        infoSnackbar.setAction("Dismiss", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                infoSnackbar.dismiss();
-            }
-        });
+        infoSnackbar.setAction("Dismiss", view -> infoSnackbar.dismiss());
 
         // Setting elevation of snackbar
         infoSnackbar.getView().setFitsSystemWindows(false);

@@ -13,15 +13,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.AndroidUtilities;
 import com.a_nikhil.financier.commons.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -111,31 +107,23 @@ public class SignupActivity extends AppCompatActivity {
         db.collection(collection)
                 .document(user.getEmail())
                 .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void avoid) {
-                        Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
+                .addOnSuccessListener(avoid -> {
+                    Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
 
-                        //  Send to cache (local db)
-                        addToCache(user, localDB);
+                    //  Send to cache (local db)
+                    addToCache(user, localDB);
 
-                        //  Send intent to dashboard
-                        Intent goToDashboard = new Intent(SignupActivity.this, Dashboard.class);
-                        Bundle myBundle = new Bundle();
-                        myBundle.putString("email", user.getEmail());
+                    //  Send intent to dashboard
+                    Intent goToDashboard = new Intent(SignupActivity.this, Dashboard.class);
+                    Bundle myBundle = new Bundle();
+                    myBundle.putString("email", user.getEmail());
 //                        myBundle.putString("name", user.getName());
 //                        myBundle.putString("maxIncome", String.valueOf(user.getMaxIncome()));
-                        myBundle.putBoolean("coming_from_login_signup", true);
-                        goToDashboard.putExtras(myBundle);
-                        startActivity(goToDashboard);
-                    }
+                    myBundle.putBoolean("coming_from_login_signup", true);
+                    goToDashboard.putExtras(myBundle);
+                    startActivity(goToDashboard);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        snackbar.showStatus("Not Registered");
-                    }
-                });
+                .addOnFailureListener(e -> snackbar.showStatus("Not Registered"));
     }
 
     //  Adding Firebase Authentication
@@ -144,19 +132,13 @@ public class SignupActivity extends AppCompatActivity {
                                  final EditText emailText) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(SignupActivity.this, "Added", Toast.LENGTH_SHORT).show();
-                        registerNewUser(db, user);
-                    }
+                .addOnSuccessListener(authResult -> {
+                    Toast.makeText(SignupActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                    registerNewUser(db, user);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        snackbar.showStatus("Email Already exists");
-                        tints.setTintOnEditText(context, emailText);
-                    }
+                .addOnFailureListener(e -> {
+                    snackbar.showStatus("Email Already exists");
+                    tints.setTintOnEditText(context, emailText);
                 });
     }
 
