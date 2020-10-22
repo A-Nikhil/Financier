@@ -23,7 +23,8 @@ android {
     sourceSets {
         main {
             res.srcDirs = ['src/main/res',
-                           'src/main/res/layouts/fragments',
+                           'src/main/res/layouts/fragments/visualization_fragments',
+                           'src/main/res/layouts/fragments/dashboard_fragments',
                            'src/main/res/layouts/activities',
                            'src/main/res/layouts/menus',
                            'src/main/res/layouts/dialogs',
