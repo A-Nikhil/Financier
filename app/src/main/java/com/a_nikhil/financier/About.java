@@ -25,6 +25,6 @@ public class About extends AppCompatActivity {
 
     public void clickToSeeRepo(View v) {
         startActivity(new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/A-Nikhil/myIMDB")));
+                Uri.parse("https://github.com/A-Nikhil/Financier")));
     }
 }
