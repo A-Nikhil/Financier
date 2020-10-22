@@ -1,4 +1,4 @@
-package com.a_nikhil.financier;
+package com.a_nikhil.financier.Fragments.VisualizationFragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.a_nikhil.financier.DummyExpenditures;
+import com.a_nikhil.financier.R;
 import com.a_nikhil.financier.commons.Category;
 import com.a_nikhil.financier.commons.CategoryColorMap;
 import com.a_nikhil.financier.commons.Expenditure;
@@ -28,7 +30,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,6 @@ public class CircularGaugeFragment extends Fragment {
         Date today = new Date();
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         int month = Integer.parseInt(formatter.format(today).split("/")[1]);
-        Log.d(TAG, "onCreateView: Month = " + month);
 
         createCircularGauge(month);
         return rootView;
@@ -102,8 +102,6 @@ public class CircularGaugeFragment extends Fragment {
         }
         dataForGauge[i++] = String.valueOf(String.valueOf(savings)); // add savings
         dataForGauge[i++] = "100"; // Add 100 for percentage
-
-        Log.d(TAG, "createCircularGauge: dataForGauge : " + Arrays.asList(dataForGauge));
 
         List<Map.Entry<String, Integer>> costMapEntrySet = new LinkedList<>(costPercentageMap.entrySet());
         costMapEntrySet.sort(Map.Entry.comparingByValue());
@@ -148,8 +146,6 @@ public class CircularGaugeFragment extends Fragment {
             String percentage = String.valueOf(costMapEntrySet.get(index - 1).getValue());
             String color = title.equals("Savings") ? "#424949" :
                     new CategoryColorMap().getCategoryColor(Category.valueOf(title.toUpperCase()));
-
-            Log.d(TAG, "\ncreateCircularGauge: Title: " + title + " percentage: " + percentage);
 
             // Setting label
             circularGauge.label(index - 1)

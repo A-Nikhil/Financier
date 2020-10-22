@@ -16,10 +16,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.a_nikhil.financier.Fragments.ColumnChartFragment;
-import com.a_nikhil.financier.Fragments.PieChartFragment;
-import com.a_nikhil.financier.Fragments.ScatterChartFragment;
-import com.a_nikhil.financier.Fragments.SplineChartFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.CircularGaugeFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.ColumnChartFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.PieChartFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.ScatterChartFragment;
+import com.a_nikhil.financier.Fragments.VisualizationFragments.SplineChartFragment;
 import com.a_nikhil.financier.commons.Expenditure;
 import com.google.android.material.navigation.NavigationView;
 
@@ -118,11 +119,6 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
             CircularGaugeFragment circularGaugeFragment = new CircularGaugeFragment();
             circularGaugeFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, circularGaugeFragment)
-                    .addToBackStack(null).commit();
-        } else if (item.getItemId() == R.id.testing) {
-            VizTestingFragment vizTest = new VizTestingFragment();
-            vizTest.setArguments(outputBundle);
-            transaction.replace(R.id.viz_fragment_container, vizTest)
                     .addToBackStack(null).commit();
         } else {
             Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();

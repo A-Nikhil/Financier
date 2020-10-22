@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".Fragments.ColumnChartFragment"></activity>
+        <activity android:name=".Fragments.VisualizationFragments.ColumnChartFragment"></activity>
         <activity
             android:name=".VisualizationHomePage"
             android:theme="@style/AppTheme.NoActionBar">

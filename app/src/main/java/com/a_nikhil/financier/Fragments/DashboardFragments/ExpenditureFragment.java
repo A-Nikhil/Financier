@@ -1,4 +1,4 @@
-package com.a_nikhil.financier.Fragments;
+package com.a_nikhil.financier.Fragments.DashboardFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ public class ExpenditureFragment extends Fragment {
     private static final String TAG = "DashboardFragment";
     private String userEmail;
     private DatabaseHelper db;
-    private ArrayList<String> mExpenditureTitles = new ArrayList<>(),
+    private final ArrayList<String> mExpenditureTitles = new ArrayList<>(),
             mExpenditureCategories = new ArrayList<>(),
             mExpenditureDates = new ArrayList<>(),
             mExpenditureAmounts = new ArrayList<>();
@@ -77,12 +77,9 @@ public class ExpenditureFragment extends Fragment {
             }
         }
 
-        (rootView.findViewById(R.id.floatingActionButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //  Opens up a dialog to add new Expenditure
-                addNewExpenditure();
-            }
+        (rootView.findViewById(R.id.floatingActionButton)).setOnClickListener(view -> {
+            //  Opens up a dialog to add new Expenditure
+            addNewExpenditure();
         });
         return rootView;
     }
@@ -126,6 +123,9 @@ public class ExpenditureFragment extends Fragment {
             mExpenditureCategories.add(expenditure.getCategory().getDescription());
         }
         initRecyclerView();
+
+        // Show status on snackbar
+        assert getActivity() != null;
         ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
                 getActivity().findViewById(R.id.fragment_container));
         snackbar.showStatus(updateList ? "New Expenditure Added" : "Expenditures Loaded");

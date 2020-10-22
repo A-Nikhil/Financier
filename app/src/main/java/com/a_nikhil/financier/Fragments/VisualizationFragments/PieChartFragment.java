@@ -1,4 +1,4 @@
-package com.a_nikhil.financier.Fragments;
+package com.a_nikhil.financier.Fragments.VisualizationFragments;
 
 import android.content.Context;
 import android.os.Bundle;

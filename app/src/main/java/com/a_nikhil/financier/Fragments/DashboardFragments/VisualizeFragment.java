@@ -1,4 +1,4 @@
-package com.a_nikhil.financier.Fragments;
+package com.a_nikhil.financier.Fragments.DashboardFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,14 +38,11 @@ public class VisualizeFragment extends Fragment {
         outputBundle.putString("name", name);
         outputBundle.putString("maxIncome", maxIncome);
 
-        (rootView.findViewById(R.id.visualize_button_fragment)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // fixme Pass to Activity
-                Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
-                intent.putExtras(outputBundle);
-                startActivity(intent);
-            }
+        (rootView.findViewById(R.id.visualize_button_fragment)).setOnClickListener(view -> {
+            // fixme Pass to Activity
+            Intent intent = new Intent(getActivity(), VisualizationHomePage.class);
+            intent.putExtras(outputBundle);
+            startActivity(intent);
         });
         return rootView;
     }

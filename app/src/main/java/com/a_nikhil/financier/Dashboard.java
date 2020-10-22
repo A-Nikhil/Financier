@@ -19,10 +19,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
-import com.a_nikhil.financier.Fragments.DashboardFragment;
-import com.a_nikhil.financier.Fragments.ExpenditureFragment;
-import com.a_nikhil.financier.Fragments.StatsFragment;
-import com.a_nikhil.financier.Fragments.VisualizeFragment;
+import com.a_nikhil.financier.Fragments.DashboardFragments.DashboardFragment;
+import com.a_nikhil.financier.Fragments.DashboardFragments.ExpenditureFragment;
+import com.a_nikhil.financier.Fragments.DashboardFragments.StatsFragment;
+import com.a_nikhil.financier.Fragments.DashboardFragments.VisualizeFragment;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
 import com.google.android.material.navigation.NavigationView;

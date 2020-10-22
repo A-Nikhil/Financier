@@ -1,4 +1,4 @@
-package com.a_nikhil.financier.Fragments;
+package com.a_nikhil.financier.Fragments.DashboardFragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
