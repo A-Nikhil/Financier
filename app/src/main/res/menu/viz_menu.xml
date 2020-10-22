@@ -6,11 +6,11 @@
     <item android:title="@string/yearly">
         <menu>
             <item
-                android:id="@+id/monthly_percentage_pie_chart"
-                android:title="@string/monthly_percentage_pie_chart" />
+                android:id="@+id/yearly_percentage_pie_chart"
+                android:title="@string/yearly_percentage_pie_chart" />
             <item
-                android:id="@+id/monthly_percentage_column_chart"
-                android:title="@string/monthly_percentage_column_chart" />
+                android:id="@+id/yearly_percentage_column_chart"
+                android:title="@string/yearly_percentage_column_chart" />
         </menu>
     </item>
 

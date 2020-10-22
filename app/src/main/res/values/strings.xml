@@ -147,8 +147,8 @@
 
     <!-- Visualization Activity -->
     <string name="yearly">Yearly</string>
-    <string name="monthly_percentage_pie_chart">Expenditure Distribution</string>
-    <string name="monthly_percentage_column_chart">ColumnWise Display</string>
+    <string name="yearly_percentage_pie_chart">Expenditure Distribution</string>
+    <string name="yearly_percentage_column_chart">ColumnWise Display</string>
     <string name="monthly">Monthly</string>
     <string name="spline_chart_overall">Monthly overalls</string>
     <string name="scatter_chart">Monthly Overalls (CategoryWise)</string>

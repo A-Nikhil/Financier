@@ -35,8 +35,8 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
 
     private DrawerLayout drawer;
     private Bundle outputBundle;
-
     private String email;
+    private NavigationView vizNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.visualization_drawer_layout);
-        NavigationView vizNav = findViewById(R.id.dash_vis_nav);
+        vizNav = findViewById(R.id.dash_vis_nav);
         View vizHeader = vizNav.getHeaderView(0);
         vizNav.setNavigationItemSelectedListener(this);
 
@@ -91,43 +91,63 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         outputBundle = new Bundle();
         outputBundle.putParcelableArrayList("expenditures", expenditures);
         outputBundle.putDouble("maxIncome", maxIncome == null ? 0 : Double.parseDouble(maxIncome));
+
+        // Call on Pie chart
+        PieChartFragment pieChartFragment = new PieChartFragment();
+        pieChartFragment.setArguments(outputBundle);
+        vizNav.setCheckedItem(R.id.yearly_percentage_pie_chart);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.viz_fragment_container, pieChartFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (item.getItemId() == R.id.monthly_percentage_pie_chart) {
-            Toast.makeText(this, "PieChart called", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.yearly_percentage_pie_chart) {
             PieChartFragment pieChartFragment = new PieChartFragment();
             pieChartFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.yearly_percentage_pie_chart);
             transaction.replace(R.id.viz_fragment_container, pieChartFragment)
-                    .addToBackStack(null).commit();
-        } else if (item.getItemId() == R.id.monthly_percentage_column_chart) {
-            Toast.makeText(this, "ColumnChart called", Toast.LENGTH_SHORT).show();
+                    .addToBackStack(null)
+                    .commit();
+        } else if (item.getItemId() == R.id.yearly_percentage_column_chart) {
             ColumnChartFragment columnChartFragment = new ColumnChartFragment();
             columnChartFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.yearly_percentage_column_chart);
             transaction.replace(R.id.viz_fragment_container, columnChartFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack(null)
+                    .commit();
         } else if (item.getItemId() == R.id.spline_chart_overall) {
             SplineChartFragment splineChartFragment = new SplineChartFragment();
             splineChartFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.spline_chart_overall);
             transaction.replace(R.id.viz_fragment_container, splineChartFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack(null)
+                    .commit();
         } else if (item.getItemId() == R.id.scatter_chart) {
             ScatterChartFragment scatterChartFragment = new ScatterChartFragment();
             scatterChartFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.scatter_chart);
             transaction.replace(R.id.viz_fragment_container, scatterChartFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack(null)
+                    .commit();
         } else if (item.getItemId() == R.id.circular_gauge) {
             CircularGaugeFragment circularGaugeFragment = new CircularGaugeFragment();
             circularGaugeFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.circular_gauge);
             transaction.replace(R.id.viz_fragment_container, circularGaugeFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack(null)
+                    .commit();
         } else if (item.getItemId() == R.id.polar_chart) {
             PolarChartFragment polarChartFragment = new PolarChartFragment();
             polarChartFragment.setArguments(outputBundle);
+            vizNav.setCheckedItem(R.id.polar_chart);
             transaction.replace(R.id.viz_fragment_container, polarChartFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack(null)
+                    .commit();
         } else if (item.getItemId() == R.id.exit_to_dashboard) {
             outputBundle.clear();
             outputBundle.putString("email", email);
@@ -149,5 +169,4 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
             super.onBackPressed();
         }
     }
-
 }
