@@ -36,8 +36,8 @@ public class VizTestingFragment extends Fragment {
                 .stroke(null)
                 .padding(0d, 0d, 0d, 0d)
                 .margin(100d, 100d, 100d, 100d);
-        circularGauge.startAngle(180d);
-        circularGauge.sweepAngle(-270d);
+        circularGauge.startAngle(0d);
+        circularGauge.sweepAngle(270d);
 
         Circular xAxis = circularGauge.axis(0)
                 .radius(100d)
@@ -177,6 +177,27 @@ public class VizTestingFragment extends Fragment {
         Bar bar104 = circularGauge.bar(104d);
         bar104.dataIndex(5d);
         bar104.radius(20d);
+        bar104.width(17d);
+        bar104.fill(new SolidFill("#F5F4F4", 1d));
+        bar104.stroke("1 #e5e4e4");
+        bar104.zIndex(4d);
+
+        circularGauge.label(5d)
+                .anchor(Anchor.RIGHT_CENTER)
+                .padding(0d, 10d, 0d, 0d)
+                .height(17d / 2d + "%")
+                .offsetY(120d + "%")
+                .offsetX(0d);
+        Bar bar5 = circularGauge.bar(5d);
+        bar4.dataIndex(5d);
+        bar4.radius(120d);
+        bar4.width(17d);
+        bar4.fill(new SolidFill("#455a64", 1d));
+        bar4.stroke(null);
+        bar4.zIndex(5d);
+        Bar bar105 = circularGauge.bar(105d);
+        bar104.dataIndex(5d);
+        bar104.radius(120d);
         bar104.width(17d);
         bar104.fill(new SolidFill("#F5F4F4", 1d));
         bar104.stroke("1 #e5e4e4");

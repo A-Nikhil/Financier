@@ -1,5 +1,7 @@
 package com.a_nikhil.financier.commons;
 
+import androidx.annotation.NonNull;
+
 public enum Category {
 
     FOOD("food", 1, 1),
@@ -21,6 +23,11 @@ public enum Category {
         this.index = index;
     }
 
+    public static Category getCategoryFromIndex(int index) {
+        Category[] myCategories = {FOOD, HOUSEHOLD, SOCIAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
+        return myCategories[index - 1];
+    }
+
     public String getDescription() {
         return description.toUpperCase();
     }
@@ -33,8 +40,10 @@ public enum Category {
         return index;
     }
 
-    public static Category getCategoryFromIndex(int index) {
-        Category[] myCategories = {FOOD, HOUSEHOLD, SOCIAL, WORK, AMENITIES, RECREATION, TRAVEL, EDUCATION};
-        return myCategories[index - 1];
+    @NonNull
+    @Override
+    public String toString() {
+        // food => F + ood (CamelCase)
+        return this.description.substring(0, 1).toUpperCase() + this.description.substring(1);
     }
 }

@@ -28,4 +28,8 @@ public class CategoryColorMap {
     public String[] getCategories() {
         return categories;
     }
+
+    public String getCategoryColor(Category category) {
+        return this.colorMap.get(category);
+    }
 }
