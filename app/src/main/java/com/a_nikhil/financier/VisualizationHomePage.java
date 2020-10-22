@@ -1,5 +1,6 @@
 package com.a_nikhil.financier;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
     private DrawerLayout drawer;
     private Bundle outputBundle;
 
+    private String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,23 +56,21 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        /*
         // Get Bundle
         Bundle inputBundle = getIntent().getExtras();
         assert inputBundle != null;
-         */
 
-//        /* Uncomment when testing is done
+        /* Uncomment when testing is done
         Bundle inputBundle = new Bundle();
         inputBundle.putString("name", "Covid");
         inputBundle.putString("maxIncome", "25000");
         inputBundle.putString("email", "covid19@pandemic.org");
-//         */
+         */
 
         // Get name from Bundle
         String name = inputBundle.getString("name");
         String maxIncome = inputBundle.getString("maxIncome");
-        String email = inputBundle.getString("email");
+        email = inputBundle.getString("email");
         Log.d(TAG, "onCreate: name = " + name);
         Log.d(TAG, "onCreate: max income = " + maxIncome);
         Log.d(TAG, "onCreate: email = " + email);
@@ -126,6 +127,12 @@ public class VisualizationHomePage extends AppCompatActivity implements Navigati
             polarChartFragment.setArguments(outputBundle);
             transaction.replace(R.id.viz_fragment_container, polarChartFragment)
                     .addToBackStack(null).commit();
+        } else if (item.getItemId() == R.id.exit_to_dashboard) {
+            outputBundle.clear();
+            outputBundle.putString("email", email);
+            Intent exitToDashboard = new Intent(VisualizationHomePage.this, Dashboard.class);
+            exitToDashboard.putExtras(outputBundle);
+            startActivity(exitToDashboard);
         } else {
             Toast.makeText(this, "default", Toast.LENGTH_SHORT).show();
         }

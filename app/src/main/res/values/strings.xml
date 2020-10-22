@@ -146,14 +146,17 @@
     <string name="small_warning1">Visualizations might take a few minutes to load</string>
 
     <!-- Visualization Activity -->
-    <string name="each_category_expenditure">Category wise</string>
+    <string name="yearly">Yearly</string>
     <string name="monthly_percentage_pie_chart">Expenditure Distribution</string>
     <string name="monthly_percentage_column_chart">ColumnWise Display</string>
+    <string name="monthly">Monthly</string>
     <string name="spline_chart_overall">Monthly overalls</string>
     <string name="scatter_chart">Monthly Overalls (CategoryWise)</string>
     <string name="category_overall_circular">Category-wise coverage</string>
+    <string name="weekly">Weekly</string>
     <string name="polar_chart">Day-wise Expenditure</string>
-
+    <string name="exit">I \'m done sightseeing</string>
+    <string name="exit_to_dashboard">Exit to Dashboard</string>
 
     <!-- Pie chart fragment -->
     <string name="pie_chart_description">How much you spent per Category</string>

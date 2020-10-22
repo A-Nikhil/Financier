@@ -3,26 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/activity_visualization_home_page">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/monthly_percentage_pie_chart"
-            android:title="@string/monthly_percentage_pie_chart" />
-        <item
-            android:id="@+id/monthly_percentage_column_chart"
-            android:title="@string/monthly_percentage_column_chart" />
-        <item
-            android:id="@+id/spline_chart_overall"
-            android:title="@string/spline_chart_overall" />
-        <item
-            android:id="@+id/scatter_chart"
-            android:title="@string/scatter_chart" />
+    <item android:title="@string/yearly">
+        <menu>
+            <item
+                android:id="@+id/monthly_percentage_pie_chart"
+                android:title="@string/monthly_percentage_pie_chart" />
+            <item
+                android:id="@+id/monthly_percentage_column_chart"
+                android:title="@string/monthly_percentage_column_chart" />
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/circular_gauge"
-            android:title="@string/category_overall_circular" />
+    <item android:title="@string/monthly">
+        <menu>
+            <item
+                android:id="@+id/spline_chart_overall"
+                android:title="@string/spline_chart_overall" />
+            <item
+                android:id="@+id/scatter_chart"
+                android:title="@string/scatter_chart" />
 
-        <item
-            android:id="@+id/polar_chart"
-            android:title="@string/polar_chart" />
-    </group>
+            <item
+                android:id="@+id/circular_gauge"
+                android:title="@string/category_overall_circular" />
+        </menu>
+    </item>
+
+    <item android:title="@string/weekly">
+        <menu>
+            <item
+                android:id="@+id/polar_chart"
+                android:title="@string/polar_chart" />
+        </menu>
+    </item>
+
+    <item android:title="@string/exit">
+        <menu>
+            <item
+                android:id="@+id/exit_to_dashboard"
+                android:title="@string/exit_to_dashboard" />
+        </menu>
+    </item>
 </menu>

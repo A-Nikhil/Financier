@@ -29,8 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
     private final Bundle myBundle = new Bundle();
+    private DrawerLayout drawer;
     private String email;
 
     @Override
@@ -38,12 +38,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Bundle inputBundle = getIntent().getExtras();
-//        email = inputBundle.getString("email");
+        email = inputBundle.getString("email");
 
-        /* Uncomment for testing */
+        /* Uncomment for testing
         email = "covid19@pandemic.org";
-
-        // */ Test section over
+        Test section over */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
