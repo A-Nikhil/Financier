@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.a_nikhil.financier.DialogActivity.LogoutDialog;
 import com.a_nikhil.financier.Fragments.DashboardFragments.DashboardFragment;
 import com.a_nikhil.financier.Fragments.DashboardFragments.ExpenditureFragment;
-import com.a_nikhil.financier.Fragments.DashboardFragments.StatsFragment;
 import com.a_nikhil.financier.Fragments.DashboardFragments.VisualizeFragment;
 import com.a_nikhil.financier.caching.DatabaseHelper;
 import com.a_nikhil.financier.commons.User;
@@ -131,13 +130,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             navigationView.setCheckedItem(R.id.menu_visualize);
             transaction.replace(R.id.fragment_container,
                     visualizeFragment).addToBackStack(null).commit();
-        } else if (menuItem.getItemId() == R.id.menu_stats) {          // Dashboard
-            StatsFragment statsFragment = new StatsFragment();
-            statsFragment.setArguments(myBundle);
-            myBundle.clear();
-            myBundle.putString("email", email);
-            transaction.replace(R.id.fragment_container,
-                    statsFragment).addToBackStack(null).commit();
         } else if (menuItem.getItemId() == R.id.cloud_download) {
             Toast.makeText(getApplicationContext(), "Downloaded from cloud", Toast.LENGTH_SHORT).show();
         } else if (menuItem.getItemId() == R.id.cloud_upload) {
