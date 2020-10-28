@@ -105,6 +105,7 @@ public class ExpenditureFragment extends Fragment {
         String collection = getResources().getString(R.string.collection);
 
         // Add input to database
+        assert getActivity() != null;
         DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         db.insertExpenditure(expenditure);
 

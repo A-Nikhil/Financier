@@ -42,8 +42,8 @@ public class AndroidUtilities {
     }
 
     public static class ShowStatusAsSnackbar {
-        private Context context;
-        private View view;
+        private final Context context;
+        private final View view;
 
         public ShowStatusAsSnackbar(Context context, View view) {
             this.context = context;
@@ -52,12 +52,7 @@ public class AndroidUtilities {
 
         public void showStatus(String status) {
             final Snackbar infoSnackbar = Snackbar.make(this.view, status, Snackbar.LENGTH_SHORT);
-            infoSnackbar.setAction("Dismiss", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    infoSnackbar.dismiss();
-                }
-            });
+            infoSnackbar.setAction("Dismiss", view -> infoSnackbar.dismiss());
 
             // Setting color of Dismiss text
             infoSnackbar.setActionTextColor(ContextCompat.getColor(this.context, R.color.accent));

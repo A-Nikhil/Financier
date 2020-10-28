@@ -55,12 +55,9 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setDashboard(final View rootView, final String userEmail, final Activity activity) {
-//        ShowStatusAsSnackbar snackbar = new ShowStatusAsSnackbar(getActivity().getApplicationContext(),
-//                        getActivity().findViewById(R.id.fragment_container));
-//        snackbar.showStatus("Logged in");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setCancelable(false); // if you want user to wait for some process to finish,
+        builder.setCancelable(false); // waiting for the dash to load
         builder.setView(R.layout.progress_circle);
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -117,6 +114,7 @@ public class DashboardFragment extends Fragment {
             }
 
             //  Adding the above data to local DB
+            assert getActivity() != null;
             DatabaseHelper db1 = new DatabaseHelper(getActivity().getApplicationContext());
             if (db1.wipeClean()) {
                 Log.d(TAG, "onCallback: Wipe Data worked");
@@ -136,12 +134,6 @@ public class DashboardFragment extends Fragment {
 
             addStatsToDatabase(user, expendituresList, rootView);
 
-            /* Uncomment this for testing only => Add import com.a_nikhil.financier.TestingModules; at the top
-            // Testing modules
-            TestingModules testingModules = new TestingModules();
-            testingModules.checkUser(db);
-            testingModules.checkExpenditure(db);
-            */
             dialog.dismiss();
         });
     }

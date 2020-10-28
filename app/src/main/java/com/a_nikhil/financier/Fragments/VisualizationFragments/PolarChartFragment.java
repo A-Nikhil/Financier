@@ -56,6 +56,7 @@ public class PolarChartFragment extends Fragment {
         return rootView;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void createPolarChart() {
         AnyChartView anyChartView = rootView.findViewById(R.id.polar_chart_view);
         anyChartView.setProgressBar(rootView.findViewById(R.id.polar_progress_bar));

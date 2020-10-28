@@ -19,6 +19,7 @@ public class DummyExpenditures {
     }
 
     // Data for single spline
+    @SuppressWarnings("unused")
     public ArrayList<Expenditure> getExpenditureDataAsList(int a) {
         int max = 20000, min = 1000;
         ArrayList<Expenditure> expenditures = new ArrayList<>();
@@ -33,6 +34,7 @@ public class DummyExpenditures {
     }
 
     // Data for scatter
+    @SuppressWarnings("unused")
     public ArrayList<Expenditure> getExpenditureDataAsList(double a) {
         int max = 20000, min = 1000;
         ArrayList<Expenditure> expenditures = new ArrayList<>();

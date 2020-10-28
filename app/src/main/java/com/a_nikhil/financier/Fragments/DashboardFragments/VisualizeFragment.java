@@ -22,6 +22,7 @@ public class VisualizeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_visualize, container, false);
 
+        assert getActivity() != null;
         DatabaseHelper db = new DatabaseHelper(getActivity().getApplicationContext());
         Bundle inputBundle = this.getArguments();
         assert inputBundle != null;

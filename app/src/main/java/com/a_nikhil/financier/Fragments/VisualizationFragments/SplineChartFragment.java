@@ -63,6 +63,7 @@ public class SplineChartFragment extends Fragment {
         return rootView;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void createSplineChart(int month) {
         AnyChartView chartPlaceholder = rootView.findViewById(R.id.spline_chart_view);
         chartPlaceholder.setProgressBar(rootView.findViewById(R.id.spline_progress_bar));

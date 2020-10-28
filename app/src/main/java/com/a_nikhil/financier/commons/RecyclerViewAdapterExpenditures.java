@@ -26,10 +26,10 @@ import java.util.ArrayList;
 public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<RecyclerViewAdapterExpenditures.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapterExpenditures";
-    private ArrayList<String> mExpenditureTitles, mExpenditureCategories, mExpenditureDates, mExpenditureAmounts;
-    private String username;
-    private Context mContext;
-    private String maxIncome;
+    private final ArrayList<String> mExpenditureTitles, mExpenditureCategories, mExpenditureDates, mExpenditureAmounts;
+    private final String username;
+    private final Context mContext;
+    private final String maxIncome;
 
     public RecyclerViewAdapterExpenditures(Context mContext,
                                            ArrayList<String> mExpenditureTitles,
@@ -113,21 +113,18 @@ public class RecyclerViewAdapterExpenditures extends RecyclerView.Adapter<Recycl
         holder.expenditureCategory.setChipIcon(categoryIcon);
 
         // Opening an expenditure in detail
-        holder.expenditureItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Clicked an item");
-                Intent intent = new Intent(mContext, ExpenditureDisplay.class);
-                Bundle myBundle = new Bundle();
-                myBundle.putString("title", mExpenditureTitles.get(position));
-                myBundle.putString("amount", mExpenditureAmounts.get(position));
-                myBundle.putString("date", mExpenditureDates.get(position));
-                myBundle.putString("category", mExpenditureCategories.get(position));
-                myBundle.putString("username", username);
-                myBundle.putString("maxIncome", maxIncome);
-                intent.putExtras(myBundle);
-                mContext.startActivity(intent);
-            }
+        holder.expenditureItemLayout.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: Clicked an item");
+            Intent intent = new Intent(mContext, ExpenditureDisplay.class);
+            Bundle myBundle = new Bundle();
+            myBundle.putString("title", mExpenditureTitles.get(position));
+            myBundle.putString("amount", mExpenditureAmounts.get(position));
+            myBundle.putString("date", mExpenditureDates.get(position));
+            myBundle.putString("category", mExpenditureCategories.get(position));
+            myBundle.putString("username", username);
+            myBundle.putString("maxIncome", maxIncome);
+            intent.putExtras(myBundle);
+            mContext.startActivity(intent);
         });
     }
 
