@@ -4,6 +4,7 @@
 - [ ] Add more screenshots
 - [ ] Optimize code
 - [ ] Add deletion feature
+- [ ] Add APK
 
 > If you wish to fork this repository, please contact me via email. 
 > This application is still under further development and this repository would be updated in future  
